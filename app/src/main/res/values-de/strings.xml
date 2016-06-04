@@ -1,0 +1,179 @@
+<!--
+  ~ Copyright (c) 2016 Martin Pfeffer
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<resources>
+    <string name="notification_title_battery">Akkustand</string>
+    <string name="ns">k.A.</string>
+
+    <!--Charging-States-->
+    <string name="battery_charge_unknown">Unbekannt</string>
+    <string name="battery_charge_full">Aufgeladen</string>
+    <string name="battery_charge_charging_over">Laden über</string>
+    <string name="battery_charge_discharging">Entladen</string>
+    <string name="battery_charge_not_charging">Nicht ladend</string>
+    <string name="last">verbleibend</string>
+    <string name="settings">Einstellungen</string>
+    <string name="about">Über</string>
+    <string name="premium">Premium</string>
+    <string name="until_full">bis geladen</string>
+    <string name="fully_charged">Vollständig geladen</string>
+
+    <!--Plugged-States-->
+    <string name="battery_plugged_ac">AC</string>
+    <string name="battery_plugged_usb">USB</string>
+    <string name="battery_plugged_wireless">Wireless</string>
+    <string name="unknown">Unbekannt</string>
+    <string name="unplugged_since">Getrennt seit</string>
+    <string name="abbr_hours">Std.</string>
+    <string name="chart_desc_level">Level</string>
+    <string name="hours">Stunden</string>
+
+    <!--Chart-Legends-->
+    <string name="chart_legend_volt">Spannung (V)</string>
+    <string name="chart_legend_level">Akku (%)</string>
+    <string name="chart_legend_screen_state">Display</string>
+    <string name="chart_legend_temperature">Temp. (°C)</string>
+    <string name="chart_description_battery">Akkustatisik</string>
+    <string name="dialog_chart_header">Letzte</string>
+    <string name="dialog_chart_header_part2">letzte</string>
+    <string name="minutes">Minuten</string>
+    <string name="last_hour">Letzte Stunde</string>
+    <string name="dialog_network_header">Datenverkehr</string>
+    <string name="dialog_network_header_on_init">Datenverbrauch</string>
+    <string name="menu_battery_stats">Akku</string>
+    <string name="menu_network_stats">Netzwerk</string>
+    <string name="navigation_subtitle_config">Mehr</string>
+    <string name="navigation_subtitle_main">Statistiken</string>
+    <string name="network_type_mobile">Mobil</string>
+    <string name="network_type_wifi">WLAN</string>
+    <string name="tx_mobile">Tx Mobil</string>
+    <string name="tx_wlan">Tx WLAN</string>
+    <string name="open">Öffnen</string>
+    <string name="pref_cat_main">Benutzer-Einstellungen</string>
+    <string name="notification_title_network">Datenverkehr</string>
+    <string name="last_mins">letzte</string>
+    <string name="menu_void_stats">Void</string>
+    <string name="mins">Min.</string>
+    <string name="close">Schließen</string>
+    <string name="chart_description_network">Netzwerkauslastung</string>
+    <string name="pref_title_build_version">Build Version</string>
+    <string name="rx_mobile">Rx Mobil</string>
+    <string name="rx_wlan">Rx WLAN</string>
+    <string name="title_battery_card_01">Status</string>
+    <string name="title_battery_card_02">Verbrauch</string>
+    <string name="title_battery_card_03">Bildschirm</string>
+
+    <string name="pref_title_autostart">Automatisch starten</string>
+    <string name="pref_sum_autostart">App wird nach dem Booten automatisch gestartet</string>
+
+    <string name="pref_title_show_battery_notification">Akku Benachrichtigung</string>
+    <string name="pref_sum_show_battery_notification">@string/empty</string>
+
+    <string name="pref_title_show_network_notification">Netzwerk Benachrichtigung</string>
+    <string name="pref_sum_show_network_notification">@string/empty</string>
+
+    <string name="pref_title_show_clipboard_notification">Clipboard Benachrichtigung</string>
+    <string name="pref_sum_show_clipboard_notification">@string/empty</string>
+
+    <string name="touch_twice_to_close">Zum Verlassen nochmal drücken</string>
+    <string name="pref_sum_touch_twice_to_exit">Zurück-Taste 2x berühren um die App zu verlassen</string>
+    <string name="pref_title_touch_twice_to_exit">Verlassen der App</string>
+
+    <string name="copy">Kopieren</string>
+    <string name="entries">Einträge</string>
+    <string name="clipboard">Clipboard</string>
+    <string name="copied_to_clipboard">In Zwischenablage eingefügt</string>
+    <string name="entry">Eintrag</string>
+
+    <string name="no_entries">Leer</string>
+    <string name="one_entry">Ein Eintrag</string>
+
+    <string name="battery_health_cold">Kalt</string>
+    <string name="battery_health_good">Gut</string>
+    <string name="battery_health_dead">Defekt</string>
+    <string name="battery_health_over_voltage">Überspannung</string>
+    <string name="battery_health_overheat">Überhitzung</string>
+    <string name="battery_health_unspecified_failure">Unbest. Fehler</string>
+    <string name="battery_health_unknown">Unbekannt</string>
+
+    <string name="since_boot">Seit Neustart</string>
+    <string name="since_installation">Seit Aufzeichnung</string>
+
+    <string name="screen_off">Inaktiv</string>
+    <string name="screen_on">Aktiv</string>
+    <string name="dialog_enter_password_msg">Gebe das Passwort ein um auf das Clipboard zu zugreifen.</string>
+    <string name="dialog_enter_password_title">Passwort benötigt</string>
+    <string name="dialog_set_password_msg">Lege ein Passwort zur Verschlüsselung fest.</string>
+    <string name="dialog_set_password_title">Passwort festlegen</string>
+    <string name="encrypted_text_cant_be_copied">Verschlüsselter Text kann nicht kopiert werden</string>
+    <string name="clipboard_locked">Clipboard gesperrt</string>
+    <string name="invalid_input">Eingabe ungültig</string>
+    <string name="password_saved">Passwort übernommen</string>
+    <string name="pref_cat_clipboard">Clipboard</string>
+    <string name="pref_sum_encrypt_clipboard">@string/empty</string>
+    <string name="pref_sum_delete_clipboard_database">@string/empty</string>
+    <string name="pref_title_delete_clipboard_database">Clipboard säubern</string>
+    <string name="pref_title_encrypt_clipboard">Clipboard verschlüsseln</string>
+    <string name="pref_cat_others">Sonstiges</string>
+    <string name="seekbar_prompt_password_expiration_time">Merken für</string>
+    <string name="chart_legend_current_mAh">Energie (mAh)</string>
+    <string name="dialog_delete_database_msg">Alle Clipboard-Einträge werden gelöscht.</string>
+    <string name="dialog_delete_database_title">Sicher?</string>
+    <string name="to_clipboard_wiped">Clipboard gesäubert</string>
+    <string name="pref_title_license">Open Source Lizenzen</string>
+    <string name="dialog_license_title">Lizenzen</string>
+    <string name="changelog">Changelog</string>
+
+    <string name="discharging_message">%1$s verbleibend</string>
+    <string name="charging_message">Geladen in %1$s</string>
+    <string name="health_format">Zustand: %1$s</string>
+    <string name="pref_title_show_tutorial">Tutorial nochmal anzeigen</string>
+    <string name="app_intro">Anleitung</string>
+    <string name="app_intro_description_body">Tippe auf eine Benachrichtigung um dir Informationen zu Verbrauchswerten anzeigen zu lassen.</string>
+    <string name="app_intro_description_clipboard">Clipboard-Einträge können mittels seitlichem Wischen entfernt werden.</string>
+    <string name="app_intro_description_icon">Tippe auf das Icon einer Benachrichtigung um die App zu öffnen.</string>
+    <string name="app_intro_description_order">Benachrichtigungen werden in der Reihenfolge angezeigt, in der du sie aktiviert hast.</string>
+    <string name="app_intro_title_body">Interagiere mit Benachrichtungen</string>
+    <string name="app_intro_title_clipboard">Verwende das Clipboard</string>
+    <string name="app_intro_title_icon">Öffne die App</string>
+    <string name="app_intro_title_order">Bestimme die Reihenfolge</string>
+    <string name="wrong_password">Passwort falsch</string>
+    <string name="dialog_enter_password_to_decrypt_msg">Zum Entschlüsseln der Datenbank wird das Passwort benötigt.</string>
+    <string name="clipboard_decrypted">Datenbank verschlüsselt</string>
+    <string name="dialog_test_phase_expired_msg">Da diese App komplett auf Werbung verzichtet, würde es mich freuen, wenn du die Pro-Version kaufst.</string>
+    <string name="dialog_test_phase_expired_title">Testphase abgelaufen</string>
+    <string name="share_app_intro_text">Hey, schau\' dir diese App an</string>
+    <string name="dialog_promo_success_msg">Your app is unlocked now. Have a nice day!</string>
+    <string name="pref_title_rate_app">App bewerten</string>
+    <string name="pref_title_share_app">Einem Freund empfehlen</string>
+    <string name="dialog_android_id_title">Freischaltungsanfrage</string>
+    <string name="dialog_promo_success_title">SUCCESS</string>
+    <string name="pref_title_analytics">Nutzungsstatisiken</string>
+    <string name="pref_sum_analytics">Abwählen um Google Analytics zu deaktivieren</string>
+    <string name="dialog_analytics_title">Hinweis</string>
+    <string name="dialog_analytics_msg">Statistiken zur Nutzung helfen mir die App zu verbessern. Die Informationen enthalten keine personenbezogenen Daten und werden anonymisiert versendet. Möchtest du die Einstellung trotzdem deaktivieren?</string>
+    <string name="no_history">Keine Historie</string>
+    <string name="last_minute">Letzte Minute</string>
+    <string name="no_clip_data_set">Das Clipboard ist leer</string>
+    <string name="dialog_android_id_msg">Berühre die ID und sende sie an pepperonas@gmail.com.\nIch werde deine App schnellstmöglich entsperren.</string>
+    <string name="pref_title_temperature_unit">Einheiten</string>
+    <string name="pref_sum_temperature_unit">@string/empty</string>
+    <string name="pref_sum_root_mode">@string/empty</string>
+    <string name="pref_title_root_mode">Root Modus</string>
+    <string name="root">Root</string>
+    <string name="error_loading_data">Fehler beim Laden</string>
+
+</resources>

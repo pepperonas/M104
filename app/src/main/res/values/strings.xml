@@ -1,0 +1,211 @@
+<!--
+  ~ Copyright (c) 2016 Martin Pfeffer
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<resources>
+    
+    <string name="notification_title_battery">Battery</string>
+    
+    <string name="ns">n.s.</string>
+    
+    <!--Charging-States-->
+    <string name="battery_charge_unknown">Unknown</string>
+    <string name="battery_charge_full">Charged</string>
+    <string name="battery_charge_charging_over">Charging over</string>
+    <string name="battery_charge_discharging">Discharging</string>
+    <string name="battery_charge_not_charging">Not charging</string>
+    
+    <string name="last">last</string>
+    
+    <string name="about">About</string>
+    <string name="premium">Premium</string>
+    <string name="settings">Settings</string>
+    <string name="until_full">until full</string>
+    <string name="fully_charged">Fully charged</string>
+    
+    <!--Plugged-States-->
+    <string name="battery_plugged_ac">AC</string>
+    <string name="battery_plugged_usb">USB</string>
+    <string name="battery_plugged_wireless">Wireless</string>
+    <string name="unknown">Unknown</string>
+    
+    <string name="abbr_hours">hours</string>
+
+    <string name="chart_legend_level">Battery (%)</string>
+    <string name="hours">hours</string>
+    <string name="minutes">minutes</string>
+    <string name="last_hour">Last hour</string>
+    
+    <!--Chart-Legends-->
+    <string name="chart_legend_volt">Voltage (V)</string>
+    <string name="chart_legend_current_mAh">Energy (mAh)</string>
+    <string name="chart_legend_screen_state">Screen</string>
+    <string name="chart_legend_temperature">Temp. (°C)</string>
+    <string name="chart_description_battery">Battery stats</string>
+    <string name="dialog_chart_header">Last</string>
+    <string name="dialog_chart_header_part2">last</string>
+    <string name="dialog_network_header">Data usage</string>
+    <string name="dialog_clipboard_header" translatable="false">Clipboard</string>
+    <string name="network_type_wifi">WLAN</string>
+    <string name="network_type_mobile">Mobile</string>
+    <string name="notification_title_network">Data usage</string>
+    
+    <string name="rx_mobile">Rx Mobile</string>
+    <string name="tx_mobile">Tx Mobile</string>
+    <string name="rx_wlan">Rx WLAN</string>
+    <string name="tx_wlan">Tx WLAN</string>
+    
+    <string name="dialog_network_header_on_init">Data usage</string>
+    <string name="last_mins">last</string>
+    <string name="mins">min.</string>
+    <string name="chart_description_network">Network usage</string>
+    <string name="menu_battery_stats">Battery</string>
+    <string name="menu_network_stats">Network</string>
+    <string name="menu_void_stats">Void</string>
+    <string name="navigation_subtitle_main">Statistics</string>
+    <string name="navigation_subtitle_config">More</string>
+    <string name="open">Open</string>
+    <string name="close">Close</string>
+
+    <string name="pref_cat_main">User settings</string>
+
+    <string name="pref_title_root_mode">Root mode</string>
+    <string name="pref_sum_root_mode">@string/empty</string>
+
+    <string name="pref_title_autostart">Start automatically</string>
+    <string name="pref_sum_autostart">App starts on boot</string>
+
+    <string name="pref_title_show_battery_notification">Battery notification</string>
+    <string name="pref_sum_show_battery_notification">@string/empty</string>
+
+    <string name="pref_title_show_network_notification">Network notification</string>
+    <string name="pref_sum_show_network_notification">@string/empty</string>
+
+    <string name="pref_title_show_clipboard_notification">Clipboard notification</string>
+    <string name="pref_sum_show_clipboard_notification">@string/empty</string>
+
+    <string name="touch_twice_to_close">Press once again to exit</string>
+    <string name="pref_title_touch_twice_to_exit">Leaving the app</string>
+    <string name="pref_sum_touch_twice_to_exit">Press BACK twice to leave</string>
+
+    <string name="pref_title_encrypt_clipboard">Encrypt clipboard</string>
+    <string name="pref_sum_encrypt_clipboard">@string/empty</string>
+
+    <string name="pref_title_delete_clipboard_database">Wipe clipboard</string>
+    <string name="pref_sum_delete_clipboard_database">@string/empty</string>
+
+    <string name="pref_title_analytics">Usage reports</string>
+    <string name="pref_sum_analytics">Uncheck to disable Google Analytics</string>
+
+    <string name="pref_title_temperature_unit">Units</string>
+    <string name="pref_sum_temperature_unit">@string/empty</string>
+
+    <string name="pref_title_show_tutorial">Show tutorial again</string>
+
+    <string name="pref_title_license">Open source licenses</string>
+
+    <string name="pref_title_build_version">Build Version</string>
+
+    <string name="title_battery_card_01">Status</string>
+    <string name="title_battery_card_02">Consumption</string>
+    <string name="title_battery_card_03">Screen</string>
+
+    <string name="copied_to_clipboard">Copied to clipboard</string>
+    <string name="copy">Copy</string>
+    <string name="entries">entries</string>
+    <string name="no_entries">Empty</string>
+    <string name="one_entry">One entry</string>
+
+    <string name="battery_health_cold">Cold</string>
+    <string name="battery_health_dead">Dead</string>
+    <string name="battery_health_overheat">Overheating</string>
+    <string name="battery_health_over_voltage">Over voltage</string>
+    <string name="battery_health_good">Good</string>
+    <string name="battery_health_unknown">Unknown</string>
+    <string name="battery_health_unspecified_failure">Unspecified failure</string>
+
+    <string name="screen_off">Inactive</string>
+    <string name="screen_on">Active</string>
+    <string name="since_boot">Since boot</string>
+    <string name="since_installation">Since installation</string>
+    <string name="clipboard">Clipboard</string>
+    <string name="pref_cat_clipboard">Clipboard</string>
+    <string name="pref_cat_others">Others</string>
+    <string name="dialog_set_password_title">Set password</string>
+    <string name="dialog_set_password_msg">Choose a strong encryption password.</string>
+    <string name="password_saved">Password set</string>
+    <string name="invalid_input">Invalid</string>
+    <string name="dialog_enter_password_title">Password required</string>
+    <string name="dialog_enter_password_msg">Enter your password to access the database.</string>
+    <string name="dialog_enter_password_to_decrypt_msg">Enter your password to decrypt the database.</string>
+    <string name="clipboard_locked">Clipboard locked</string>
+    <string name="encrypted_text_cant_be_copied">Encrypted text can\'t be copied</string>
+    <string name="seekbar_prompt_password_expiration_time">Remember for</string>
+    <string name="chart_desc_level">Level</string>
+    <string name="unplugged_since">Unplugged since</string>
+    <string name="entry">entry</string>
+    <string name="dialog_delete_database_title">Are you sure?</string>
+    <string name="dialog_delete_database_msg">Wiping the clipboard will delete all entries.</string>
+    <string name="to_clipboard_wiped">Clipboard wiped</string>
+    <string name="dialog_license_title">License</string>
+    <string name="changelog">Changelog</string>
+
+    <string name="discharging_message">%1$s last</string>
+    <string name="charging_message">%1$s until full</string>
+    <string name="health_format">Health: %1$s</string>
+    <string name="clipboard_decrypted">Clipboard decrypted</string>
+    <string name="wrong_password">Wrong password</string>
+    <string name="dialog_test_phase_expired_title">Test phase expired</string>
+    <string name="dialog_test_phase_expired_msg">This app doesn\'t show ads, please consider to upgrade to Pro.</string>
+    <string name="dialog_android_id_title">Unlock request</string>
+    <string name="dialog_promo_success_title">SUCCESS</string>
+    <string name="dialog_promo_success_msg">Your app is unlocked now. Have a nice day!</string>
+    <string name="pref_title_share_app">Tell a friend</string>
+    <string name="pref_title_rate_app">Rate app</string>
+    <string name="share_app_intro_text">Hey, check out this app</string>
+    <string name="dialog_analytics_title">Note</string>
+    <string name="dialog_analytics_msg">Usage reports help me to improve this app. They doesn\'t contain any personal information, so they are completely anonymous. Do you really want to turn them off?</string>
+    <string name="no_history">No history</string>
+    <string name="last_minute">Last minute</string>
+    <string name="no_clip_data_set">The clipboard is empty</string>
+    <string name="dialog_android_id_msg">Touch the ID and send it to pepperonas@gmail.com.\nI will unlock your app as soon as possible.</string>
+
+    <!--APP-INTRO-->
+    <string name="app_intro">Tutorial</string>
+
+    <string name="app_intro_title_clipboard">Using the clipboard</string>
+    <string name="app_intro_description_clipboard">Clip data can be deleted on the fly. Just swipe sideways.</string>
+
+    <string name="app_intro_title_body">Interacting with\nnotifications</string>
+    <string name="app_intro_description_body">Tap the notification to get information about your phone.</string>
+
+    <string name="app_intro_title_icon">Open the app</string>
+    <string name="app_intro_description_icon">Tap the icon on the left to launch the app.</string>
+
+    <string name="app_intro_title_order">Order your notifications</string>
+    <string name="app_intro_description_order">Notifications are shown in the order you have selected them.</string>
+    <string name="root">Root</string>
+    <string name="error_loading_data">Loading data failed</string>
+
+    <string name="tab1" translatable="false">Tab 1</string>
+    <string name="tab2" translatable="false">Tab 2</string>
+    <string name="tab3" translatable="false">Tab 3</string>
+    <string name="tab4" translatable="false">Tab 4</string>
+    <string name="tab5" translatable="false">Tab 5</string>
+    <string name="tab6" translatable="false">Tab 6</string>
+    <string name="tab7" translatable="false">Tab 7</string>
+    <string name="tab8" translatable="false">Tab 8</string>
+
+</resources>

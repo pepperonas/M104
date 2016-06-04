@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2016 Martin Pfeffer
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<resources>
+
+    <string name="IS_PREMIUM" translatable="false">IS_PREMIUM</string>
+
+    <string name="TEST_PHASE_EXPIRED" translatable="false">TEST_PHASE_EXPIRED</string>
+
+    <string name="SHOW_DIALOG_SUCCESS" translatable="false">SHOW_DIALOG_SUCCESS</string>
+
+    <string name="SHOW_APP_INTRO" translatable="false">SHOW_APP_INTRO</string>
+    <string name="SHOW_APP_INTRO_AGAIN" translatable="false">SHOW_APP_INTRO_AGAIN</string>
+
+    <string name="ANALYTICS" translatable="false">ANALYTICS</string>
+    <string name="IS_ANALYTICS" translatable="false">IS_ANALYTICS</string>
+
+    <string name="IS_ROOT_MODE" translatable="false">IS_ROOT_MODE</string>
+    <string name="IS_AUTO_START" translatable="false">IS_AUTO_START</string>
+    <string name="UNITS_CELSIUS" translatable="false">UNITS_CELSIUS</string>
+
+    <string name="NETWORK_CHART_LIVE_MODE" translatable="false">NETWORK_CHART_LIVE_MODE</string>
+
+    <string name="SHOW_BATTERY_NOTIFICATION" translatable="false">SHOW_BATTERY_NOTIFICATION</string>
+    <string name="SHOW_NETWORK_NOTIFICATION" translatable="false">SHOW_NETWORK_NOTIFICATION</string>
+    <string name="SHOW_CLIPBOARD_NOTIFICATION" translatable="false">SHOW_CLIPBOARD_NOTIFICATION</string>
+
+    <string name="TOUCH_TWICE_TO_EXIT" translatable="false">TOUCH_TWICE_TO_EXIT</string>
+    <string name="LICENSE" translatable="false">LICENSE</string>
+    <string name="BUILD_VERSION" translatable="false">BUILD_VERSION</string>
+
+    <string name="MAX_CLIPS_IN_RECYCLER" translatable="false">MAX_CLIPS_IN_RECYCLER</string>
+
+    <string name="ENCRYPT_CLIPBOARD" translatable="false">ENCRYPT_CLIPBOARD</string>
+    <string name="DELETE_CLIPBOARD_DATABASE" translatable="false">DELETE_CLIPBOARD_DATABASE</string>
+    <string name="ENCRYPTION_PASSWORD" translatable="false">ENCRYPTION_PASSWORD</string>
+    <string name="LOGOUT_TIME" translatable="false">LOGOUT_TIME</string>
+    <string name="LAST_PROGRESS_LOCK_TIME" translatable="false">LAST_PROGRESS_LOCK_TIME</string>
+
+    <string name="RATE_APP" translatable="false">RATE_APP</string>
+    <string name="SHARE_APP" translatable="false">SHARE_APP</string>
+
+
+    <!--NETWORK-SPEED-->
+    <string name="CONNECTION_MEASUREMENT_INTERVAL" translatable="false">CONNECTION_MEASUREMENT_INTERVAL</string>
+    <string name="DIALOG_NETWORK_CHART_HISTORY_IN_MINUTES" translatable="false">DIALOG_NETWORK_CHART_HISTORY_IN_MINUTES</string>
+
+
+    <!--BATTERY-->
+    <string name="BATTERY_CAPACITY" translatable="false">BATTERY_CAPACITY</string>
+    <string name="IS_CHARGING" translatable="false">IS_CHARGING</string>
+    <string name="LAST_BATTERY_STAT" translatable="false">LAST_BATTERY_STAT</string>
+    <string name="LAST_UNPLUGGED" translatable="false">LAST_UNPLUGGED</string>
+
+    <!--Screen tracker-->
+    <string name="SCREEN_TRACKER_ON" translatable="false">SCREEN_TRACKER_ON</string>
+    <string name="SCREEN_TRACKER_OFF" translatable="false">SCREEN_TRACKER_OFF</string>
+    <string name="CYCLIC_SCREEN_ON_VALUE" translatable="false">CYCLIC_SCREEN_ON_VALUE</string>
+    <string name="CYCLIC_SCREEN_OFF_VALUE" translatable="false">CYCLIC_SCREEN_OFF_VALUE</string>
+    <string name="GLOBAL_SCREEN_ON_VALUE" translatable="false">GLOBAL_SCREEN_ON_VALUE</string>
+    <string name="GLOBAL_SCREEN_OFF_VALUE" translatable="false">GLOBAL_SCREEN_OFF_VALUE</string>
+
+    <!--Global max-values-->
+    <string name="CYCLIC_MAX_TEMP_VALUE" translatable="false">CYCLIC_MAX_TEMP_VALUE</string>
+    <string name="GLOBAL_MAX_TEMP_VALUE" translatable="false">GLOBAL_MAX_TEMP_VALUE</string>
+
+    <!--Discharging-->
+    <string name="LAST_CHARGED_LEVEL" translatable="false">LAST_CHARGED_LEVEL</string>
+    <string name="LAST_CHARGED_STAMP" translatable="false">LAST_CHARGED_STAMP</string>
+    <string name="CYCLIC_CONSUMPTION_PER_HOUR" translatable="false">CYCLIC_CONSUMPTION_PER_HOUR</string>
+
+    <!--Charging-->
+    <string name="LAST_DISCHARGED_LEVEL" translatable="false">LAST_DISCHARGED_LEVEL</string>
+    <string name="LAST_DISCHARGED_STAMP" translatable="false">LAST_DISCHARGED_STAMP</string>
+    <string name="CYCLIC_CHARGE_PER_HOUR" translatable="false">CYCLIC_CHARGE_PER_HOUR</string>
+
+    <!--Show statics from the time interval which is stored here-->
+    <string name="DIALOG_CHART_HISTORY_HOURS" translatable="false">DIALOG_CHART_HISTORY_HOURS</string>
+
+</resources>
