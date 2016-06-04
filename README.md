@@ -1,12 +1,12 @@
 #M104 - Android Tool-Box
 
-![alt text](https://github.com/pepperonas/M104/blob/master/art/pic01.png "pic01")
-![alt text](https://github.com/pepperonas/M104/master/art/pic02.png "pic02.png")
-![alt text](https://github.com/pepperonas/M104/tree/master/art/pic03.png "pic03.png")
+![Screenshot](https://github.com/pepperonas/M104/blob/master/art/pic01.png "pic01")
+![Screenshot](https://github.com/pepperonas/M104/blob/master/art/pic02.png "pic02")
+![Screenshot](https://github.com/pepperonas/M104/blob/master/art/pic03.png "pic03")
 
-![alt text](https://github.com/pepperonas/M104/tree/master/art/pic04.png "pic04.png")
-![alt text](https://github.com/pepperonas/M104/tree/master/art/pic05.png "pic05.png")
-![alt text](https://github.com/pepperonas/M104/tree/master/art/pic06.png "pic06.png")
+![Screenshot](https://github.com/pepperonas/M104/blob/master/art/pic04.png "pic04")
+![Screenshot](https://github.com/pepperonas/M104/blob/master/art/pic05.png "pic05")
+![Screenshot](https://github.com/pepperonas/M104/blob/master/art/pic06.png "pic06")
 
 
 ##Download
