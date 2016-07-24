@@ -18,6 +18,11 @@
 
 -keep class com.github.mikephil.charting.** { *; }
 
+-keep class com.pepperonas.jbasx.** { *; }
+-dontwarn com.pepperonas.jbasx.**
+-keep class com.pepperonas.andbasx.** { *; }
+-dontwarn com.pepperonas.andbasx.**
+
 -assumenosideeffects class android.util.Log {
     public static int d(...);
     public static int e(...);

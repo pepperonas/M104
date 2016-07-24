@@ -26,7 +26,6 @@ import android.view.View;
 
 import com.pepperonas.m104.MainActivity;
 import com.pepperonas.m104.R;
-import com.pepperonas.m104.config.Const;
 import com.pepperonas.materialdialog.MaterialDialog;
 
 /**
@@ -35,11 +34,6 @@ import com.pepperonas.materialdialog.MaterialDialog;
 public class DialogTestPhaseExpired {
 
     public DialogTestPhaseExpired(final MainActivity mainActivity) {
-        NotificationManager notificationManager = (NotificationManager) mainActivity.getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.cancel(Const.NOTIFICATION_BATTERY);
-        notificationManager.cancel(Const.NOTIFICATION_NETWORK);
-        notificationManager.cancel(Const.NOTIFICATION_CLIPBOARD);
-
         new MaterialDialog.Builder(mainActivity)
                 .title(mainActivity.getString(R.string.dialog_test_phase_expired_title))
                 .message(mainActivity.getString(R.string.dialog_test_phase_expired_msg))
@@ -62,7 +56,8 @@ public class DialogTestPhaseExpired {
                     @Override
                     public void onPositive(MaterialDialog dialog) {
                         super.onPositive(dialog);
-                        mainActivity.startActivity(new Intent("android.intent.action.VIEW", Uri.parse("http://play.google.com/store/apps/details?id=" + "com.pepperonas.m104.key")));
+                        mainActivity.startActivity(new Intent("android.intent.action.VIEW", Uri.parse("http://play.google" +
+                                ".com/store/apps/details?id=" + "com.pepperonas.m104.key")));
                     }
 
                 })
@@ -70,6 +65,11 @@ public class DialogTestPhaseExpired {
                     @Override
                     public void onDismiss() {
                         super.onDismiss();
+
+                        NotificationManager notificationManager = (NotificationManager) mainActivity.getSystemService(Context
+                                .NOTIFICATION_SERVICE);
+                        notificationManager.cancelAll();
+
                         mainActivity.finish();
                     }
                 })

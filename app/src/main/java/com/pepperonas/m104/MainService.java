@@ -204,7 +204,7 @@ public class MainService extends Service {
                 return;
             }
 
-            float consumptionPerHour = (float) ConvertUtils.hToMs(lvlDiff) / (float) (timeDiff);
+            float consumptionPerHour = (float) ConvertUtils.hourToMillisecond(lvlDiff) / (float) (timeDiff);
 
             AesPrefs.putFloatRes(R.string.CYCLIC_CONSUMPTION_PER_HOUR, consumptionPerHour);
 
@@ -222,7 +222,7 @@ public class MainService extends Service {
                 return;
             }
 
-            float loadPerHour = (float) ConvertUtils.hToMs(lvlDiff) / (float) (timeDiff);
+            float loadPerHour = (float) ConvertUtils.hourToMillisecond(lvlDiff) / (float) (timeDiff);
 
             AesPrefs.putFloatRes(R.string.CYCLIC_CHARGE_PER_HOUR, loadPerHour);
 

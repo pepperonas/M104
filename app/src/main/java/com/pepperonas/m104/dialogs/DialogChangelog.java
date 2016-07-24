@@ -43,7 +43,22 @@ public class DialogChangelog {
     public List<Changelog> getChangelogs() {
         List<Changelog> changelogs = new ArrayList<>();
 
-        changelogs.add(new Changelog("0.2.3", "2016-02-12", new ReleaseInfo(
+        changelogs.add(new Changelog("0.2.6", "2016-07-24", new ReleaseInfo(
+                "Supported Android Nougat",
+                "Updated support libraries (23.4.0)",
+                "Updated Play Services (9.2.1)",
+                "Fixed icons"
+        )));
+
+        changelogs.add(new Changelog("0.2.5", "2016-05-03", new ReleaseInfo(
+                "Minor fixes"
+        )));
+
+        changelogs.add(new Changelog("0.2.4", "2016-04-10", new ReleaseInfo(
+                "Minor fixes"
+        )));
+
+        changelogs.add(new Changelog("0.2.3", "2016-02-20", new ReleaseInfo(
                 "Removed unnecessary callbacks"
         )));
 
@@ -52,7 +67,7 @@ public class DialogChangelog {
         )));
 
         changelogs.add(new Changelog("0.2.1", "2016-02-11", new ReleaseInfo(
-                "Minor bugfixes"
+                "Minor fixes"
         )));
 
         changelogs.add(new Changelog("0.2.0", "2016-02-10", new ReleaseInfo(
@@ -94,7 +109,7 @@ public class DialogChangelog {
         )));
 
         changelogs.add(new Changelog("0.1.3", "2016-01-13", new ReleaseInfo(
-                "Bugfix in autostart"
+                "Fixed autos-tart"
         )));
 
         changelogs.add(new Changelog("0.1.2", "2016-01-12", new ReleaseInfo(
@@ -125,7 +140,7 @@ public class DialogChangelog {
         )));
 
         changelogs.add(new Changelog("0.0.7", "2016-01-07", new ReleaseInfo(
-                "Bugfix in battery notification"
+                "Fixed battery notification"
         )));
 
         changelogs.add(new Changelog("0.0.6", "2016-01-06", new ReleaseInfo(
@@ -138,7 +153,7 @@ public class DialogChangelog {
                 "Much faster loading of network stats",
                 "Various small performance tweaks",
                 "New animations (still targeting older APIs)",
-                "Bugfix in battery notification"
+                "Fixed battery notification"
         )));
 
         changelogs.add(new Changelog("0.0.5", "2016-01-04", new ReleaseInfo(
@@ -156,7 +171,7 @@ public class DialogChangelog {
         )));
 
         changelogs.add(new Changelog("0.0.2", "2015-12-31", new ReleaseInfo(
-                "Bugfixes in network fragment"
+                "Fixed network fragment"
         )));
 
         changelogs.add(new Changelog("0.0.1", "2015-12-30", new ReleaseInfo(
