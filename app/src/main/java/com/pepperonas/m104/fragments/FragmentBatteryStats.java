@@ -26,7 +26,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.pepperonas.aesprefs.AesPrefs;
+import com.pepperonas.aespreferences.AesPrefs;
 import com.pepperonas.andbasx.base.Loader;
 import com.pepperonas.m104.MainActivity;
 import com.pepperonas.m104.R;

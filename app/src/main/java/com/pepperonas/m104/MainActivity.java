@@ -40,11 +40,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Tracker;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
-import com.pepperonas.aesprefs.AesPrefs;
+import com.pepperonas.aespreferences.AesPrefs;
 import com.pepperonas.andbasx.base.Loader;
 import com.pepperonas.andbasx.base.ToastUtils;
 import com.pepperonas.andbasx.concurrency.ThreadUtils;
@@ -53,7 +51,6 @@ import com.pepperonas.appregistry.AppRegistry;
 import com.pepperonas.appregistry.OnRegisterResultListener;
 import com.pepperonas.jbasx.log.Log;
 import com.pepperonas.m104.config.Const;
-import com.pepperonas.m104.model.Database;
 import com.pepperonas.m104.dialogs.DialogAbout;
 import com.pepperonas.m104.dialogs.DialogPremiumSuccess;
 import com.pepperonas.m104.dialogs.DialogTestPhaseExpired;
@@ -62,12 +59,17 @@ import com.pepperonas.m104.fragments.FragmentNetworkStats;
 import com.pepperonas.m104.fragments.FragmentRoot;
 import com.pepperonas.m104.fragments.FragmentSettings;
 import com.pepperonas.m104.interfaces.IBatteryInformer;
+import com.pepperonas.m104.model.Database;
 import com.pepperonas.m104.notification.NotificationBattery;
 import com.pepperonas.m104.notification.NotificationClipboard;
 import com.pepperonas.m104.notification.NotificationNetwork;
 import com.pepperonas.m104.utils.StringFactory;
 
 import java.util.concurrent.Callable;
+
+//import com.google.android.gms.analytics.HitBuilders;
+//import com.google.android.gms.analytics.Tracker;
+
 
 /**
  * @author Martin Pfeffer (pepperonas)
@@ -101,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
     @SuppressWarnings("FieldCanBeLocal")
     private int mBtyPlugged, mBtyStatus;
 
-    private Tracker mTracker;
+    //    private Tracker mTracker;
 
     private BroadcastReceiver mMainServiceReceiver = new BroadcastReceiver() {
 
@@ -116,7 +118,8 @@ public class MainActivity extends AppCompatActivity {
             mBtyStatus = intent.getIntExtra("status", 0);
 
             if (mBatteryInformer != null) {
-                mBatteryInformer.onBatteryUpdate(MainActivity.this, mBtyIsCharging, mBtyLevel, temperature, voltage, mBtyPlugged, health, mBtyStatus);
+                mBatteryInformer.onBatteryUpdate(MainActivity.this, mBtyIsCharging, mBtyLevel, temperature, voltage,
+                        mBtyPlugged, health, mBtyStatus);
             } else Log.w(TAG, "onReceive: Can't update battery info.");
 
         }
@@ -164,9 +167,10 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public void onUserExists(@NonNull String s, Long regDate, String extraString, final Integer extraInt) {
-                        Log.d(TAG, "onUserExists: registered since: " + (System.currentTimeMillis() - regDate) / (1000 * 60) + " min.");
+                        Log.d(TAG, "onUserExists: registered since: " + (System.currentTimeMillis() - regDate) / (1000 * 60) +
+                                " min.");
                         if ((System.currentTimeMillis() > (regDate + (1000 * 60 * 60 * 24 * Const.TEST_PERIOD_IN_DAYS)))
-                            && regDate != 0) {
+                                && regDate != 0) {
                             Log.d(TAG, "onUserExists test phase (" + Const.TEST_PERIOD_IN_DAYS + " days) expired.");
 
                             AesPrefs.putBooleanRes(R.string.TEST_PHASE_EXPIRED, true);
@@ -186,7 +190,8 @@ public class MainActivity extends AppCompatActivity {
                                     return;
                                 }
                             }
-                            if (!AesPrefs.getBooleanRes(R.string.IS_PREMIUM, false) && AesPrefs.getBooleanRes(R.string.TEST_PHASE_EXPIRED, false)) {
+                            if (!AesPrefs.getBooleanRes(R.string.IS_PREMIUM, false) && AesPrefs.getBooleanRes(R.string
+                                    .TEST_PHASE_EXPIRED, false)) {
                                 ThreadUtils.runFromBackground(new Callable<Void>() {
                                     @Override
                                     public Void call() throws Exception {
@@ -197,8 +202,9 @@ public class MainActivity extends AppCompatActivity {
                             }
                         } else {
                             Log.d(TAG, "onUserExists test phase will expire in " +
-                                       (float) (regDate + (1000 * 60 * 60 * 24 * Const.TEST_PERIOD_IN_DAYS) - (System.currentTimeMillis()))
-                                       / (float) (1000 * 60 * 60 * 24) + " days.");
+                                    (float) (regDate + (1000 * 60 * 60 * 24 * Const.TEST_PERIOD_IN_DAYS) - (System
+                                            .currentTimeMillis()))
+                                            / (float) (1000 * 60 * 60 * 24) + " days.");
                         }
                     }
 
@@ -210,7 +216,7 @@ public class MainActivity extends AppCompatActivity {
                 })
                 .send();
 
-        initAnalytics();
+        //        initAnalytics();
     }
 
 
@@ -275,7 +281,7 @@ public class MainActivity extends AppCompatActivity {
             mDb.close();
         }
 
-        doAnalyticsOnLifecycle("onDestroy");
+        //        doAnalyticsOnLifecycle("onDestroy");
 
         super.onDestroy();
     }
@@ -355,14 +361,18 @@ public class MainActivity extends AppCompatActivity {
         // first sub menu
         MenuItem itemBattery = mNavView.getMenu().getItem(0).getSubMenu().getItem(0);
         MenuItem itemNetwork = mNavView.getMenu().getItem(0).getSubMenu().getItem(1);
-        itemBattery.setIcon(new IconicsDrawable(this, GoogleMaterial.Icon.gmd_battery_std).colorRes(R.color.sa_teal).sizeDp(Const.NAV_DRAWER_ICON_SIZE));
-        itemNetwork.setIcon(new IconicsDrawable(this, GoogleMaterial.Icon.gmd_network_wifi).colorRes(R.color.sa_teal).sizeDp(Const.NAV_DRAWER_ICON_SIZE));
+        itemBattery.setIcon(new IconicsDrawable(this, GoogleMaterial.Icon.gmd_battery_std).colorRes(R.color.sa_teal).sizeDp
+                (Const.NAV_DRAWER_ICON_SIZE));
+        itemNetwork.setIcon(new IconicsDrawable(this, GoogleMaterial.Icon.gmd_network_wifi).colorRes(R.color.sa_teal).sizeDp
+                (Const.NAV_DRAWER_ICON_SIZE));
 
         // second sub menu
         MenuItem itemSettings = mNavView.getMenu().getItem(1).getSubMenu().getItem(0);
         MenuItem itemAbout = mNavView.getMenu().getItem(1).getSubMenu().getItem(1);
-        itemSettings.setIcon(new IconicsDrawable(this, GoogleMaterial.Icon.gmd_settings).colorRes(R.color.sa_teal).sizeDp(Const.NAV_DRAWER_ICON_SIZE));
-        itemAbout.setIcon(new IconicsDrawable(this, GoogleMaterial.Icon.gmd_info_outline).colorRes(R.color.sa_teal).sizeDp(Const.NAV_DRAWER_ICON_SIZE));
+        itemSettings.setIcon(new IconicsDrawable(this, GoogleMaterial.Icon.gmd_settings).colorRes(R.color.sa_teal).sizeDp(Const
+                .NAV_DRAWER_ICON_SIZE));
+        itemAbout.setIcon(new IconicsDrawable(this, GoogleMaterial.Icon.gmd_info_outline).colorRes(R.color.sa_teal).sizeDp
+                (Const.NAV_DRAWER_ICON_SIZE));
     }
 
 
@@ -372,7 +382,8 @@ public class MainActivity extends AppCompatActivity {
     private void initNavDrawer() {
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
-        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.open, R.string.close) {
+        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.open, R
+                .string.close) {
 
             @Override
             public void onDrawerClosed(View drawerView) {
@@ -404,7 +415,9 @@ public class MainActivity extends AppCompatActivity {
      * <p/>
      * Gets called when {@link FragmentBatteryStats} is shown.
      */
-    public void sendBroadcastRequestBatteryInfo() {sendBroadcast(new Intent(MainService.BROADCAST_MAIN_STARTED));}
+    public void sendBroadcastRequestBatteryInfo() {
+        sendBroadcast(new Intent(MainService.BROADCAST_MAIN_STARTED));
+    }
 
 
     /**
@@ -521,32 +534,32 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    /**
-     * Init analytics.
-     */
-    private void initAnalytics() {
-        if (!AesPrefs.getBooleanRes(R.string.IS_ANALYTICS, true)) return;
+    //    /**
+    //     * Init analytics.
+    //     */
+    //    private void initAnalytics() {
+    //        if (!AesPrefs.getBooleanRes(R.string.IS_ANALYTICS, true)) return;
+    //
+    //        App application = (App) getApplication();
+    //        mTracker = application.getDefaultTracker();
+    //        if (mTracker != null) {
+    //            mTracker.setScreenName("MainActivity");
+    //            mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+    //        }
+    //    }
 
-        App application = (App) getApplication();
-        mTracker = application.getDefaultTracker();
-        if (mTracker != null) {
-            mTracker.setScreenName("MainActivity");
-            mTracker.send(new HitBuilders.ScreenViewBuilder().build());
-        }
-    }
 
-
-    /**
-     * Do analytics on lifecycle.
-     *
-     * @param method the method
-     */
-    private void doAnalyticsOnLifecycle(String method) {
-        if (!AesPrefs.getBooleanRes(R.string.IS_ANALYTICS, true) || mTracker == null) return;
-
-        mTracker.send(new HitBuilders.EventBuilder()
-                              .setLabel(method).build());
-    }
+    //    /**
+    //     * Do analytics on lifecycle.
+    //     *
+    //     * @param method the method
+    //     */
+    //    private void doAnalyticsOnLifecycle(String method) {
+    //        if (!AesPrefs.getBooleanRes(R.string.IS_ANALYTICS, true) || mTracker == null) return;
+    //
+    //        mTracker.send(new HitBuilders.EventBuilder()
+    //                .setLabel(method).build());
+    //    }
 
 
     /**
@@ -558,7 +571,7 @@ public class MainActivity extends AppCompatActivity {
                 mNavView.getMenu().getItem(0).getSubMenu().add(0, MENU_ITEM_ROOT, 2, getString(R.string.root));
                 MenuItem itemRoot = mNavView.getMenu().getItem(0).getSubMenu().findItem(MENU_ITEM_ROOT);
                 itemRoot.setIcon(new IconicsDrawable(MainActivity.this, GoogleMaterial.Icon.gmd_android)
-                                         .colorRes(R.color.sa_teal).sizeDp(Const.NAV_DRAWER_ICON_SIZE));
+                        .colorRes(R.color.sa_teal).sizeDp(Const.NAV_DRAWER_ICON_SIZE));
 
                 itemRoot.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
                     @Override
@@ -579,7 +592,7 @@ public class MainActivity extends AppCompatActivity {
             mNavView.getMenu().getItem(0).getSubMenu().add(0, MENU_ITEM_ROOT, 2, getString(R.string.root));
             MenuItem itemRoot = mNavView.getMenu().getItem(0).getSubMenu().findItem(MENU_ITEM_ROOT);
             itemRoot.setIcon(new IconicsDrawable(MainActivity.this, GoogleMaterial.Icon.gmd_android)
-                                     .colorRes(R.color.sa_teal).sizeDp(Const.NAV_DRAWER_ICON_SIZE));
+                    .colorRes(R.color.sa_teal).sizeDp(Const.NAV_DRAWER_ICON_SIZE));
 
             itemRoot.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
                 @Override

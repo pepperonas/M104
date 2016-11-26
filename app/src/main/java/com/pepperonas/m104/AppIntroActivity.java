@@ -19,7 +19,7 @@ package com.pepperonas.m104;
 import android.os.Bundle;
 
 import com.github.paolorotolo.appintro.AppIntro2;
-import com.pepperonas.aesprefs.AesPrefs;
+import com.pepperonas.aespreferences.AesPrefs;
 import com.pepperonas.andbasx.base.Loader;
 import com.pepperonas.m104.custom.CustomAppIntroFragment;
 

@@ -25,29 +25,25 @@ import android.preference.Preference;
 import android.preference.PreferenceGroup;
 import android.view.View;
 
-import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Tracker;
 import com.mikepenz.community_material_typeface_library.CommunityMaterial;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
-import com.pepperonas.aesprefs.AesPrefs;
+import com.pepperonas.aespreferences.AesPrefs;
 import com.pepperonas.andbasx.concurrency.ThreadUtils;
 import com.pepperonas.andbasx.system.SystemUtils;
 import com.pepperonas.andbasx.system.UsabilityUtils;
-import com.pepperonas.m104.App;
 import com.pepperonas.m104.AppIntroActivity;
 import com.pepperonas.m104.BuildConfig;
 import com.pepperonas.m104.MainActivity;
 import com.pepperonas.m104.R;
-import com.pepperonas.m104.config.Analyst;
 import com.pepperonas.m104.config.Const;
-import com.pepperonas.m104.model.NotificationOrder;
 import com.pepperonas.m104.dialogs.DialogAnalyticsInfo;
 import com.pepperonas.m104.dialogs.DialogChangelog;
 import com.pepperonas.m104.dialogs.DialogDecryptDatabase;
 import com.pepperonas.m104.dialogs.DialogDeleteDatabase;
 import com.pepperonas.m104.dialogs.DialogLicense;
 import com.pepperonas.m104.dialogs.DialogSetPassword;
+import com.pepperonas.m104.model.NotificationOrder;
 import com.pepperonas.materialdialog.MaterialDialog;
 
 import java.util.concurrent.Callable;
@@ -61,7 +57,7 @@ public class FragmentSettings
 
     private static final String TAG = "FragmentSettings";
 
-    private Tracker mTracker;
+    //    private Tracker mTracker;
 
 
     /**
@@ -118,7 +114,7 @@ public class FragmentSettings
         MainActivity main = (MainActivity) getActivity();
         main.setTitle(getString(R.string.settings));
 
-        initAnalytics();
+        //        initAnalytics();
 
         updateSummaries();
     }
@@ -126,7 +122,7 @@ public class FragmentSettings
 
     @Override
     public void onPause() {
-        doAnalyticsOnLifecycle("onPause");
+        //        doAnalyticsOnLifecycle("onPause");
         super.onPause();
     }
 
@@ -201,7 +197,8 @@ public class FragmentSettings
                             super.onClick(v, position, id);
                             AesPrefs.putBooleanRes(R.string.UNITS_CELSIUS, position == 0);
                             findPreference(getString(R.string.UNITS_CELSIUS))
-                                    .setSummary(getString(AesPrefs.getBooleanRes(R.string.UNITS_CELSIUS, true) ? R.string._unit_celsius : R.string._unit_fahrenheit));
+                                    .setSummary(getString(AesPrefs.getBooleanRes(R.string.UNITS_CELSIUS, true) ? R.string
+                                            ._unit_celsius : R.string._unit_fahrenheit));
                         }
                     })
                     .show();
@@ -232,11 +229,16 @@ public class FragmentSettings
      */
     private void addPrefIcons() {
         int color = R.color.sa_teal;
-        findPreference(getString(R.string.RATE_APP)).setIcon(new IconicsDrawable(getContext(), GoogleMaterial.Icon.gmd_star).colorRes(color).sizeDp(Const.NAV_DRAWER_ICON_SIZE));
-        findPreference(getString(R.string.SHARE_APP)).setIcon(new IconicsDrawable(getContext(), GoogleMaterial.Icon.gmd_tag_faces).colorRes(color).sizeDp(Const.NAV_DRAWER_ICON_SIZE));
-        findPreference(getString(R.string.LICENSE)).setIcon(new IconicsDrawable(getContext(), CommunityMaterial.Icon.cmd_github_circle).colorRes(color).sizeDp(Const.NAV_DRAWER_ICON_SIZE));
-        findPreference(getString(R.string.SHOW_APP_INTRO_AGAIN)).setIcon(new IconicsDrawable(getContext(), GoogleMaterial.Icon.gmd_info_outline).colorRes(color).sizeDp(Const.NAV_DRAWER_ICON_SIZE));
-        findPreference(getString(R.string.BUILD_VERSION)).setIcon(new IconicsDrawable(getContext(), CommunityMaterial.Icon.cmd_leaf).colorRes(color).sizeDp(Const.NAV_DRAWER_ICON_SIZE));
+        findPreference(getString(R.string.RATE_APP)).setIcon(new IconicsDrawable(getContext(), GoogleMaterial.Icon.gmd_star)
+                .colorRes(color).sizeDp(Const.NAV_DRAWER_ICON_SIZE));
+        findPreference(getString(R.string.SHARE_APP)).setIcon(new IconicsDrawable(getContext(), GoogleMaterial.Icon
+                .gmd_tag_faces).colorRes(color).sizeDp(Const.NAV_DRAWER_ICON_SIZE));
+        findPreference(getString(R.string.LICENSE)).setIcon(new IconicsDrawable(getContext(), CommunityMaterial.Icon
+                .cmd_github_circle).colorRes(color).sizeDp(Const.NAV_DRAWER_ICON_SIZE));
+        findPreference(getString(R.string.SHOW_APP_INTRO_AGAIN)).setIcon(new IconicsDrawable(getContext(), GoogleMaterial.Icon
+                .gmd_info_outline).colorRes(color).sizeDp(Const.NAV_DRAWER_ICON_SIZE));
+        findPreference(getString(R.string.BUILD_VERSION)).setIcon(new IconicsDrawable(getContext(), CommunityMaterial.Icon
+                .cmd_leaf).colorRes(color).sizeDp(Const.NAV_DRAWER_ICON_SIZE));
     }
 
 
@@ -281,7 +283,7 @@ public class FragmentSettings
 
         Preference p = findPreference(getString(R.string.UNITS_CELSIUS));
         p.setSummary(getString(AesPrefs.getBooleanRes(R.string.UNITS_CELSIUS, true) ? R.string._unit_celsius
-                                                                                    : R.string._unit_fahrenheit));
+                : R.string._unit_fahrenheit));
     }
 
 
@@ -290,7 +292,7 @@ public class FragmentSettings
      */
     private void onRate() {
         UsabilityUtils.launchAppStore(getActivity(), "com.pepperonas.m104");
-        doAnalyticsOnAction("onRate");
+        //        doAnalyticsOnAction("onRate");
     }
 
 
@@ -299,7 +301,7 @@ public class FragmentSettings
      */
     private void onShare() {
         UsabilityUtils.launchShareAppIntent(getActivity(), "com.pepperonas.m104", getString(R.string.share_app_intro_text));
-        doAnalyticsOnAction("onShare");
+        //        doAnalyticsOnAction("onShare");
     }
 
 
@@ -336,7 +338,8 @@ public class FragmentSettings
             ((MainActivity) getActivity()).sendBroadcastRequestBatteryInfo();
         }
 
-        NotificationManager notificationManager = (NotificationManager) getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationManager notificationManager = (NotificationManager) getActivity().getSystemService(Context
+                .NOTIFICATION_SERVICE);
         switch (which) {
             case R.string.SHOW_BATTERY_NOTIFICATION: {
                 if (isChecked) {
@@ -363,57 +366,63 @@ public class FragmentSettings
     }
 
 
-    /**
-     * Init analytics.
-     */
-    private void initAnalytics() {
-        if (!AesPrefs.getBooleanRes(R.string.IS_ANALYTICS, true)) return;
-
-        App application = (App) getActivity().getApplication();
-        mTracker = application.getDefaultTracker();
-        if (mTracker != null) {
-            mTracker.setScreenName("FragmentSettings");
-            mTracker.send(new HitBuilders.ScreenViewBuilder().build());
-        }
-    }
-
-
-    /**
-     * Do analytics on action.
-     *
-     * @param action the action
-     */
-    private void doAnalyticsOnAction(String action) {
-        if (!AesPrefs.getBooleanRes(R.string.IS_ANALYTICS, true) || mTracker == null) return;
-
-        mTracker.send(new HitBuilders.EventBuilder()
-                              .setCategory("Action")
-                              .setCustomDimension(Analyst.ANDROID_ID, SystemUtils.getAndroidId())
-                              .setAction(action)
-                              .build());
-    }
+    //    /**
+    //     * Init analytics.
+    //     */
+    //    private void initAnalytics() {
+    //        if (!AesPrefs.getBooleanRes(R.string.IS_ANALYTICS, true)) return;
+    //
+    //        App application = (App) getActivity().getApplication();
+    //        mTracker = application.getDefaultTracker();
+    //        if (mTracker != null) {
+    //            mTracker.setScreenName("FragmentSettings");
+    //            mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+    //        }
+    //    }
 
 
-    /**
-     * Do analytics on lifecycle.
-     *
-     * @param method the method
-     */
-    private void doAnalyticsOnLifecycle(String method) {
-        if (!AesPrefs.getBooleanRes(R.string.IS_ANALYTICS, true) || mTracker == null) return;
-
-        mTracker.send(new HitBuilders.EventBuilder()
-                              .setCategory("Lifecycle")
-                              .setLabel(method)
-                              .setCustomDimension(Analyst.PREMIUM, String.valueOf(AesPrefs.getBooleanRes(R.string.IS_PREMIUM, false)))
-                              .setCustomDimension(Analyst.BATTERY_NOTIFICATION, String.valueOf(AesPrefs.getBooleanRes(R.string.SHOW_BATTERY_NOTIFICATION, false)))
-                              .setCustomDimension(Analyst.NETWORK_NOTIFICATION, String.valueOf(AesPrefs.getBooleanRes(R.string.SHOW_NETWORK_NOTIFICATION, false)))
-                              .setCustomDimension(Analyst.CLIPBOARD_NOTIFICATION, String.valueOf(AesPrefs.getBooleanRes(R.string.SHOW_CLIPBOARD_NOTIFICATION, false)))
-                              .setCustomDimension(Analyst.AUTO_START, String.valueOf(AesPrefs.getBooleanRes(R.string.IS_AUTO_START, false)))
-                              .setCustomDimension(Analyst.TOUCH_TWICE, String.valueOf(AesPrefs.getBooleanRes(R.string.TOUCH_TWICE_TO_EXIT, false)))
-                              .setCustomDimension(Analyst.ENCRYPT_CLIPBOARD, String.valueOf(AesPrefs.getBooleanRes(R.string.ENCRYPT_CLIPBOARD, false)))
-                              .build());
-    }
+    //    /**
+    //     * Do analytics on action.
+    //     *
+    //     * @param action the action
+    //     */
+    //    private void doAnalyticsOnAction(String action) {
+    //        if (!AesPrefs.getBooleanRes(R.string.IS_ANALYTICS, true) || mTracker == null) return;
+    //
+    //        mTracker.send(new HitBuilders.EventBuilder()
+    //                .setCategory("Action")
+    //                .setCustomDimension(Analyst.ANDROID_ID, SystemUtils.getAndroidId())
+    //                .setAction(action)
+    //                .build());
+    //    }
+    //
+    //
+    //    /**
+    //     * Do analytics on lifecycle.
+    //     *
+    //     * @param method the method
+    //     */
+    //    private void doAnalyticsOnLifecycle(String method) {
+    //        if (!AesPrefs.getBooleanRes(R.string.IS_ANALYTICS, true) || mTracker == null) return;
+    //
+    //        mTracker.send(new HitBuilders.EventBuilder()
+    //                .setCategory("Lifecycle")
+    //                .setLabel(method)
+    //                .setCustomDimension(Analyst.PREMIUM, String.valueOf(AesPrefs.getBooleanRes(R.string.IS_PREMIUM, false)))
+    //                .setCustomDimension(Analyst.BATTERY_NOTIFICATION, String.valueOf(AesPrefs.getBooleanRes(R.string
+    //                        .SHOW_BATTERY_NOTIFICATION, false)))
+    //                .setCustomDimension(Analyst.NETWORK_NOTIFICATION, String.valueOf(AesPrefs.getBooleanRes(R.string
+    //                        .SHOW_NETWORK_NOTIFICATION, false)))
+    //                .setCustomDimension(Analyst.CLIPBOARD_NOTIFICATION, String.valueOf(AesPrefs.getBooleanRes(R.string
+    //                        .SHOW_CLIPBOARD_NOTIFICATION, false)))
+    //                .setCustomDimension(Analyst.AUTO_START, String.valueOf(AesPrefs.getBooleanRes(R.string.IS_AUTO_START,
+    // false)))
+    //                .setCustomDimension(Analyst.TOUCH_TWICE, String.valueOf(AesPrefs.getBooleanRes(R.string.TOUCH_TWICE_TO_EXIT,
+    //                        false)))
+    //                .setCustomDimension(Analyst.ENCRYPT_CLIPBOARD, String.valueOf(AesPrefs.getBooleanRes(R.string
+    //                        .ENCRYPT_CLIPBOARD, false)))
+    //                .build());
+    //    }
 
 }
 

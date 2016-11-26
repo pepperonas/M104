@@ -33,7 +33,7 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.LargeValueFormatter;
 import com.github.mikephil.charting.formatter.PercentFormatter;
-import com.pepperonas.aesprefs.AesPrefs;
+import com.pepperonas.aespreferences.AesPrefs;
 import com.pepperonas.andbasx.format.TimeFormatUtilsLocalized;
 import com.pepperonas.jbasx.format.TimeFormatUtils;
 import com.pepperonas.m104.R;

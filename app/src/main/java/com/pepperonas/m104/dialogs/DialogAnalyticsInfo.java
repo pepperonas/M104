@@ -19,7 +19,7 @@ package com.pepperonas.m104.dialogs;
 import android.content.Context;
 import android.preference.CheckBoxPreference;
 
-import com.pepperonas.aesprefs.AesPrefs;
+import com.pepperonas.aespreferences.AesPrefs;
 import com.pepperonas.m104.R;
 import com.pepperonas.materialdialog.MaterialDialog;
 

@@ -29,9 +29,7 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 
-import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Tracker;
-import com.pepperonas.aesprefs.AesPrefs;
+import com.pepperonas.aespreferences.AesPrefs;
 import com.pepperonas.andbasx.system.NetworkUtils;
 import com.pepperonas.andbasx.system.SystemUtils;
 import com.pepperonas.jbasx.log.Log;
@@ -47,6 +45,7 @@ import com.pepperonas.m104.notification.NotificationBattery;
 import com.pepperonas.m104.notification.NotificationClipboard;
 import com.pepperonas.m104.notification.NotificationNetwork;
 import com.pepperonas.m104.utils.Calculations;
+
 
 /**
  * @author Martin Pfeffer (pepperonas)
@@ -100,7 +99,7 @@ public class MainService extends Service {
     private final Handler mHandler = new Handler();
     private boolean mNetworkCheckerRunning = false;
 
-    private Tracker mTracker;
+    //    private Tracker mTracker;
 
     private boolean mIsScreenOn = true;
 
@@ -199,7 +198,7 @@ public class MainService extends Service {
 
             long timeDiff = System.currentTimeMillis() - AesPrefs.getLongResNoLog(R.string.LAST_CHARGED_STAMP, -1);
             if (timeDiff <= 0
-                || lvlDiff <= 0) {
+                    || lvlDiff <= 0) {
                 Log.w(TAG, "estimateOnDischarging " + "MAD VALUES! Return...");
                 return;
             }
@@ -217,7 +216,7 @@ public class MainService extends Service {
 
             long timeDiff = System.currentTimeMillis() - AesPrefs.getLongRes(R.string.LAST_DISCHARGED_STAMP, -1);
             if (timeDiff <= 0
-                || lvlDiff <= 0) {
+                    || lvlDiff <= 0) {
                 Log.w(TAG, "estimateOnCharging " + "MAD VALUES! Return...");
                 return;
             }
@@ -360,8 +359,10 @@ public class MainService extends Service {
 
         Log.d(TAG, "trackOnScreenOn screen was off for " + screenOff / 1000 + " s.");
 
-        AesPrefs.putLongRes(R.string.CYCLIC_SCREEN_OFF_VALUE, AesPrefs.getLongResNoLog(R.string.CYCLIC_SCREEN_OFF_VALUE, 0) + screenOff);
-        AesPrefs.putLongRes(R.string.GLOBAL_SCREEN_OFF_VALUE, AesPrefs.getLongResNoLog(R.string.GLOBAL_SCREEN_OFF_VALUE, 0) + screenOff);
+        AesPrefs.putLongRes(R.string.CYCLIC_SCREEN_OFF_VALUE, AesPrefs.getLongResNoLog(R.string.CYCLIC_SCREEN_OFF_VALUE, 0) +
+                screenOff);
+        AesPrefs.putLongRes(R.string.GLOBAL_SCREEN_OFF_VALUE, AesPrefs.getLongResNoLog(R.string.GLOBAL_SCREEN_OFF_VALUE, 0) +
+                screenOff);
 
         AesPrefs.putLongRes(R.string.SCREEN_TRACKER_ON, System.currentTimeMillis());
 
@@ -396,8 +397,10 @@ public class MainService extends Service {
 
         Log.d(TAG, "trackOnScreenOff screen was on for " + screenOn / 1000 + " s.");
 
-        AesPrefs.putLongRes(R.string.CYCLIC_SCREEN_ON_VALUE, AesPrefs.getLongResNoLog(R.string.CYCLIC_SCREEN_ON_VALUE, 0) + screenOn);
-        AesPrefs.putLongRes(R.string.GLOBAL_SCREEN_ON_VALUE, AesPrefs.getLongResNoLog(R.string.GLOBAL_SCREEN_ON_VALUE, 0) + screenOn);
+        AesPrefs.putLongRes(R.string.CYCLIC_SCREEN_ON_VALUE, AesPrefs.getLongResNoLog(R.string.CYCLIC_SCREEN_ON_VALUE, 0) +
+                screenOn);
+        AesPrefs.putLongRes(R.string.GLOBAL_SCREEN_ON_VALUE, AesPrefs.getLongResNoLog(R.string.GLOBAL_SCREEN_ON_VALUE, 0) +
+                screenOn);
 
         AesPrefs.putLongRes(R.string.SCREEN_TRACKER_OFF, System.currentTimeMillis());
     }
@@ -432,7 +435,8 @@ public class MainService extends Service {
         @Override
         public void run() {
 
-            int uprateInSeconds = AesPrefs.getIntResNoLog(R.string.CONNECTION_MEASUREMENT_INTERVAL, Const.DEFAULT_NWK_RECORD_INTERVAL);
+            int uprateInSeconds = AesPrefs.getIntResNoLog(R.string.CONNECTION_MEASUREMENT_INTERVAL, Const
+                    .DEFAULT_NWK_RECORD_INTERVAL);
 
             // get the difference to get the current speed
             long rx_ivl = (long) ((TrafficStats.getTotalRxBytes() - mTmpLastRx) / (float) uprateInSeconds);
@@ -511,7 +515,7 @@ public class MainService extends Service {
 
         startRepeatingTask();
 
-        initAnalytics();
+        //        initAnalytics();
     }
 
 
@@ -531,7 +535,7 @@ public class MainService extends Service {
         //            Log.e(TAG, "onDestroy: Unregister receivers.");
         //        }
 
-        doAnalyticsOnLifecycle("onDestroy");
+        //        doAnalyticsOnLifecycle("onDestroy");
 
         super.onDestroy();
     }
@@ -647,24 +651,24 @@ public class MainService extends Service {
     }
 
 
-    private void initAnalytics() {
-        if (!AesPrefs.getBooleanRes(R.string.IS_ANALYTICS, true)) return;
+    //    private void initAnalytics() {
+    //        if (!AesPrefs.getBooleanRes(R.string.IS_ANALYTICS, true)) return;
+    //
+    //        App application = (App) getApplication();
+    //        mTracker = application.getDefaultTracker();
+    //        if (mTracker != null) {
+    //            mTracker.send(new HitBuilders.EventBuilder("Service", "start").setLabel("onCreate").build());
+    //        }
+    //    }
 
-        App application = (App) getApplication();
-        mTracker = application.getDefaultTracker();
-        if (mTracker != null) {
-            mTracker.send(new HitBuilders.EventBuilder("Service", "start").setLabel("onCreate").build());
-        }
-    }
 
-
-    private void doAnalyticsOnLifecycle(String method) {
-        if (!AesPrefs.getBooleanRes(R.string.IS_ANALYTICS, true) || mTracker == null) return;
-
-        mTracker.send(new HitBuilders.EventBuilder()
-                              .setCategory("Service")
-                              .setLabel(method).build());
-    }
+    //    private void doAnalyticsOnLifecycle(String method) {
+    //        if (!AesPrefs.getBooleanRes(R.string.IS_ANALYTICS, true) || mTracker == null) return;
+    //
+    //        mTracker.send(new HitBuilders.EventBuilder()
+    //                .setCategory("Service")
+    //                .setLabel(method).build());
+    //    }
 
 }
 

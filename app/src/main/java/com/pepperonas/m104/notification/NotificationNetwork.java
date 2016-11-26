@@ -31,7 +31,7 @@ import android.widget.RemoteViews;
 
 import com.mikepenz.iconics.IconicsDrawable;
 import com.mikepenz.octicons_typeface_library.Octicons;
-import com.pepperonas.aesprefs.AesPrefs;
+import com.pepperonas.aespreferences.AesPrefs;
 import com.pepperonas.andbasx.AndBasx;
 import com.pepperonas.andbasx.base.DrawableUtils;
 import com.pepperonas.andbasx.system.DeviceUtils;

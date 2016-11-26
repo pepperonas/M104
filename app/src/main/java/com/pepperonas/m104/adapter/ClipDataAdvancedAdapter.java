@@ -25,7 +25,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.pepperonas.aesprefs.AesPrefs;
+import com.pepperonas.aespreferences.AesPrefs;
 import com.pepperonas.andbasx.base.ClipboardUtils;
 import com.pepperonas.andbasx.base.ToastUtils;
 import com.pepperonas.m104.R;
@@ -81,7 +81,7 @@ public class ClipDataAdvancedAdapter extends RecyclerView.Adapter<ClipDataAdvanc
             @Override
             public void onClick(View v) {
                 if (AesPrefs.getRes(R.string.ENCRYPTION_PASSWORD, "").equals("")
-                    || AesPrefs.getLongRes(R.string.LOGOUT_TIME, 0) > System.currentTimeMillis()) {
+                        || AesPrefs.getLongRes(R.string.LOGOUT_TIME, 0) > System.currentTimeMillis()) {
                     //                    mDb.deleteClipData(mClips.get(pos).getTimestamp());
                     mDb.deleteClipData(mClips.get(pos).getClipText());
                     ClipboardUtils.setClipboard(mClips.get(pos).getClipText());

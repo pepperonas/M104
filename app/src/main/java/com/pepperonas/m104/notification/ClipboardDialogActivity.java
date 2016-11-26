@@ -35,7 +35,7 @@ import android.widget.TextView;
 
 import com.mikepenz.community_material_typeface_library.CommunityMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
-import com.pepperonas.aesprefs.AesPrefs;
+import com.pepperonas.aespreferences.AesPrefs;
 import com.pepperonas.andbasx.animation.FadeAnimation;
 import com.pepperonas.andbasx.base.ToastUtils;
 import com.pepperonas.andbasx.concurrency.ThreadUtils;

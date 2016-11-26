@@ -16,7 +16,7 @@
 
 package com.pepperonas.m104.utils;
 
-import com.pepperonas.aesprefs.AesPrefs;
+import com.pepperonas.aespreferences.AesPrefs;
 import com.pepperonas.m104.R;
 
 /**

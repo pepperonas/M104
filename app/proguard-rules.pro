@@ -22,6 +22,8 @@
 -dontwarn com.pepperonas.jbasx.**
 -keep class com.pepperonas.andbasx.** { *; }
 -dontwarn com.pepperonas.andbasx.**
+-keep class com.pepperonas.aespreferences.** { *; }
+-dontwarn com.pepperonas.aespreferences.**
 
 -assumenosideeffects class android.util.Log {
     public static int d(...);

@@ -19,7 +19,7 @@ package com.pepperonas.m104.utils;
 import android.content.Context;
 import android.os.BatteryManager;
 
-import com.pepperonas.aesprefs.AesPrefs;
+import com.pepperonas.aespreferences.AesPrefs;
 import com.pepperonas.andbasx.base.Loader;
 import com.pepperonas.andbasx.system.DeviceUtils;
 import com.pepperonas.jbasx.math.ConvertUtils;

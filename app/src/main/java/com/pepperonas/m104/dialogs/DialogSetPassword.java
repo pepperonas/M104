@@ -20,7 +20,7 @@ import android.content.Context;
 import android.preference.CheckBoxPreference;
 import android.widget.EditText;
 
-import com.pepperonas.aesprefs.AesPrefs;
+import com.pepperonas.aespreferences.AesPrefs;
 import com.pepperonas.andbasx.base.ToastUtils;
 import com.pepperonas.jbasx.base.TextUtils;
 import com.pepperonas.m104.R;
