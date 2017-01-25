@@ -43,6 +43,11 @@ public class DialogChangelog {
     public List<Changelog> getChangelogs() {
         List<Changelog> changelogs = new ArrayList<>();
 
+        changelogs.add(new Changelog("0.2.7", "2017-01-26", new ReleaseInfo(
+                "Updated support libraries (25.1.0)",
+                "Updated Play Services (10.0.1)"
+        )));
+
         changelogs.add(new Changelog("0.2.6", "2016-07-24", new ReleaseInfo(
                 "Supported Android Nougat",
                 "Updated support libraries (23.4.0)",
