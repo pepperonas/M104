@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Martin Pfeffer
+ * Copyright (c) 2017 Martin Pfeffer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -42,6 +42,15 @@ public class DialogChangelog {
 
     public List<Changelog> getChangelogs() {
         List<Changelog> changelogs = new ArrayList<>();
+
+        changelogs.add(new Changelog("0.2.8", "2017-02-19", new ReleaseInfo(
+                "Updated SDK tools (25.0.1)",
+                "Updated support libraries (25.1.1)",
+                "Updated andbasx (0.2.6)",
+                "Updated material dialog libraries (0.2.5)",
+                "Updated app-registry (0.1.0)",
+                "Updated aes-preferences (0.0.6)"
+        )));
 
         changelogs.add(new Changelog("0.2.7", "2017-01-26", new ReleaseInfo(
                 "Updated support libraries (25.1.0)",
