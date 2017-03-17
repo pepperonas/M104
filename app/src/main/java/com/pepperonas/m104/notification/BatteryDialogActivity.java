@@ -59,23 +59,33 @@ public class BatteryDialogActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        /**
-         *  init dialog
-         * */
-        DisplayMetrics metrics = getResources().getDisplayMetrics();
-        int screenWidth = (int) (metrics.widthPixels * Const.RELATIVE_DIALOG_WIDTH);
+        try {
 
-        setContentView(R.layout.activity_dialog_battery);
+            /**
+             *  init dialog
+             * */
+            DisplayMetrics metrics = getResources().getDisplayMetrics();
+            int screenWidth = (int) (metrics.widthPixels * Const.RELATIVE_DIALOG_WIDTH);
 
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
-        WindowManager.LayoutParams layoutParams = getWindow().getAttributes();
-        layoutParams.dimAmount = Const.DIALOG_DIM_AMOUNT;
-        getWindow().setAttributes(layoutParams);
-        getWindow().setLayout(screenWidth, LinearLayout.LayoutParams.WRAP_CONTENT);
+            setContentView(R.layout.activity_dialog_battery);
+
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+            WindowManager.LayoutParams layoutParams = getWindow().getAttributes();
+            layoutParams.dimAmount = Const.DIALOG_DIM_AMOUNT;
+            getWindow().setAttributes(layoutParams);
+            getWindow().setLayout(screenWidth, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         mDb = new Database(this);
 
-        loadChart();
+        try {
+            loadChart();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         getWindow().getDecorView().setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -95,12 +105,13 @@ public class BatteryDialogActivity extends AppCompatActivity {
     }
 
 
-    private void loadChart() {
+    private void loadChart() throws Exception {
         /**
          *  load battery stats from database
          * */
         final List<BatteryStat> btyStats = mDb.getBatteryStatsByDate(
-                Calculations.getHours(AesPrefs.getIntRes(R.string.DIALOG_CHART_HISTORY_HOURS, Const.DEFAULT_RANGE_IN_HOURS)));
+                Calculations.getHours(AesPrefs.getIntRes(R.string.DIALOG_CHART_HISTORY_HOURS,
+                        Const.DEFAULT_RANGE_IN_HOURS)));
 
         /**
          *  calculate time variables
@@ -115,13 +126,18 @@ public class BatteryDialogActivity extends AppCompatActivity {
          * */
         TextView tvHeader = (TextView) findViewById(R.id.tv_header);
         int hours;
-        if (diff < (AesPrefs.getIntRes(R.string.DIALOG_CHART_HISTORY_HOURS, Const.DEFAULT_RANGE_IN_HOURS) * 1000 * 60 * 60)) {
+        if (diff < (AesPrefs.getIntRes(R.string.DIALOG_CHART_HISTORY_HOURS, Const
+                .DEFAULT_RANGE_IN_HOURS) * 1000 * 60 * 60)) {
             hours = (int) (diff / 1000) / 3600;
-        } else hours = AesPrefs.getIntRes(R.string.DIALOG_CHART_HISTORY_HOURS, Const.DEFAULT_RANGE_IN_HOURS);
+        } else
+            hours = AesPrefs.getIntRes(R.string.DIALOG_CHART_HISTORY_HOURS, Const
+                    .DEFAULT_RANGE_IN_HOURS);
         if (hours == 0 || hours == 1) {
             tvHeader.setText(getString(R.string.last_hour));
-        } else tvHeader.setText(MessageFormat.format("{0} {1} {2}", getString(R.string.dialog_chart_header),
-                                                     hours, getString(R.string.hours)));
+        } else
+            tvHeader.setText(MessageFormat.format("{0} {1} {2}", getString(R.string
+                            .dialog_chart_header),
+                    hours, getString(R.string.hours)));
 
         List<Entry> valuesLvl = new ArrayList<>();
         List<Entry> valuesTemperature = new ArrayList<>();
@@ -143,15 +159,18 @@ public class BatteryDialogActivity extends AppCompatActivity {
 
             valuesLvl.add(new Entry(btyStats.get(i).getLevel(), relativeX));
             valuesTemperature.add(new Entry(btyStats.get(i).getTemperature(), relativeX));
-            valuesScreenState.add(new Entry((btyStats.get(i).isScreenOn() ? 100000f : -100f), relativeX));
+            valuesScreenState.add(new Entry((btyStats.get(i).isScreenOn() ? 100000f : -100f),
+                    relativeX));
 
-            xVals.add(TimeFormatUtilsLocalized.formatTime(btyStats.get(i).getStamp(), TimeFormatUtils.DEFAULT_FORMAT_MD_HM));
+            xVals.add(TimeFormatUtilsLocalized.formatTime(btyStats.get(i).getStamp(),
+                    TimeFormatUtils.DEFAULT_FORMAT_MD_HM));
         }
 
         /**
          *  Level
          * */
-        LineDataSet lineDataSetLvl = new LineDataSet(valuesLvl, getString(R.string.chart_legend_level));
+        LineDataSet lineDataSetLvl = new LineDataSet(valuesLvl, getString(R.string
+                .chart_legend_level));
         lineDataSetLvl.setAxisDependency(YAxis.AxisDependency.LEFT);
         lineDataSetLvl.setLineWidth(2f);
         lineDataSetLvl.setDrawCircles(false);
@@ -161,7 +180,8 @@ public class BatteryDialogActivity extends AppCompatActivity {
         /**
          *  Screen state
          * */
-        LineDataSet lineDataSetScreenState = new LineDataSet(valuesScreenState, getString(R.string.chart_legend_screen_state));
+        LineDataSet lineDataSetScreenState = new LineDataSet(valuesScreenState, getString(R
+                .string.chart_legend_screen_state));
         lineDataSetScreenState.setAxisDependency(YAxis.AxisDependency.LEFT);
         lineDataSetScreenState.setLineWidth(0f);
         lineDataSetScreenState.setDrawCircles(false);
@@ -173,7 +193,8 @@ public class BatteryDialogActivity extends AppCompatActivity {
         /**
          * Temperature
          * */
-        LineDataSet lineDataSetTemperature = new LineDataSet(valuesTemperature, getString(R.string.chart_legend_temperature));
+        LineDataSet lineDataSetTemperature = new LineDataSet(valuesTemperature, getString(R
+                .string.chart_legend_temperature));
         lineDataSetTemperature.setAxisDependency(YAxis.AxisDependency.RIGHT);
         lineDataSetTemperature.setLineWidth(2f);
         lineDataSetTemperature.setDrawCircles(false);

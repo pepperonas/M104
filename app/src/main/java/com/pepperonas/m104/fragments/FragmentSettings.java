@@ -43,7 +43,9 @@ import com.pepperonas.m104.dialogs.DialogDecryptDatabase;
 import com.pepperonas.m104.dialogs.DialogDeleteDatabase;
 import com.pepperonas.m104.dialogs.DialogLicense;
 import com.pepperonas.m104.dialogs.DialogSetPassword;
-import com.pepperonas.m104.model.NotificationOrder;
+import com.pepperonas.m104.notification.NotificationBattery;
+import com.pepperonas.m104.notification.NotificationClipboard;
+import com.pepperonas.m104.notification.NotificationNetwork;
 import com.pepperonas.materialdialog.MaterialDialog;
 
 import java.util.concurrent.Callable;
@@ -136,7 +138,8 @@ public class FragmentSettings
             ThreadUtils.runDelayed(3000, new Callable<Void>() {
                 @Override
                 public Void call() throws Exception {
-                    CheckBoxPreference cbxP = ((CheckBoxPreference) findPreference(getString(R.string.IS_ROOT_MODE)));
+                    CheckBoxPreference cbxP = ((CheckBoxPreference) findPreference(getString(R
+                            .string.IS_ROOT_MODE)));
                     AesPrefs.putBooleanRes(R.string.IS_ROOT_MODE, cbxP.isChecked());
                     ensureRootMode();
                     if (cbxP.isChecked()) {
@@ -149,15 +152,18 @@ public class FragmentSettings
             cbxP = (CheckBoxPreference) findPreference(getString(R.string.IS_AUTO_START));
             AesPrefs.putBooleanRes(R.string.IS_AUTO_START, cbxP.isChecked());
         } else if (preference.getKey().equals(getString(R.string.SHOW_BATTERY_NOTIFICATION))) {
-            cbxP = (CheckBoxPreference) findPreference(getString(R.string.SHOW_BATTERY_NOTIFICATION));
+            cbxP = (CheckBoxPreference) findPreference(getString(R.string
+                    .SHOW_BATTERY_NOTIFICATION));
             AesPrefs.putBooleanRes(R.string.SHOW_BATTERY_NOTIFICATION, cbxP.isChecked());
             applyNotificationState(R.string.SHOW_BATTERY_NOTIFICATION, cbxP.isChecked());
         } else if (preference.getKey().equals(getString(R.string.SHOW_NETWORK_NOTIFICATION))) {
-            cbxP = (CheckBoxPreference) findPreference(getString(R.string.SHOW_NETWORK_NOTIFICATION));
+            cbxP = (CheckBoxPreference) findPreference(getString(R.string
+                    .SHOW_NETWORK_NOTIFICATION));
             AesPrefs.putBooleanRes(R.string.SHOW_NETWORK_NOTIFICATION, cbxP.isChecked());
             applyNotificationState(R.string.SHOW_NETWORK_NOTIFICATION, cbxP.isChecked());
         } else if (preference.getKey().equals(getString(R.string.SHOW_CLIPBOARD_NOTIFICATION))) {
-            cbxP = (CheckBoxPreference) findPreference(getString(R.string.SHOW_CLIPBOARD_NOTIFICATION));
+            cbxP = (CheckBoxPreference) findPreference(getString(R.string
+                    .SHOW_CLIPBOARD_NOTIFICATION));
             AesPrefs.putBooleanRes(R.string.SHOW_CLIPBOARD_NOTIFICATION, cbxP.isChecked());
             applyNotificationState(R.string.SHOW_CLIPBOARD_NOTIFICATION, cbxP.isChecked());
         } else if (preference.getKey().equals(getString(R.string.TOUCH_TWICE_TO_EXIT))) {
@@ -189,7 +195,8 @@ public class FragmentSettings
         } else if (preference.getKey().equals(getString(R.string.UNITS_CELSIUS))) {
             new MaterialDialog.Builder(getContext())
                     .title(R.string.pref_title_temperature_unit)
-                    .listItemsSingleSelection(true, getString(R.string.celsius), getString(R.string.fahrenheit))
+                    .listItemsSingleSelection(true, getString(R.string.celsius), getString(R
+                            .string.fahrenheit))
                     .selection(AesPrefs.getBooleanRes(R.string.UNITS_CELSIUS, true) ? 0 : 1)
                     .itemClickListener(new MaterialDialog.ItemClickListener() {
                         @Override
@@ -197,7 +204,8 @@ public class FragmentSettings
                             super.onClick(v, position, id);
                             AesPrefs.putBooleanRes(R.string.UNITS_CELSIUS, position == 0);
                             findPreference(getString(R.string.UNITS_CELSIUS))
-                                    .setSummary(getString(AesPrefs.getBooleanRes(R.string.UNITS_CELSIUS, true) ? R.string
+                                    .setSummary(getString(AesPrefs.getBooleanRes(R.string
+                                            .UNITS_CELSIUS, true) ? R.string
                                             ._unit_celsius : R.string._unit_fahrenheit));
                         }
                     })
@@ -229,15 +237,20 @@ public class FragmentSettings
      */
     private void addPrefIcons() {
         int color = R.color.sa_teal;
-        findPreference(getString(R.string.RATE_APP)).setIcon(new IconicsDrawable(getContext(), GoogleMaterial.Icon.gmd_star)
+        findPreference(getString(R.string.RATE_APP)).setIcon(new IconicsDrawable(getContext(),
+                GoogleMaterial.Icon.gmd_star)
                 .colorRes(color).sizeDp(Const.NAV_DRAWER_ICON_SIZE));
-        findPreference(getString(R.string.SHARE_APP)).setIcon(new IconicsDrawable(getContext(), GoogleMaterial.Icon
-                .gmd_tag_faces).colorRes(color).sizeDp(Const.NAV_DRAWER_ICON_SIZE));
-        findPreference(getString(R.string.LICENSE)).setIcon(new IconicsDrawable(getContext(), CommunityMaterial.Icon
-                .cmd_github_circle).colorRes(color).sizeDp(Const.NAV_DRAWER_ICON_SIZE));
-        findPreference(getString(R.string.SHOW_APP_INTRO_AGAIN)).setIcon(new IconicsDrawable(getContext(), GoogleMaterial.Icon
-                .gmd_info_outline).colorRes(color).sizeDp(Const.NAV_DRAWER_ICON_SIZE));
-        findPreference(getString(R.string.BUILD_VERSION)).setIcon(new IconicsDrawable(getContext(), CommunityMaterial.Icon
+        findPreference(getString(R.string.SHARE_APP)).setIcon(new IconicsDrawable(getContext(),
+                GoogleMaterial.Icon
+                        .gmd_tag_faces).colorRes(color).sizeDp(Const.NAV_DRAWER_ICON_SIZE));
+        findPreference(getString(R.string.LICENSE)).setIcon(new IconicsDrawable(getContext(),
+                CommunityMaterial.Icon
+                        .cmd_github_circle).colorRes(color).sizeDp(Const.NAV_DRAWER_ICON_SIZE));
+        findPreference(getString(R.string.SHOW_APP_INTRO_AGAIN)).setIcon(new IconicsDrawable
+                (getContext(), GoogleMaterial.Icon
+                        .gmd_info_outline).colorRes(color).sizeDp(Const.NAV_DRAWER_ICON_SIZE));
+        findPreference(getString(R.string.BUILD_VERSION)).setIcon(new IconicsDrawable(getContext
+                (), CommunityMaterial.Icon
                 .cmd_leaf).colorRes(color).sizeDp(Const.NAV_DRAWER_ICON_SIZE));
     }
 
@@ -260,7 +273,8 @@ public class FragmentSettings
      * Update summaries.
      */
     private void updateSummaries() {
-        CheckBoxPreference chbP = (CheckBoxPreference) findPreference(getString(R.string.SHOW_BATTERY_NOTIFICATION));
+        CheckBoxPreference chbP = (CheckBoxPreference) findPreference(getString(R.string
+                .SHOW_BATTERY_NOTIFICATION));
         chbP.setChecked(AesPrefs.getBooleanRes(R.string.SHOW_BATTERY_NOTIFICATION, true));
 
         chbP = (CheckBoxPreference) findPreference(getString(R.string.SHOW_NETWORK_NOTIFICATION));
@@ -282,7 +296,8 @@ public class FragmentSettings
         chbP.setChecked(AesPrefs.getBooleanRes(R.string.IS_ANALYTICS, true));
 
         Preference p = findPreference(getString(R.string.UNITS_CELSIUS));
-        p.setSummary(getString(AesPrefs.getBooleanRes(R.string.UNITS_CELSIUS, true) ? R.string._unit_celsius
+        p.setSummary(getString(AesPrefs.getBooleanRes(R.string.UNITS_CELSIUS, true) ? R.string
+                ._unit_celsius
                 : R.string._unit_fahrenheit));
     }
 
@@ -300,7 +315,8 @@ public class FragmentSettings
      * On share.
      */
     private void onShare() {
-        UsabilityUtils.launchShareAppIntent(getActivity(), "com.pepperonas.m104", getString(R.string.share_app_intro_text));
+        UsabilityUtils.launchShareAppIntent(getActivity(), "com.pepperonas.m104", getString(R
+                .string.share_app_intro_text));
         //        doAnalyticsOnAction("onShare");
     }
 
@@ -313,9 +329,12 @@ public class FragmentSettings
     private void onClickEncryptDatabase(CheckBoxPreference cbxEncrypt) {
         if (cbxEncrypt.isChecked()) {
             if (AesPrefs.getRes(R.string.ENCRYPTION_PASSWORD, "").equals("")) {
-                new DialogSetPassword(getContext(), cbxEncrypt, ((MainActivity) getActivity()).getDatabase());
+                new DialogSetPassword(getContext(), cbxEncrypt, ((MainActivity) getActivity())
+                        .getDatabase());
             }
-        } else new DialogDecryptDatabase(getContext(), cbxEncrypt, ((MainActivity) getActivity()).getDatabase());
+        } else
+            new DialogDecryptDatabase(getContext(), cbxEncrypt, ((MainActivity) getActivity())
+                    .getDatabase());
     }
 
 
@@ -338,30 +357,29 @@ public class FragmentSettings
             ((MainActivity) getActivity()).sendBroadcastRequestBatteryInfo();
         }
 
-        NotificationManager notificationManager = (NotificationManager) getActivity().getSystemService(Context
-                .NOTIFICATION_SERVICE);
+        NotificationManager notificationManager = (NotificationManager) getActivity()
+                .getSystemService(Context
+                        .NOTIFICATION_SERVICE);
         switch (which) {
             case R.string.SHOW_BATTERY_NOTIFICATION: {
                 if (isChecked) {
-                    NotificationOrder.setNotificationBattery();
+                    NotificationBattery.updateSetWhen();
                 } else notificationManager.cancel(Const.NOTIFICATION_BATTERY);
                 break;
             }
             case R.string.SHOW_NETWORK_NOTIFICATION: {
                 if (isChecked) {
-                    NotificationOrder.setNotificationNetwork();
+                    NotificationNetwork.updateSetWhen();
                 } else notificationManager.cancel(Const.NOTIFICATION_NETWORK);
                 break;
             }
             case R.string.SHOW_CLIPBOARD_NOTIFICATION: {
                 if (isChecked) {
-                    NotificationOrder.setNotificationClipboard();
+                    NotificationClipboard.updateSetWhen();
                 } else notificationManager.cancel(Const.NOTIFICATION_CLIPBOARD);
                 break;
             }
         }
-
-        NotificationOrder.callOrderedUpdate();
 
     }
 
@@ -408,18 +426,25 @@ public class FragmentSettings
     //        mTracker.send(new HitBuilders.EventBuilder()
     //                .setCategory("Lifecycle")
     //                .setLabel(method)
-    //                .setCustomDimension(Analyst.PREMIUM, String.valueOf(AesPrefs.getBooleanRes(R.string.IS_PREMIUM, false)))
-    //                .setCustomDimension(Analyst.BATTERY_NOTIFICATION, String.valueOf(AesPrefs.getBooleanRes(R.string
+    //                .setCustomDimension(Analyst.PREMIUM, String.valueOf(AesPrefs.getBooleanRes
+    // (R.string.IS_PREMIUM, false)))
+    //                .setCustomDimension(Analyst.BATTERY_NOTIFICATION, String.valueOf(AesPrefs
+    // .getBooleanRes(R.string
     //                        .SHOW_BATTERY_NOTIFICATION, false)))
-    //                .setCustomDimension(Analyst.NETWORK_NOTIFICATION, String.valueOf(AesPrefs.getBooleanRes(R.string
+    //                .setCustomDimension(Analyst.NETWORK_NOTIFICATION, String.valueOf(AesPrefs
+    // .getBooleanRes(R.string
     //                        .SHOW_NETWORK_NOTIFICATION, false)))
-    //                .setCustomDimension(Analyst.CLIPBOARD_NOTIFICATION, String.valueOf(AesPrefs.getBooleanRes(R.string
+    //                .setCustomDimension(Analyst.CLIPBOARD_NOTIFICATION, String.valueOf(AesPrefs
+    // .getBooleanRes(R.string
     //                        .SHOW_CLIPBOARD_NOTIFICATION, false)))
-    //                .setCustomDimension(Analyst.AUTO_START, String.valueOf(AesPrefs.getBooleanRes(R.string.IS_AUTO_START,
+    //                .setCustomDimension(Analyst.AUTO_START, String.valueOf(AesPrefs
+    // .getBooleanRes(R.string.IS_AUTO_START,
     // false)))
-    //                .setCustomDimension(Analyst.TOUCH_TWICE, String.valueOf(AesPrefs.getBooleanRes(R.string.TOUCH_TWICE_TO_EXIT,
+    //                .setCustomDimension(Analyst.TOUCH_TWICE, String.valueOf(AesPrefs
+    // .getBooleanRes(R.string.TOUCH_TWICE_TO_EXIT,
     //                        false)))
-    //                .setCustomDimension(Analyst.ENCRYPT_CLIPBOARD, String.valueOf(AesPrefs.getBooleanRes(R.string
+    //                .setCustomDimension(Analyst.ENCRYPT_CLIPBOARD, String.valueOf(AesPrefs
+    // .getBooleanRes(R.string
     //                        .ENCRYPT_CLIPBOARD, false)))
     //                .build());
     //    }
