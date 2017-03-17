@@ -29,7 +29,8 @@ apply plugin: 'com.android.application'
 @SuppressWarnings("GroovyUnusedDeclaration")
 def getDate() {
     def date = new Date()
-    def formattedDate = date.format('_yyyy-MM-dd-hh-mm')
+    def dayOnly = true;
+    def formattedDate = date.format(dayOnly ? '_yyyy-MM-dd' : '_yyyy-MM-dd-hh-mm')
     return formattedDate
 }
 
@@ -49,20 +50,20 @@ android {
     }
     useLibrary 'org.apache.http.legacy'
     compileSdkVersion 25
-    buildToolsVersion '25.0.1'
+    buildToolsVersion '25.0.2'
     defaultConfig {
         multiDexEnabled true
         applicationId "com.pepperonas.m104"
         minSdkVersion 16
         targetSdkVersion 25
-        versionCode 29
-        versionName "0.2.9"
+        versionCode 30
+        versionName "0.3.0"
         project.ext.set("archivesBaseName", "m104");
     }
     buildTypes {
         release {
             minifyEnabled true
-            shrinkResources true
+            shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             applicationVariants.all { variant ->
                 variant.outputs.each { output ->

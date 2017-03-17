@@ -71,7 +71,8 @@ public class FragmentBatteryStats extends Fragment implements IBatteryInformer {
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle
+            savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_battery_stats, container, false);
         getActivity().setTitle(getString(R.string.menu_battery_stats));
         return v;
@@ -128,7 +129,8 @@ public class FragmentBatteryStats extends Fragment implements IBatteryInformer {
 
 
     @Override
-    public void onBatteryUpdate(Context ctx, boolean isCharging, int level, double temperature, int voltage, int plugged, int health, int status) {
+    public void onBatteryUpdate(Context ctx, boolean isCharging, int level, double temperature,
+                                int voltage, int plugged, int health, int status) {
 
         mTvHead.setText(StringFactory.makeRemainingInfo(ctx, level, isCharging));
         mTvStatus.setText(StringFactory.makeStatusInfo(ctx, status, plugged));
@@ -141,10 +143,14 @@ public class FragmentBatteryStats extends Fragment implements IBatteryInformer {
         mTvAbs_mAh.setText(StringFactory.makeAbsolute_mAhValueInfo(ctx, level));
         mTvHealth.setText(StringFactory.makeHealthInfo(ctx, health));
 
-        mTvScreenOnBoot.setText(StringFactory.formatRemaining(AesPrefs.getLongRes(R.string.CYCLIC_SCREEN_ON_VALUE, 0)));
-        mTvScreenOffBoot.setText(StringFactory.formatRemaining(AesPrefs.getLongRes(R.string.CYCLIC_SCREEN_OFF_VALUE, 0)));
-        mTvScreenOnGlob.setText(StringFactory.formatRemaining(AesPrefs.getLongRes(R.string.GLOBAL_SCREEN_ON_VALUE, 0)));
-        mTvScreenOffGlob.setText(StringFactory.formatRemaining(AesPrefs.getLongRes(R.string.GLOBAL_SCREEN_OFF_VALUE, 0)));
+        mTvScreenOnBoot.setText(StringFactory.formatRemaining(AesPrefs.getLongRes(R.string
+                .CYCLIC_SCREEN_ON_VALUE, 0)));
+        mTvScreenOffBoot.setText(StringFactory.formatRemaining(AesPrefs.getLongRes(R.string
+                .CYCLIC_SCREEN_OFF_VALUE, 0)));
+        mTvScreenOnGlob.setText(StringFactory.formatRemaining(AesPrefs.getLongRes(R.string
+                .GLOBAL_SCREEN_ON_VALUE, 0)));
+        mTvScreenOffGlob.setText(StringFactory.formatRemaining(AesPrefs.getLongRes(R.string
+                .GLOBAL_SCREEN_OFF_VALUE, 0)));
     }
 
 }

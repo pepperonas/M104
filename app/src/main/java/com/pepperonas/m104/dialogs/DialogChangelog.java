@@ -43,6 +43,11 @@ public class DialogChangelog {
     public List<Changelog> getChangelogs() {
         List<Changelog> changelogs = new ArrayList<>();
 
+        changelogs.add(new Changelog("0.3.0", "2017-03-17", new ReleaseInfo(
+                "Updated SDK tools (25.0.2)",
+                "Fixed missing battery indicator"
+        )));
+
         changelogs.add(new Changelog("0.2.9", "2017-03-17", new ReleaseInfo(
                 "Enabled shrink resources (-300 kB)",
                 "Improved stability and performance",
