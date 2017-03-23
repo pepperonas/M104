@@ -21,7 +21,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.view.View;
 import android.widget.TextView;
-
 import com.pepperonas.andbasx.system.SystemUtils;
 import com.pepperonas.m104.R;
 import com.pepperonas.materialdialog.MaterialDialog;
@@ -33,33 +32,27 @@ public class DialogAndroidId {
 
     public DialogAndroidId(final Context context) {
         new MaterialDialog.Builder(context)
-                .title(context.getString(R.string.dialog_android_id_title))
-                .message(context.getString(R.string.dialog_android_id_msg))
-                .customView(R.layout.dialog_android_id)
-                .showListener(new MaterialDialog.ShowListener() {
-                    @Override
-                    public void onShow(final AlertDialog dialog) {
-                        super.onShow(dialog);
-                        TextView tvAndroidId = (TextView) dialog.findViewById(R.id.tv_dialog_android_id_id_info);
-                        tvAndroidId.setText(SystemUtils.getAndroidId());
-                        tvAndroidId.setClickable(true);
-                        tvAndroidId.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                sendKey(context, SystemUtils.getAndroidId());
-                                dialog.dismiss();
-                            }
-                        });
-                    }
-                })
-                .dismissListener(new MaterialDialog.DismissListener() {
-                    @Override
-                    public void onDismiss() {
-                        super.onDismiss();
-                    }
-                })
-                .canceledOnTouchOutside(false)
-                .show();
+            .title(context.getString(R.string.dialog_android_id_title))
+            .message(context.getString(R.string.dialog_android_id_msg))
+            .customView(R.layout.dialog_android_id).showListener(new MaterialDialog.ShowListener() {
+            @Override
+            public void onShow(final AlertDialog dialog) {
+                super.onShow(dialog);
+                TextView tvAndroidId = (TextView) dialog
+                    .findViewById(R.id.tv_dialog_android_id_id_info);
+                tvAndroidId.setText(SystemUtils.getAndroidId());
+                tvAndroidId.setClickable(true);
+                tvAndroidId.setOnClickListener(v -> {
+                    sendKey(context, SystemUtils.getAndroidId());
+                    dialog.dismiss();
+                });
+            }
+        }).dismissListener(new MaterialDialog.DismissListener() {
+            @Override
+            public void onDismiss() {
+                super.onDismiss();
+            }
+        }).canceledOnTouchOutside(false).show();
     }
 
 

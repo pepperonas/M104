@@ -24,7 +24,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import com.github.paolorotolo.appintro.AppIntroFragment;
 import com.pepperonas.m104.R;
 
@@ -41,7 +40,8 @@ public class CustomAppIntroFragment extends AppIntroFragment {
     private static final String ARG_DESC_COLOR = "desc_color";
 
 
-    public static CustomAppIntroFragment newInstance(String title, String description, int imageDrawable, int bgColor) {
+    public static CustomAppIntroFragment newInstance(String title, String description,
+        int imageDrawable, int bgColor) {
         CustomAppIntroFragment sampleSlide = new CustomAppIntroFragment();
 
         Bundle args = new Bundle();
@@ -55,7 +55,8 @@ public class CustomAppIntroFragment extends AppIntroFragment {
     }
 
 
-    public static CustomAppIntroFragment newInstance(String title, String description, int imageDrawable, int bgColor, int titleColor, int descColor) {
+    public static CustomAppIntroFragment newInstance(String title, String description,
+        int imageDrawable, int bgColor, int titleColor, int descColor) {
         CustomAppIntroFragment sampleSlide = new CustomAppIntroFragment();
         Bundle args = new Bundle();
         args.putString(ARG_TITLE, title);
@@ -83,15 +84,20 @@ public class CustomAppIntroFragment extends AppIntroFragment {
             title = getArguments().getString(ARG_TITLE);
             description = getArguments().getString(ARG_DESC);
             bgColor = getArguments().getInt(ARG_BG_COLOR);
-            titleColor = getArguments().containsKey(ARG_TITLE_COLOR) ? getArguments().getInt(ARG_TITLE_COLOR) : 0;
-            descColor = getArguments().containsKey(ARG_DESC_COLOR) ? getArguments().getInt(ARG_DESC_COLOR) : 0;
+            titleColor =
+                getArguments().containsKey(ARG_TITLE_COLOR) ? getArguments().getInt(ARG_TITLE_COLOR)
+                    : 0;
+            descColor =
+                getArguments().containsKey(ARG_DESC_COLOR) ? getArguments().getInt(ARG_DESC_COLOR)
+                    : 0;
         }
     }
 
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
+        @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.custom_fragment_intro, container, false);
         TextView t = (TextView) v.findViewById(com.github.paolorotolo.appintro.R.id.title);
         TextView d = (TextView) v.findViewById(com.github.paolorotolo.appintro.R.id.description);

@@ -17,7 +17,6 @@
 package com.pepperonas.m104;
 
 import android.os.Bundle;
-
 import com.github.paolorotolo.appintro.AppIntro2;
 import com.pepperonas.aespreferences.AesPrefs;
 import com.pepperonas.andbasx.base.Loader;
@@ -28,32 +27,21 @@ public class AppIntroActivity extends AppIntro2 {
     @Override
     public void init(Bundle savedInstanceState) {
 
-        addSlide(CustomAppIntroFragment.newInstance(
-                getString(R.string.app_intro_title_clipboard),
-                getString(R.string.app_intro_description_clipboard),
-                R.drawable.intro_n6p_clipboard,
-                Loader.getColor(R.color.colorPrimary)));
+        addSlide(CustomAppIntroFragment.newInstance(getString(R.string.app_intro_title_clipboard),
+            getString(R.string.app_intro_description_clipboard), R.drawable.intro_n6p_clipboard,
+            Loader.getColor(R.color.colorPrimary)));
 
-        addSlide(CustomAppIntroFragment.newInstance(
-                getString(R.string.app_intro_title_body),
-                getString(R.string.app_intro_description_body),
-                R.drawable.intro_n6p_body,
-                Loader.getColor(R.color.colorPrimary))
-        );
+        addSlide(CustomAppIntroFragment.newInstance(getString(R.string.app_intro_title_body),
+            getString(R.string.app_intro_description_body), R.drawable.intro_n6p_body,
+            Loader.getColor(R.color.colorPrimary)));
 
-        addSlide(CustomAppIntroFragment.newInstance(
-                getString(R.string.app_intro_title_icon),
-                getString(R.string.app_intro_description_icon),
-                R.drawable.intro_n6p_icon,
-                Loader.getColor(R.color.colorPrimary))
-        );
+        addSlide(CustomAppIntroFragment.newInstance(getString(R.string.app_intro_title_icon),
+            getString(R.string.app_intro_description_icon), R.drawable.intro_n6p_icon,
+            Loader.getColor(R.color.colorPrimary)));
 
-        addSlide(CustomAppIntroFragment.newInstance(
-                getString(R.string.app_intro_title_order),
-                getString(R.string.app_intro_description_order),
-                R.drawable.intro_n6p_order,
-                Loader.getColor(R.color.colorPrimary))
-        );
+        addSlide(CustomAppIntroFragment.newInstance(getString(R.string.app_intro_title_order),
+            getString(R.string.app_intro_description_order), R.drawable.intro_n6p_order,
+            Loader.getColor(R.color.colorPrimary)));
 
         setProgressButtonEnabled(true);
     }

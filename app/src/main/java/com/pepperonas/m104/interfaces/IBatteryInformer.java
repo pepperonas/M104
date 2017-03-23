@@ -23,6 +23,7 @@ import android.content.Context;
  */
 public interface IBatteryInformer {
 
-    void onBatteryUpdate(Context context, boolean isCharging, int level, double temperature, int voltage, int plugged, int health, int status);
+    void onBatteryUpdate(Context context, boolean isCharging, int level, double temperature,
+        int voltage, int plugged, int health, int status);
 
 }

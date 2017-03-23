@@ -20,7 +20,7 @@ buildscript {
         maven { url "https://jitpack.io" }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.0'
+        classpath 'com.android.tools.build:gradle:2.4.0-alpha3'
     }
 }
 
@@ -44,27 +44,35 @@ repositories {
 
 android {
     signingConfigs {
-
         release
-
     }
     useLibrary 'org.apache.http.legacy'
-    compileSdkVersion 25
-    buildToolsVersion '25.0.2'
+    compileSdkVersion 'android-O'
+    buildToolsVersion '26.0.0 rc1'
+//    compileSdkVersion 25
+//    buildToolsVersion '25.0.2'
+
     defaultConfig {
         multiDexEnabled true
         applicationId "com.pepperonas.m104"
         minSdkVersion 16
         targetSdkVersion 25
-        versionCode 30
-        versionName "0.3.0"
+        versionCode 31
+        versionName "0.3.1-beta"
         project.ext.set("archivesBaseName", "m104");
+        jackOptions {
+            enabled true
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
     buildTypes {
         release {
-            minifyEnabled true
+            minifyEnabled false
             shrinkResources false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+//            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             applicationVariants.all { variant ->
                 variant.outputs.each { output ->
                     def outputFile = output.outputFile
@@ -86,16 +94,15 @@ android {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.android.support:multidex:1.0.1'
-
-    compile 'com.android.support:support-v4:25.1.1'
-    compile 'com.android.support:appcompat-v7:25.1.1'
-    compile 'com.android.support:design:25.1.1'
-    compile 'com.android.support:cardview-v7:25.1.1'
-    compile 'com.android.support:recyclerview-v7:25.1.1'
-    compile 'com.google.android.gms:play-services-ads:10.0.1'
-    compile 'com.google.android.gms:play-services-auth:10.0.1'
-    compile 'com.google.android.gms:play-services-gcm:10.0.1'
-    compile "com.mikepenz:iconics-core:2.6.7@aar"
+    compile 'com.android.support:support-v4:25.+'
+    compile 'com.android.support:appcompat-v7:25.+'
+    compile 'com.android.support:design:25.+'
+    compile 'com.android.support:cardview-v7:25.+'
+    compile 'com.android.support:recyclerview-v7:25.+'
+    compile 'com.google.android.gms:play-services-ads:10.2.1'
+    compile 'com.google.android.gms:play-services-auth:10.2.1'
+    compile 'com.google.android.gms:play-services-gcm:10.2.1'
+    compile 'com.mikepenz:iconics-core:2.6.7@aar'
     compile 'com.mikepenz:google-material-typeface:2.2.0.2.original@aar'
     compile 'com.mikepenz:community-material-typeface:1.5.54.2@aar'
     compile 'com.mikepenz:typeicons-typeface:2.0.7.2@aar'

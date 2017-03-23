@@ -41,10 +41,14 @@ public enum ChargeMode {
     @Override
     public String toString() {
         switch (this.type) {
-            case 0: return Loader.gStr(R.string.battery_plugged_ac);
-            case 1: return Loader.gStr(R.string.battery_plugged_usb);
-            case 2: return Loader.gStr(R.string.battery_plugged_wireless);
-            default: return Loader.gStr(R.string.unknown);
+            case 0:
+                return Loader.gStr(R.string.battery_plugged_ac);
+            case 1:
+                return Loader.gStr(R.string.battery_plugged_usb);
+            case 2:
+                return Loader.gStr(R.string.battery_plugged_wireless);
+            default:
+                return Loader.gStr(R.string.unknown);
         }
     }
 
@@ -57,10 +61,14 @@ public enum ChargeMode {
      */
     public static ChargeMode getInstance(int which) {
         switch (which) {
-            case 0: return AC;
-            case 1: return USB;
-            case 2: return WL;
-            default: return null;
+            case 0:
+                return AC;
+            case 1:
+                return USB;
+            case 2:
+                return WL;
+            default:
+                return null;
         }
     }
 }

@@ -25,7 +25,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import com.pepperonas.andbasx.AndBasx;
 import com.pepperonas.andbasx.base.ToastUtils;
 import com.pepperonas.andbasx.concurrency.ThreadUtils;
@@ -38,7 +37,6 @@ import com.pepperonas.m104.adapter.InstalledAppAdapter;
 import com.pepperonas.m104.custom.CustomRecyclerView;
 import com.pepperonas.m104.model.InstalledAppSortable;
 import com.pepperonas.m104.utils.Filter;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -75,7 +73,8 @@ public class FragmentNetworkStats extends Fragment {
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+        Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_network_stats, container, false);
         (getActivity()).setTitle(getString(R.string.menu_network_stats));
         return v;
@@ -101,7 +100,8 @@ public class FragmentNetworkStats extends Fragment {
                 }
             });
 
-            mRecyclerView = (CustomRecyclerView) view.findViewById(R.id.recycler_view_network_stats);
+            mRecyclerView = (CustomRecyclerView) view
+                .findViewById(R.id.recycler_view_network_stats);
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
             mRecyclerView.setLayoutManager(linearLayoutManager);
             mRecyclerView.setHasFixedSize(true);
@@ -126,10 +126,12 @@ public class FragmentNetworkStats extends Fragment {
                 String tmpAppName = installedApp.getApplicationName();
                 int tmpUid = installedApp.getApplicationInfo().uid;
 
-                if (Filter.filterApps(installedApp, tmpAppName, tmpUid)) continue;
+                if (Filter.filterApps(installedApp, tmpAppName, tmpUid)) {
+                    continue;
+                }
 
-                installedApps.add(new InstalledAppSortable(AndBasx.getContext(), installedApp.getApplicationInfo(),
-                        installedApp.getApplicationName()));
+                installedApps.add(new InstalledAppSortable(AndBasx.getContext(),
+                    installedApp.getApplicationInfo(), installedApp.getApplicationName()));
             }
 
             Collections.sort(installedApps, InstalledAppSortable.DESCENDING_COMPARATOR);

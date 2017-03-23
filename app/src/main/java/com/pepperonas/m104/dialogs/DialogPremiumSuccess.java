@@ -30,18 +30,15 @@ public class DialogPremiumSuccess {
 
         AesPrefs.putBooleanRes(R.string.SHOW_DIALOG_SUCCESS, false);
 
-        new MaterialDialog.Builder(mainActivity)
-                .title(R.string.dialog_promo_success_title)
-                .message(R.string.dialog_promo_success_msg)
-                .positiveText(R.string.ok)
-                .dismissListener(new MaterialDialog.DismissListener() {
-                    @Override
-                    public void onDismiss() {
-                        super.onDismiss();
-                        mainActivity.recreate();
-                    }
-                })
-                .show();
+        new MaterialDialog.Builder(mainActivity).title(R.string.dialog_promo_success_title)
+            .message(R.string.dialog_promo_success_msg).positiveText(R.string.ok)
+            .dismissListener(new MaterialDialog.DismissListener() {
+                @Override
+                public void onDismiss() {
+                    super.onDismiss();
+                    mainActivity.recreate();
+                }
+            }).show();
     }
 
 }

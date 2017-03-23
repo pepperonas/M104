@@ -27,7 +27,8 @@ public class NetworkHistory {
     private String pgkName;
 
 
-    public NetworkHistory(long stamp, long rx, long tx, long rxMobile, long txMobile, String pkgName) {
+    public NetworkHistory(long stamp, long rx, long tx, long rxMobile, long txMobile,
+        String pkgName) {
         this.stamp = stamp;
         this.rx = rx;
         this.tx = tx;

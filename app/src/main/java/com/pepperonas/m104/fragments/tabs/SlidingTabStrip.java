@@ -25,7 +25,6 @@ import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.LinearLayout;
-
 import com.pepperonas.m104.R;
 
 /**
@@ -66,12 +65,16 @@ public class SlidingTabStrip extends LinearLayout {
         context.getTheme().resolveAttribute(android.R.attr.colorForeground, outValue, true);
         final int themeForegroundColor = outValue.data;
 
-        int defaultBottomBorderColor = setColorAlpha(themeForegroundColor, DEFAULT_BOTTOM_BORDER_COLOR_ALPHA);
+        int defaultBottomBorderColor = setColorAlpha(themeForegroundColor,
+            DEFAULT_BOTTOM_BORDER_COLOR_ALPHA);
 
         mDefaultTabColorizer = new SimpleTabColorizer();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             mDefaultTabColorizer.setIndicatorColors(context.getColor(R.color.sa_accent));
-        } else mDefaultTabColorizer.setIndicatorColors(context.getResources().getColor(R.color.sa_accent));
+        } else {
+            mDefaultTabColorizer
+                .setIndicatorColors(context.getResources().getColor(R.color.sa_accent));
+        }
 
         mBottomBorderThickness = (int) (DEFAULT_BOTTOM_BORDER_THICKNESS_DIPS * density);
         mBottomBorderPaint = new Paint();
@@ -106,8 +109,8 @@ public class SlidingTabStrip extends LinearLayout {
     protected void onDraw(Canvas canvas) {
         final int height = getHeight();
         final int childCount = getChildCount();
-        final SlidingTabLayout.TabColorizer tabColorizer = mCustomTabColorizer != null ? mCustomTabColorizer
-                                                                                       : mDefaultTabColorizer;
+        final SlidingTabLayout.TabColorizer tabColorizer =
+            mCustomTabColorizer != null ? mCustomTabColorizer : mDefaultTabColorizer;
 
         // Thick colored underline below the current selection
         if (childCount > 0) {
@@ -124,16 +127,17 @@ public class SlidingTabStrip extends LinearLayout {
 
                 // Draw the selection partway between the tabs
                 View nextTitle = getChildAt(mSelectedPosition + 1);
-                left = (int) (mSelectionOffset * nextTitle.getLeft() +
-                              (1.0f - mSelectionOffset) * left);
+                left = (int) (mSelectionOffset * nextTitle.getLeft()
+                    + (1.0f - mSelectionOffset) * left);
 
-                right = (int) (mSelectionOffset * nextTitle.getRight() +
-                               (1.0f - mSelectionOffset) * right);
+                right = (int) (mSelectionOffset * nextTitle.getRight()
+                    + (1.0f - mSelectionOffset) * right);
             }
 
             mSelectedIndicatorPaint.setColor(color);
 
-            canvas.drawRect(left, height - mSelectedIndicatorThickness, right, height, mSelectedIndicatorPaint);
+            canvas.drawRect(left, height - mSelectedIndicatorThickness, right, height,
+                mSelectedIndicatorPaint);
         }
 
         // Thin underline along the entire bottom edge

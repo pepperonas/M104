@@ -21,14 +21,12 @@ import android.content.pm.ApplicationInfo;
 import android.graphics.drawable.Drawable;
 import android.net.TrafficStats;
 import android.support.annotation.NonNull;
-
 import com.pepperonas.andbasx.AndBasx;
 import com.pepperonas.andbasx.base.Loader;
 import com.pepperonas.andbasx.datatype.InstalledApp;
 import com.pepperonas.andbasx.system.DeviceUtils;
 import com.pepperonas.jbasx.base.Binary;
 import com.pepperonas.m104.R;
-
 import java.text.NumberFormat;
 import java.util.Comparator;
 
@@ -86,11 +84,12 @@ public class InstalledAppSortable extends InstalledApp implements Comparator<Ins
     /**
      * Instantiates a new InstalledBasic app sortable.
      *
-     * @param ctx             the ctx
+     * @param ctx the ctx
      * @param applicationInfo the application info
      * @param applicationName the application name
      */
-    public InstalledAppSortable(Context ctx, ApplicationInfo applicationInfo, String applicationName) {
+    public InstalledAppSortable(Context ctx, ApplicationInfo applicationInfo,
+        String applicationName) {
         super(applicationInfo, applicationName);
         formattedRxBytes = initFormattedRxBytes();
         formattedTxBytes = initFormattedTxBytes();
@@ -101,8 +100,10 @@ public class InstalledAppSortable extends InstalledApp implements Comparator<Ins
 
     public static final Comparator<InstalledAppSortable> DESCENDING_COMPARATOR = new Comparator<InstalledAppSortable>() {
         public int compare(InstalledAppSortable lhs, InstalledAppSortable rhs) {
-            long rhsBytes = (TrafficStats.getUidRxBytes(lhs.getApplicationInfo().uid) + TrafficStats.getUidTxBytes(lhs.getApplicationInfo().uid));
-            long lhsBytes = (TrafficStats.getUidRxBytes(rhs.getApplicationInfo().uid) + TrafficStats.getUidTxBytes(rhs.getApplicationInfo().uid));
+            long rhsBytes = (TrafficStats.getUidRxBytes(lhs.getApplicationInfo().uid) + TrafficStats
+                .getUidTxBytes(lhs.getApplicationInfo().uid));
+            long lhsBytes = (TrafficStats.getUidRxBytes(rhs.getApplicationInfo().uid) + TrafficStats
+                .getUidTxBytes(rhs.getApplicationInfo().uid));
             return lhsBytes < rhsBytes ? -1 : lhsBytes == rhsBytes ? 0 : 1;
 
         }
@@ -111,8 +112,10 @@ public class InstalledAppSortable extends InstalledApp implements Comparator<Ins
 
     @Override
     public int compare(InstalledApp lhs, InstalledApp rhs) {
-        long rhsBytes = (TrafficStats.getUidRxBytes(lhs.getApplicationInfo().uid) + TrafficStats.getUidTxBytes(lhs.getApplicationInfo().uid));
-        long lhsBytes = (TrafficStats.getUidRxBytes(rhs.getApplicationInfo().uid) + TrafficStats.getUidTxBytes(rhs.getApplicationInfo().uid));
+        long rhsBytes = (TrafficStats.getUidRxBytes(lhs.getApplicationInfo().uid) + TrafficStats
+            .getUidTxBytes(lhs.getApplicationInfo().uid));
+        long lhsBytes = (TrafficStats.getUidRxBytes(rhs.getApplicationInfo().uid) + TrafficStats
+            .getUidTxBytes(rhs.getApplicationInfo().uid));
         return lhsBytes < rhsBytes ? -1 : lhsBytes == rhsBytes ? 0 : 1;
     }
 
@@ -146,7 +149,8 @@ public class InstalledAppSortable extends InstalledApp implements Comparator<Ins
      * @return the char sequence
      */
     private CharSequence initFormattedTotalBytes() {
-        long traffic = TrafficStats.getUidRxBytes(this.getApplicationInfo().uid) + TrafficStats.getUidTxBytes(this.getApplicationInfo().uid);
+        long traffic = TrafficStats.getUidRxBytes(this.getApplicationInfo().uid) + TrafficStats
+            .getUidTxBytes(this.getApplicationInfo().uid);
         return getCharSequence(traffic);
     }
 

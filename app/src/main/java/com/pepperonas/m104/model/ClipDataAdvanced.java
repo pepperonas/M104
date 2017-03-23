@@ -18,7 +18,6 @@ package com.pepperonas.m104.model;
 
 import com.pepperonas.andbasx.system.DeviceUtils;
 import com.pepperonas.m104.custom.SizedText;
-
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
@@ -45,8 +44,8 @@ public class ClipDataAdvanced {
      * Instantiates a new Clip data advanced.
      *
      * @param timestamp the timestamp
-     * @param type      the type
-     * @param clipText  the clipText
+     * @param type the type
+     * @param clipText the clipText
      */
     public ClipDataAdvanced(long timestamp, int type, String clipText, long iv) {
         this.timestamp = timestamp;

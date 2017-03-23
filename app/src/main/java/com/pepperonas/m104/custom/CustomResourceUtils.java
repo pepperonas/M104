@@ -28,8 +28,9 @@ import android.support.annotation.NonNull;
 public class CustomResourceUtils {
 
     static Drawable getDrawable(@NonNull Context context, @DrawableRes int drawableId) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             return context.getDrawable(drawableId);
+        }
 
         //noinspection deprecation
         return context.getResources().getDrawable(drawableId);

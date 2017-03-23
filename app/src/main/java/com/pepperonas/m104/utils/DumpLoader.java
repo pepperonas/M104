@@ -17,9 +17,7 @@
 package com.pepperonas.m104.utils;
 
 import android.support.annotation.NonNull;
-
 import com.pepperonas.andbasx.AndBasx;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -40,7 +38,8 @@ public class DumpLoader {
     public static String loadDump(String which) {
         try {
             String line;
-            BufferedReader br = new BufferedReader(new FileReader(AndBasx.getContext().getFilesDir() + File.separator + which));
+            BufferedReader br = new BufferedReader(
+                new FileReader(AndBasx.getContext().getFilesDir() + File.separator + which));
             StringBuilder sb = new StringBuilder();
             while ((line = br.readLine()) != null) {
                 sb.append(line).append("\n");

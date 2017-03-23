@@ -22,20 +22,17 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
-
 import com.pepperonas.aespreferences.AesPrefs;
 import com.pepperonas.aespreferences.Crypt;
 import com.pepperonas.m104.R;
 import com.pepperonas.m104.config.Const;
-
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * @author Martin Pfeffer (pepperonas)
  */
-public class Database
-        extends SQLiteOpenHelper {
+public class Database extends SQLiteOpenHelper {
 
     private static final String TAG = "Database";
 
@@ -121,76 +118,46 @@ public class Database
         /**
          * battery stats table
          * */
-        db.execSQL("CREATE TABLE " + TBL_BATTERY_STATS + " " +
-                "(" +
-                ID + " integer primary key, " +
-                BTY_TS + " integer, " +
-                BTY_IS_CHARGING + " integer, " +
-                BTY_CHARGE_MODE + " integer, " +
-                BTY_IS_CHARGED + " integer, " +
-                BTY_LEVEL + " integer, " +
-                BTY_TEMPERATURE + " integer, " +
-                BTY_VOLTAGE + " integer, " +
-                BTY_IS_SCREEN_ON + " integer, " +
-                BTY_SCREEN_BRIGHTNESS + " integer, " +
-                BTY_IS_WIFI_ENABLED + " integer, " +
-                BTY_IS_WIFI_CONNECTED + " integer, " +
-                BTY_IS_GPS_ENABLED + " integer, " +
-                BTY_IS_GPS_NETWORK_ENABLED + " integer, " +
-                BTY_IS_GPS_PASSIVE_ENABLED + " integer, " +
-                BTY_IS_SYNC_ENABLED + " integer, " +
-                BTY_IS_AIRPLANE_MODE_ENABLED + " integer, " +
-                BTY_CURRENT_MAH + " integer " +
-                ");");
+        db.execSQL(
+            "CREATE TABLE " + TBL_BATTERY_STATS + " " + "(" + ID + " integer primary key, " + BTY_TS
+                + " integer, " + BTY_IS_CHARGING + " integer, " + BTY_CHARGE_MODE + " integer, "
+                + BTY_IS_CHARGED + " integer, " + BTY_LEVEL + " integer, " + BTY_TEMPERATURE
+                + " integer, " + BTY_VOLTAGE + " integer, " + BTY_IS_SCREEN_ON + " integer, "
+                + BTY_SCREEN_BRIGHTNESS + " integer, " + BTY_IS_WIFI_ENABLED + " integer, "
+                + BTY_IS_WIFI_CONNECTED + " integer, " + BTY_IS_GPS_ENABLED + " integer, "
+                + BTY_IS_GPS_NETWORK_ENABLED + " integer, " + BTY_IS_GPS_PASSIVE_ENABLED
+                + " integer, " + BTY_IS_SYNC_ENABLED + " integer, " + BTY_IS_AIRPLANE_MODE_ENABLED
+                + " integer, " + BTY_CURRENT_MAH + " integer " + ");");
 
         /**
          * charge states table
          * */
-        db.execSQL("CREATE TABLE " + TBL_CHARGE_STATES + " " +
-                "(" +
-                ID + " integer primary key, " +
-                CHARGE_TS + " integer, " +
-                CHG_FK_BTY_TS + " integer, " +
-                CHG_CHARGING + " integer " +
-                ");");
+        db.execSQL("CREATE TABLE " + TBL_CHARGE_STATES + " " + "(" + ID + " integer primary key, "
+            + CHARGE_TS + " integer, " + CHG_FK_BTY_TS + " integer, " + CHG_CHARGING + " integer "
+            + ");");
 
         /**
          * screen states table
          * */
-        db.execSQL("CREATE TABLE " + TBL_SCREEN_STATES + " " +
-                "(" +
-                ID + " integer primary key, " +
-                SCREEN_TS + " integer, " +
-                SCN_FK_BTY_TS + " integer, " +
-                SCN_SCREEN_ON + " integer " +
-                ");");
+        db.execSQL("CREATE TABLE " + TBL_SCREEN_STATES + " " + "(" + ID + " integer primary key, "
+            + SCREEN_TS + " integer, " + SCN_FK_BTY_TS + " integer, " + SCN_SCREEN_ON + " integer "
+            + ");");
 
         /**
          * network stats table
          * */
-        db.execSQL("CREATE TABLE " + TBL_NETWORK_STATS + " " +
-                "(" +
-                ID + " integer primary key, " +
-                NETWORK_TS + " integer, " +
-                NWK_RX + " integer, " +
-                NWK_TX + " integer, " +
-                NWK_MOBILE_RX + " integer, " +
-                NWK_MOBILE_TX + " integer, " +
-                NWK_PKG_NAME + " text " +
-                ");");
-
+        db.execSQL("CREATE TABLE " + TBL_NETWORK_STATS + " " + "(" + ID + " integer primary key, "
+            + NETWORK_TS + " integer, " + NWK_RX + " integer, " + NWK_TX + " integer, "
+            + NWK_MOBILE_RX + " integer, " + NWK_MOBILE_TX + " integer, " + NWK_PKG_NAME + " text "
+            + ");");
 
         /**
          * clip-data table
          * */
-        db.execSQL("CREATE TABLE " + TBL_CLIP_DATA + " " +
-                "(" +
-                ID + " integer primary key, " +
-                CD_TS + " integer, " +
-                CD_CONTENT + " integer, " +
-                CD_TEXT + " text unique, " +
-                CD_IV + " integer unique " +
-                ");");
+        db.execSQL(
+            "CREATE TABLE " + TBL_CLIP_DATA + " " + "(" + ID + " integer primary key, " + CD_TS
+                + " integer, " + CD_CONTENT + " integer, " + CD_TEXT + " text unique, " + CD_IV
+                + " integer unique " + ");");
 
     }
 
@@ -248,13 +215,13 @@ public class Database
                 for (String s : timestamps) {
                     if (s.equals(tmp)) {
                         ChargeMode cm = ChargeMode.getInstance(c.getInt(2));
-                        results.add(new BatteryStat(
-                                c.getInt(0), c.getInt(1) == 1, cm,
-                                c.getInt(3) == 1, c.getInt(4), (float) c.getInt(5) / FLOATER, (float) c.getInt(6) / FLOATER,
-                                c.getInt(7) == 1, c.getInt(8), c.getInt(9) == 1,
-                                c.getInt(10) == 1, c.getInt(11) == 1, c.getInt(12) == 1,
-                                c.getInt(13) == 1, c.getInt(14) == 1, c.getInt(15) == 1,
-                                c.getInt(17)));
+                        results.add(
+                            new BatteryStat(c.getInt(0), c.getInt(1) == 1, cm, c.getInt(3) == 1,
+                                c.getInt(4), (float) c.getInt(5) / FLOATER,
+                                (float) c.getInt(6) / FLOATER, c.getInt(7) == 1, c.getInt(8),
+                                c.getInt(9) == 1, c.getInt(10) == 1, c.getInt(11) == 1,
+                                c.getInt(12) == 1, c.getInt(13) == 1, c.getInt(14) == 1,
+                                c.getInt(15) == 1, c.getInt(17)));
                     }
                 }
 
@@ -273,7 +240,8 @@ public class Database
      * @return the list of {@link BatteryStat} objects
      */
     public List<BatteryStat> getBatteryStatsByDate(long chargeId) {
-        String selectQuery = "SELECT * FROM " + TBL_BATTERY_STATS + " WHERE " + BTY_TS + " >= " + chargeId + ";";
+        String selectQuery =
+            "SELECT * FROM " + TBL_BATTERY_STATS + " WHERE " + BTY_TS + " >= " + chargeId + ";";
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor c = db.rawQuery(selectQuery, null);
@@ -283,13 +251,11 @@ public class Database
         if (c.moveToFirst()) {
             do {
                 ChargeMode cm = ChargeMode.getInstance(c.getInt(3));
-                results.add(new BatteryStat(
-                        c.getLong(1), c.getInt(2) == 1, cm,
-                        c.getInt(4) == 1, c.getInt(5), (float) c.getInt(6) / FLOATER, (float) c.getInt(7) / FLOATER,
-                        c.getInt(8) == 1, c.getInt(9), c.getInt(10) == 1,
-                        c.getInt(11) == 1, c.getInt(12) == 1, c.getInt(13) == 1,
-                        c.getInt(14) == 1, c.getInt(15) == 1, c.getInt(16) == 1,
-                        c.getInt(17)));
+                results.add(new BatteryStat(c.getLong(1), c.getInt(2) == 1, cm, c.getInt(4) == 1,
+                    c.getInt(5), (float) c.getInt(6) / FLOATER, (float) c.getInt(7) / FLOATER,
+                    c.getInt(8) == 1, c.getInt(9), c.getInt(10) == 1, c.getInt(11) == 1,
+                    c.getInt(12) == 1, c.getInt(13) == 1, c.getInt(14) == 1, c.getInt(15) == 1,
+                    c.getInt(16) == 1, c.getInt(17)));
             } while (c.moveToNext());
         }
 
@@ -299,7 +265,8 @@ public class Database
 
 
     public List<NetworkHistory> getNetworkHistory(long ts) {
-        String selectQuery = "SELECT * FROM " + TBL_NETWORK_STATS + " WHERE " + NETWORK_TS + " >= " + ts + ";";
+        String selectQuery =
+            "SELECT * FROM " + TBL_NETWORK_STATS + " WHERE " + NETWORK_TS + " >= " + ts + ";";
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor c = db.rawQuery(selectQuery, null);
@@ -308,11 +275,9 @@ public class Database
 
         if (c.moveToFirst()) {
             do {
-                results.add(new NetworkHistory(
-                        c.getLong(1),
-                        c.getLong(2), c.getLong(3),
-                        c.getLong(4), c.getLong(5),
-                        c.getString(6)));
+                results.add(
+                    new NetworkHistory(c.getLong(1), c.getLong(2), c.getLong(3), c.getLong(4),
+                        c.getLong(5), c.getString(6)));
             } while (c.moveToNext());
         }
 
@@ -328,46 +293,27 @@ public class Database
      * @return the timestamp of the {@link BatteryStat}
      */
     public long addBatteryStat(BatteryStat batteryStat) {
-        String row = "INSERT OR REPLACE INTO " + TBL_BATTERY_STATS +
-                " (" +
-                ID + ", " +
-                BTY_TS + ", " +
-                BTY_IS_CHARGING + ", " +
-                BTY_CHARGE_MODE + ", " +
-                BTY_IS_CHARGED + ", " +
-                BTY_LEVEL + ", " +
-                BTY_TEMPERATURE + ", " +
-                BTY_VOLTAGE + ", " +
-                BTY_IS_SCREEN_ON + ", " +
-                BTY_SCREEN_BRIGHTNESS + ", " +
-                BTY_IS_WIFI_ENABLED + ", " +
-                BTY_IS_WIFI_CONNECTED + ", " +
-                BTY_IS_GPS_ENABLED + ", " +
-                BTY_IS_GPS_NETWORK_ENABLED + ", " +
-                BTY_IS_GPS_PASSIVE_ENABLED + ", " +
-                BTY_IS_SYNC_ENABLED + ", " +
-                BTY_IS_AIRPLANE_MODE_ENABLED + ", " +
-                BTY_CURRENT_MAH + "" +
-                ") VALUES (" +
-                "" + null + ", " +
-                "" + batteryStat.getStamp() + ", " +
-                "" + (batteryStat.isCharging() ? 1 : 0) + ", " +
-                "" + batteryStat.getChargeMode().ordinal() + ", " +
-                "" + (batteryStat.isCharged() ? 1 : 0) + ", " +
-                "" + batteryStat.getLevel() + ", " +
-                "" + (int) batteryStat.getTemperature() * FLOATER + ", " +
-                "" + (int) batteryStat.getVoltage() * FLOATER + ", " +
-                "" + (batteryStat.isScreenOn() ? 1 : 0) + ", " +
-                "" + batteryStat.getScreenBrightness() + ", " +
-                "" + (batteryStat.isWifiEnabled() ? 1 : 0) + ", " +
-                "" + (batteryStat.isWifiConnected() ? 1 : 0) + ", " +
-                "" + (batteryStat.isGpsEnabled() ? 1 : 0) + ", " +
-                "" + (batteryStat.isGpsNetworkEnabled() ? 1 : 0) + ", " +
-                "" + (batteryStat.isGpsPassiveEnabled() ? 1 : 0) + ", " +
-                "" + (batteryStat.isSyncEnabled() ? 1 : 0) + ", " +
-                "" + (batteryStat.isAirPlaneModeEnabled() ? 1 : 0) + ", " +
-                "" + (batteryStat.getRemainingCapacity_mAh()) +
-                ");";
+        String row =
+            "INSERT OR REPLACE INTO " + TBL_BATTERY_STATS + " (" + ID + ", " + BTY_TS + ", "
+                + BTY_IS_CHARGING + ", " + BTY_CHARGE_MODE + ", " + BTY_IS_CHARGED + ", "
+                + BTY_LEVEL + ", " + BTY_TEMPERATURE + ", " + BTY_VOLTAGE + ", " + BTY_IS_SCREEN_ON
+                + ", " + BTY_SCREEN_BRIGHTNESS + ", " + BTY_IS_WIFI_ENABLED + ", "
+                + BTY_IS_WIFI_CONNECTED + ", " + BTY_IS_GPS_ENABLED + ", "
+                + BTY_IS_GPS_NETWORK_ENABLED + ", " + BTY_IS_GPS_PASSIVE_ENABLED + ", "
+                + BTY_IS_SYNC_ENABLED + ", " + BTY_IS_AIRPLANE_MODE_ENABLED + ", " + BTY_CURRENT_MAH
+                + "" + ") VALUES (" + "" + null + ", " + "" + batteryStat.getStamp() + ", " + "" + (
+                batteryStat.isCharging() ? 1 : 0) + ", " + "" + batteryStat.getChargeMode()
+                .ordinal() + ", " + "" + (batteryStat.isCharged() ? 1 : 0) + ", " + "" + batteryStat
+                .getLevel() + ", " + "" + (int) batteryStat.getTemperature() * FLOATER + ", " + ""
+                + (int) batteryStat.getVoltage() * FLOATER + ", " + "" + (batteryStat.isScreenOn()
+                ? 1 : 0) + ", " + "" + batteryStat.getScreenBrightness() + ", " + "" + (
+                batteryStat.isWifiEnabled() ? 1 : 0) + ", " + "" + (batteryStat.isWifiConnected()
+                ? 1 : 0) + ", " + "" + (batteryStat.isGpsEnabled() ? 1 : 0) + ", " + "" + (
+                batteryStat.isGpsNetworkEnabled() ? 1 : 0) + ", " + "" + (
+                batteryStat.isGpsPassiveEnabled() ? 1 : 0) + ", " + "" + (
+                batteryStat.isSyncEnabled() ? 1 : 0) + ", " + "" + (
+                batteryStat.isAirPlaneModeEnabled() ? 1 : 0) + ", " + "" + (batteryStat
+                .getRemainingCapacity_mAh()) + ");";
 
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL(row);
@@ -380,9 +326,9 @@ public class Database
 
     public void cleanBatteryStats() {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.execSQL("DELETE FROM " + TBL_NETWORK_STATS + " " +
-                "WHERE " + NETWORK_TS + " < " + (System.currentTimeMillis() - (Const.DELETE_NWK_STATS_OLDER_THAN_IN_HOURS * 60
-                * 60 * 1000)) + ";");
+        db.execSQL("DELETE FROM " + TBL_NETWORK_STATS + " " + "WHERE " + NETWORK_TS + " < " + (
+            System.currentTimeMillis() - (Const.DELETE_NWK_STATS_OLDER_THAN_IN_HOURS * 60 * 60
+                * 1000)) + ";");
     }
 
 
@@ -391,22 +337,15 @@ public class Database
      *
      * @param tsChargeState the ts charge state
      * @param tsBatteryStat the ts battery stat
-     * @param isCharging    the is charging
+     * @param isCharging the is charging
      * @return the timestamp of the charge-state
      */
     public long addChargeState(long tsChargeState, long tsBatteryStat, boolean isCharging) {
-        String row = "INSERT OR REPLACE INTO " + TBL_CHARGE_STATES +
-                " (" +
-                ID + ", " +
-                CHARGE_TS + ", " +
-                CHG_FK_BTY_TS + ", " +
-                CHG_CHARGING + "" +
-                ") VALUES (" +
-                "" + null + ", " +
-                "" + tsChargeState + ", " +
-                "" + tsBatteryStat + ", " +
-                "" + (isCharging ? 1 : 0) + "" +
-                ");";
+        String row =
+            "INSERT OR REPLACE INTO " + TBL_CHARGE_STATES + " (" + ID + ", " + CHARGE_TS + ", "
+                + CHG_FK_BTY_TS + ", " + CHG_CHARGING + "" + ") VALUES (" + "" + null + ", " + ""
+                + tsChargeState + ", " + "" + tsBatteryStat + ", " + "" + (isCharging ? 1 : 0) + ""
+                + ");";
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL(row);
 
@@ -421,22 +360,15 @@ public class Database
      *
      * @param tsScreenState the ts screen state
      * @param tsBatteryStat the ts battery stat
-     * @param isScreenOn    the is screen on
+     * @param isScreenOn the is screen on
      * @return the timestamp of the screen-state
      */
     public long addScreenState(long tsScreenState, long tsBatteryStat, boolean isScreenOn) {
-        String row = "INSERT OR REPLACE INTO " + TBL_SCREEN_STATES +
-                " (" +
-                ID + ", " +
-                SCREEN_TS + ", " +
-                SCN_FK_BTY_TS + ", " +
-                SCN_SCREEN_ON + "" +
-                ") VALUES (" +
-                "" + null + ", " +
-                "" + tsScreenState + ", " +
-                "" + tsBatteryStat + ", " +
-                "" + (isScreenOn ? 1 : 0) +
-                ");";
+        String row =
+            "INSERT OR REPLACE INTO " + TBL_SCREEN_STATES + " (" + ID + ", " + SCREEN_TS + ", "
+                + SCN_FK_BTY_TS + ", " + SCN_SCREEN_ON + "" + ") VALUES (" + "" + null + ", " + ""
+                + tsScreenState + ", " + "" + tsBatteryStat + ", " + "" + (isScreenOn ? 1 : 0)
+                + ");";
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL(row);
 
@@ -450,36 +382,22 @@ public class Database
      * Add network stat long.
      *
      * @param tsNetworkStat the ts network stat
-     * @param rx            the rx
-     * @param tx            the tx
-     * @param mobileRx      the mobile rx
-     * @param mobileTx      the mobile tx
-     * @param pkgName       the pkg name
+     * @param rx the rx
+     * @param tx the tx
+     * @param mobileRx the mobile rx
+     * @param mobileTx the mobile tx
+     * @param pkgName the pkg name
      * @return the timestamp of the network-stat
      */
-    public long addNetworkStat(long tsNetworkStat,
-                               long rx, long tx,
-                               long mobileRx, long mobileTx,
-                               String pkgName) {
+    public long addNetworkStat(long tsNetworkStat, long rx, long tx, long mobileRx, long mobileTx,
+        String pkgName) {
 
-        String row = "INSERT OR REPLACE INTO " + TBL_NETWORK_STATS +
-                " (" +
-                ID + ", " +
-                NETWORK_TS + ", " +
-                NWK_RX + ", " +
-                NWK_TX + ", " +
-                NWK_MOBILE_RX + ", " +
-                NWK_MOBILE_TX + ", " +
-                NWK_PKG_NAME + "" +
-                ") VALUES (" +
-                "" + null + ", " +
-                "" + tsNetworkStat + ", " +
-                "" + rx + ", " +
-                "" + tx + ", " +
-                "" + mobileRx + ", " +
-                "" + mobileTx + ", " +
-                "'" + pkgName + "'" +
-                ");";
+        String row =
+            "INSERT OR REPLACE INTO " + TBL_NETWORK_STATS + " (" + ID + ", " + NETWORK_TS + ", "
+                + NWK_RX + ", " + NWK_TX + ", " + NWK_MOBILE_RX + ", " + NWK_MOBILE_TX + ", "
+                + NWK_PKG_NAME + "" + ") VALUES (" + "" + null + ", " + "" + tsNetworkStat + ", "
+                + "" + rx + ", " + "" + tx + ", " + "" + mobileRx + ", " + "" + mobileTx + ", "
+                + "'" + pkgName + "'" + ");";
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL(row);
 
@@ -495,23 +413,15 @@ public class Database
         if (AesPrefs.getRes(R.string.ENCRYPTION_PASSWORD, "").equals("")) {
             textToStore = text;
         } else {
-            textToStore = Crypt.encrypt(AesPrefs.getRes(R.string.ENCRYPTION_PASSWORD, ""), text, genericIv);
+            textToStore = Crypt
+                .encrypt(AesPrefs.getRes(R.string.ENCRYPTION_PASSWORD, ""), text, genericIv);
         }
 
-        String row = "INSERT OR REPLACE INTO " + TBL_CLIP_DATA +
-                " (" +
-                ID + ", " +
-                CD_TS + ", " +
-                CD_CONTENT + ", " +
-                CD_TEXT + ", " +
-                CD_IV + " " +
-                ") VALUES (" +
-                "" + null + ", " +
-                "" + System.currentTimeMillis() + ", " +
-                "" + type + ", " +
-                "'" + textToStore + "', " +
-                "" + genericIv + "" +
-                ");";
+        String row =
+            "INSERT OR REPLACE INTO " + TBL_CLIP_DATA + " (" + ID + ", " + CD_TS + ", " + CD_CONTENT
+                + ", " + CD_TEXT + ", " + CD_IV + " " + ") VALUES (" + "" + null + ", " + ""
+                + System.currentTimeMillis() + ", " + "" + type + ", " + "'" + textToStore + "', "
+                + "" + genericIv + "" + ");";
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL(row);
 
@@ -526,16 +436,14 @@ public class Database
         int ctr = 0;
 
         if (AesPrefs.getRes(R.string.ENCRYPTION_PASSWORD, "").equals("")
-                || AesPrefs.getLongRes(R.string.LOGOUT_TIME, 0) < System.currentTimeMillis()) {
+            || AesPrefs.getLongRes(R.string.LOGOUT_TIME, 0) < System.currentTimeMillis()) {
 
             List<ClipDataAdvanced> results = new ArrayList<>();
 
             if (c.moveToLast()) {
                 do {
-                    results.add(new ClipDataAdvanced(
-                            c.getLong(1),
-                            c.getInt(2), c.getString(3),
-                            c.getLong(4)));
+                    results.add(new ClipDataAdvanced(c.getLong(1), c.getInt(2), c.getString(3),
+                        c.getLong(4)));
                 } while (c.moveToPrevious() && ((ctr++) < i));
             }
             c.close();
@@ -546,16 +454,13 @@ public class Database
             if (c.moveToLast()) {
                 do {
                     try {
-                        results.add(new ClipDataAdvanced(
-                                c.getLong(1),
-                                c.getInt(2), Crypt.decrypt(AesPrefs.getRes(R.string.ENCRYPTION_PASSWORD, ""), c.getString(3), c
-                                .getLong(4)),
-                                c.getLong(4)));
+                        results.add(new ClipDataAdvanced(c.getLong(1), c.getInt(2), Crypt
+                            .decrypt(AesPrefs.getRes(R.string.ENCRYPTION_PASSWORD, ""),
+                                c.getString(3), c.getLong(4)), c.getLong(4)));
                     } catch (Exception e) {
                         Log.e(TAG, "getClipData error while decrypting...");
                     }
-                }
-                while (c.moveToPrevious() && ((ctr++) < i));
+                } while (c.moveToPrevious() && ((ctr++) < i));
             }
             c.close();
             return results;
@@ -570,13 +475,14 @@ public class Database
         int ctr = 0;
         if (c.moveToLast()) {
             do {
-                if (c.getString(3) != null && !c.getString(3).isEmpty()) ctr++;
+                if (c.getString(3) != null && !c.getString(3).isEmpty()) {
+                    ctr++;
+                }
             } while (c.moveToPrevious());
         }
         c.close();
         return ctr;
     }
-
 
     //    public void deleteClipData(long timestamp) {
     //        SQLiteDatabase db = this.getWritableDatabase();
@@ -587,8 +493,8 @@ public class Database
 
     public void deleteClipData(String content) {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.execSQL("DELETE FROM " + TBL_CLIP_DATA + " " +
-                "WHERE " + CD_TEXT + " = '" + content + "';");
+        db.execSQL(
+            "DELETE FROM " + TBL_CLIP_DATA + " " + "WHERE " + CD_TEXT + " = '" + content + "';");
     }
 
 
@@ -621,17 +527,20 @@ public class Database
         ContentValues contentValues = new ContentValues();
         contentValues.put(CD_TEXT, encrypted);
         contentValues.put(CD_IV, iv);
-        db.update(TBL_CLIP_DATA, contentValues, CD_TS + "= " + clipDataAdvanced.getTimestamp(), null);
+        db.update(TBL_CLIP_DATA, contentValues, CD_TS + "= " + clipDataAdvanced.getTimestamp(),
+            null);
     }
 
 
     public void decryptClipDataEntry(ClipDataAdvanced clipDataAdvanced, String password) {
         SQLiteDatabase db = this.getWritableDatabase();
-        String decrypted = Crypt.decrypt(password, clipDataAdvanced.getClipText(), clipDataAdvanced.getIv());
+        String decrypted = Crypt
+            .decrypt(password, clipDataAdvanced.getClipText(), clipDataAdvanced.getIv());
         ContentValues contentValues = new ContentValues();
         contentValues.put(CD_TEXT, decrypted);
         contentValues.put(CD_IV, clipDataAdvanced.getIv());
-        db.update(TBL_CLIP_DATA, contentValues, CD_TS + "= " + clipDataAdvanced.getTimestamp(), null);
+        db.update(TBL_CLIP_DATA, contentValues, CD_TS + "= " + clipDataAdvanced.getTimestamp(),
+            null);
     }
 
 
@@ -652,7 +561,7 @@ public class Database
      * Update battery stat.
      *
      * @param batteryStat the battery stat
-     * @param newValue    the new value
+     * @param newValue the new value
      */
     public void updateBatteryStat(BatteryStat batteryStat, int newValue) {
         SQLiteDatabase db = this.getWritableDatabase();

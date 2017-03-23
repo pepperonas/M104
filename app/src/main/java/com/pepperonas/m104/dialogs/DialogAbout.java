@@ -24,7 +24,6 @@ import android.text.method.LinkMovementMethod;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
-
 import com.pepperonas.m104.R;
 import com.pepperonas.materialdialog.MaterialDialog;
 
@@ -37,37 +36,33 @@ public class DialogAbout {
 
 
     public DialogAbout(final Context context) {
-        new MaterialDialog.Builder(context)
-                .title(context.getString(R.string.app_name))
-                .customView(R.layout.dialog_app_info)
-                .positiveText(context.getString(R.string.ok))
-                .positiveColor(R.color.grey_700)
-                .icon(R.drawable.ic_launcher)
-                .showListener(new MaterialDialog.ShowListener() {
-                    @Override
-                    public void onShow(AlertDialog dialog) {
-                        super.onShow(dialog);
-                        TextView tvLibInfo = (TextView) dialog.findViewById(R.id.tv_lib_info);
-                        tvLibInfo.setText(Html.fromHtml(context.getString(R.string.web_presentation_info)));
-                        tvLibInfo.setMovementMethod(LinkMovementMethod.getInstance());
+        new MaterialDialog.Builder(context).title(context.getString(R.string.app_name))
+            .customView(R.layout.dialog_app_info).positiveText(context.getString(R.string.ok))
+            .positiveColor(R.color.grey_700).icon(R.drawable.ic_launcher)
+            .showListener(new MaterialDialog.ShowListener() {
+                @Override
+                public void onShow(AlertDialog dialog) {
+                    super.onShow(dialog);
+                    TextView tvLibInfo = (TextView) dialog.findViewById(R.id.tv_lib_info);
+                    tvLibInfo
+                        .setText(Html.fromHtml(context.getString(R.string.web_presentation_info)));
+                    tvLibInfo.setMovementMethod(LinkMovementMethod.getInstance());
 
-                        dialog.getButton(DialogInterface.BUTTON_POSITIVE).setOnTouchListener(new View.OnTouchListener() {
-                            @Override
-                            public boolean onTouch(View v, MotionEvent event) {
-                                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                                    mDelta = System.currentTimeMillis();
-                                } if (event.getAction() == MotionEvent.ACTION_UP) {
-                                    if ((System.currentTimeMillis() - mDelta) > 5000) {
-                                        new DialogAndroidId(context);
-                                    }
-                                    v.callOnClick();
-                                }
-                                return true;
+                    dialog.getButton(DialogInterface.BUTTON_POSITIVE)
+                        .setOnTouchListener((v, event) -> {
+                            if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                                mDelta = System.currentTimeMillis();
                             }
+                            if (event.getAction() == MotionEvent.ACTION_UP) {
+                                if ((System.currentTimeMillis() - mDelta) > 5000) {
+                                    new DialogAndroidId(context);
+                                }
+                                v.callOnClick();
+                            }
+                            return true;
                         });
-                    }
-                })
-                .show();
+                }
+            }).show();
     }
 
 }

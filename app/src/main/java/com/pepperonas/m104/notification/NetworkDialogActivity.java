@@ -29,7 +29,6 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.XAxis;
@@ -47,10 +46,9 @@ import com.pepperonas.jbasx.log.Log;
 import com.pepperonas.m104.MainService;
 import com.pepperonas.m104.R;
 import com.pepperonas.m104.config.Const;
+import com.pepperonas.m104.fragments.FragmentSettings;
 import com.pepperonas.m104.model.Database;
 import com.pepperonas.m104.model.NetworkHistory;
-import com.pepperonas.m104.fragments.FragmentSettings;
-
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -84,7 +82,8 @@ public class NetworkDialogActivity extends AppCompatActivity {
                 mChart.notifyDataSetChanged();
                 mChart.invalidate();
             } catch (Exception e) {
-                Log.e(TAG, "onReceive: Error while updating in live mode (is live-mode the correct config?).");
+                Log.e(TAG,
+                    "onReceive: Error while updating in live mode (is live-mode the correct config?).");
             }
             loadHistoryChart();
         }
@@ -111,10 +110,13 @@ public class NetworkDialogActivity extends AppCompatActivity {
 
         mChart = (LineChart) findViewById(R.id.chart);
 
-        if (getIntent() != null && getIntent().getBooleanExtra(Loader.gStr(R.string.NETWORK_CHART_LIVE_MODE), false)) {
+        if (getIntent() != null && getIntent()
+            .getBooleanExtra(Loader.gStr(R.string.NETWORK_CHART_LIVE_MODE), false)) {
             mShowLiveChart = false;
             Log.d(TAG, "onCreate: Invalid intent parameter.");
-        } else mShowLiveChart = true;
+        } else {
+            mShowLiveChart = true;
+        }
 
         getWindow().getDecorView().setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -137,7 +139,8 @@ public class NetworkDialogActivity extends AppCompatActivity {
             loadHistoryChart();
         }
 
-        registerReceiver(mMainServiceReceiver, new IntentFilter(MainService.BROADCAST_NETWORK_INFO));
+        registerReceiver(mMainServiceReceiver,
+            new IntentFilter(MainService.BROADCAST_NETWORK_INFO));
     }
 
 
@@ -160,10 +163,11 @@ public class NetworkDialogActivity extends AppCompatActivity {
     /**
      * Load history chart.
      * <p/>
-     * CAUTION: in the current app-configuration the history will not work.
-     * Keep in mind that the database needs to be filled in {@link MainService#mRunnableNetworkCheck}.
-     * And also mention that if the network notification is disabled in {@link FragmentSettings#onPreferenceClick(Preference)},
-     * {@link MainService#mRunnableNetworkCheck} won't be executed because of the return-statement in {@link MainService#startRepeatingTask()}
+     * CAUTION: in the current app-configuration the history will not work. Keep in mind that the
+     * database needs to be filled in {@link MainService#mRunnableNetworkCheck}. And also mention
+     * that if the network notification is disabled in {@link FragmentSettings#onPreferenceClick(Preference)},
+     * {@link MainService#mRunnableNetworkCheck} won't be executed because of the return-statement
+     * in {@link MainService#startRepeatingTask()}
      */
     private void loadHistoryChart() {
         Log.d(TAG, "loadHistoryChart " + "");
@@ -174,7 +178,9 @@ public class NetworkDialogActivity extends AppCompatActivity {
          *  load network stats from database
          * */
         mDb = new Database(this);
-        List<NetworkHistory> nwkStats = mDb.getNetworkHistory((System.currentTimeMillis() - (Const.DIALOG_NETWORK_HISTORY_IN_MINUTES * 1000 * 60)) - OFFSET_TIME_10_SEC);
+        List<NetworkHistory> nwkStats = mDb.getNetworkHistory(
+            (System.currentTimeMillis() - (Const.DIALOG_NETWORK_HISTORY_IN_MINUTES * 1000 * 60))
+                - OFFSET_TIME_10_SEC);
 
         if (nwkStats.size() <= 0) {
             tvHeader.setText(getString(R.string.no_history));
@@ -198,12 +204,20 @@ public class NetworkDialogActivity extends AppCompatActivity {
          * */
         tvHeader = (TextView) findViewById(R.id.tv_header);
         int minutes;
-        if (diff < (AesPrefs.getIntResNoLog(R.string.DIALOG_NETWORK_CHART_HISTORY_IN_MINUTES, Const.DIALOG_NETWORK_HISTORY_IN_MINUTES) * 1000 * 60)) {
+        if (diff < (AesPrefs.getIntResNoLog(R.string.DIALOG_NETWORK_CHART_HISTORY_IN_MINUTES,
+            Const.DIALOG_NETWORK_HISTORY_IN_MINUTES) * 1000 * 60)) {
             minutes = (int) (diff / 1000) / 60;
-        } else minutes = AesPrefs.getIntResNoLog(R.string.DIALOG_NETWORK_CHART_HISTORY_IN_MINUTES, Const.DIALOG_NETWORK_HISTORY_IN_MINUTES);
+        } else {
+            minutes = AesPrefs.getIntResNoLog(R.string.DIALOG_NETWORK_CHART_HISTORY_IN_MINUTES,
+                Const.DIALOG_NETWORK_HISTORY_IN_MINUTES);
+        }
         if (minutes == 0 || minutes == 1) {
             tvHeader.setText(getString(R.string.last_minute));
-        } else tvHeader.setText(MessageFormat.format("{0} {1} {2}", getString(R.string.dialog_chart_header), minutes, getString(R.string.minutes)));
+        } else {
+            tvHeader.setText(MessageFormat
+                .format("{0} {1} {2}", getString(R.string.dialog_chart_header), minutes,
+                    getString(R.string.minutes)));
+        }
 
         List<Entry> valuesRx = new ArrayList<>();
         List<Entry> valuesTx = new ArrayList<>();
@@ -220,16 +234,23 @@ public class NetworkDialogActivity extends AppCompatActivity {
             int pDiff = (int) f;
             if (pDiff != old_pDiff) {
                 old_pDiff = pDiff;
-            } else pDiff++;
+            } else {
+                pDiff++;
+            }
 
             int relativeX = nwkStats.size() * pDiff / 100;
 
-            valuesRx.add(new Entry(divideByGivenUnit(maxTraffic, nwkStats.get(i).getRx()), relativeX));
-            valuesTx.add(new Entry(divideByGivenUnit(maxTraffic, nwkStats.get(i).getTx()), relativeX));
-            valuesRxMobile.add(new Entry(divideByGivenUnit(maxTraffic, nwkStats.get(i).getRxMobile()), relativeX));
-            valuesTxMobile.add(new Entry(divideByGivenUnit(maxTraffic, nwkStats.get(i).getTxMobile()), relativeX));
+            valuesRx
+                .add(new Entry(divideByGivenUnit(maxTraffic, nwkStats.get(i).getRx()), relativeX));
+            valuesTx
+                .add(new Entry(divideByGivenUnit(maxTraffic, nwkStats.get(i).getTx()), relativeX));
+            valuesRxMobile.add(
+                new Entry(divideByGivenUnit(maxTraffic, nwkStats.get(i).getRxMobile()), relativeX));
+            valuesTxMobile.add(
+                new Entry(divideByGivenUnit(maxTraffic, nwkStats.get(i).getTxMobile()), relativeX));
 
-            xVals.add(TimeFormatUtilsLocalized.formatTime(nwkStats.get(i).getStamp(), TimeFormatUtils.DEFAULT_FORMAT_MD_HM));
+            xVals.add(TimeFormatUtilsLocalized
+                .formatTime(nwkStats.get(i).getStamp(), TimeFormatUtils.DEFAULT_FORMAT_MD_HM));
         }
 
         /**
@@ -255,7 +276,8 @@ public class NetworkDialogActivity extends AppCompatActivity {
         /**
          * Rx mobile
          * */
-        LineDataSet lineDataSetRxMobile = new LineDataSet(valuesRxMobile, getString(R.string.rx_mobile));
+        LineDataSet lineDataSetRxMobile = new LineDataSet(valuesRxMobile,
+            getString(R.string.rx_mobile));
         lineDataSetRxMobile.setAxisDependency(YAxis.AxisDependency.LEFT);
         lineDataSetRxMobile.setLineWidth(2f);
         lineDataSetRxMobile.setDrawCircles(false);
@@ -265,7 +287,8 @@ public class NetworkDialogActivity extends AppCompatActivity {
         /**
          * Tx mobile
          * */
-        LineDataSet lineDataSetTxMobile = new LineDataSet(valuesTxMobile, getString(R.string.tx_mobile));
+        LineDataSet lineDataSetTxMobile = new LineDataSet(valuesTxMobile,
+            getString(R.string.tx_mobile));
         lineDataSetTxMobile.setAxisDependency(YAxis.AxisDependency.LEFT);
         lineDataSetTxMobile.setLineWidth(2f);
         lineDataSetTxMobile.setDrawCircles(false);
@@ -280,7 +303,6 @@ public class NetworkDialogActivity extends AppCompatActivity {
         lineDataSets.add(lineDataSetTx);
         lineDataSets.add(lineDataSetRxMobile);
         lineDataSets.add(lineDataSetTxMobile);
-
 
         /**
          * X-Axis
@@ -348,14 +370,19 @@ public class NetworkDialogActivity extends AppCompatActivity {
      * Divide by given unit float.
      *
      * @param maxTrafficInBytes the max traffic in bytes
-     * @param toResolve         the value to recalculate
+     * @param toResolve the value to recalculate
      * @return the float
      */
     private float divideByGivenUnit(long maxTrafficInBytes, long toResolve) {
-        if (maxTrafficInBytes > Binary.GIGA) return (float) toResolve / (float) Binary.GIGA;
-        else if (maxTrafficInBytes > Binary.MEGA) return (float) toResolve / (float) Binary.MEGA;
-        else if (maxTrafficInBytes != 0) return (float) toResolve / (float) Binary.KILO;
-        else return toResolve;
+        if (maxTrafficInBytes > Binary.GIGA) {
+            return (float) toResolve / (float) Binary.GIGA;
+        } else if (maxTrafficInBytes > Binary.MEGA) {
+            return (float) toResolve / (float) Binary.MEGA;
+        } else if (maxTrafficInBytes != 0) {
+            return (float) toResolve / (float) Binary.KILO;
+        } else {
+            return toResolve;
+        }
     }
 
 

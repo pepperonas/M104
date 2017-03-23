@@ -24,7 +24,6 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
@@ -41,7 +40,6 @@ import com.pepperonas.m104.config.Const;
 import com.pepperonas.m104.model.BatteryStat;
 import com.pepperonas.m104.model.Database;
 import com.pepperonas.m104.utils.Calculations;
-
 import java.text.DecimalFormat;
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -109,9 +107,8 @@ public class BatteryDialogActivity extends AppCompatActivity {
         /**
          *  load battery stats from database
          * */
-        final List<BatteryStat> btyStats = mDb.getBatteryStatsByDate(
-                Calculations.getHours(AesPrefs.getIntRes(R.string.DIALOG_CHART_HISTORY_HOURS,
-                        Const.DEFAULT_RANGE_IN_HOURS)));
+        final List<BatteryStat> btyStats = mDb.getBatteryStatsByDate(Calculations.getHours(
+            AesPrefs.getIntRes(R.string.DIALOG_CHART_HISTORY_HOURS, Const.DEFAULT_RANGE_IN_HOURS)));
 
         /**
          *  calculate time variables
@@ -126,18 +123,21 @@ public class BatteryDialogActivity extends AppCompatActivity {
          * */
         TextView tvHeader = (TextView) findViewById(R.id.tv_header);
         int hours;
-        if (diff < (AesPrefs.getIntRes(R.string.DIALOG_CHART_HISTORY_HOURS, Const
-                .DEFAULT_RANGE_IN_HOURS) * 1000 * 60 * 60)) {
+        if (diff < (
+            AesPrefs.getIntRes(R.string.DIALOG_CHART_HISTORY_HOURS, Const.DEFAULT_RANGE_IN_HOURS)
+                * 1000 * 60 * 60)) {
             hours = (int) (diff / 1000) / 3600;
-        } else
-            hours = AesPrefs.getIntRes(R.string.DIALOG_CHART_HISTORY_HOURS, Const
-                    .DEFAULT_RANGE_IN_HOURS);
+        } else {
+            hours = AesPrefs
+                .getIntRes(R.string.DIALOG_CHART_HISTORY_HOURS, Const.DEFAULT_RANGE_IN_HOURS);
+        }
         if (hours == 0 || hours == 1) {
             tvHeader.setText(getString(R.string.last_hour));
-        } else
-            tvHeader.setText(MessageFormat.format("{0} {1} {2}", getString(R.string
-                            .dialog_chart_header),
-                    hours, getString(R.string.hours)));
+        } else {
+            tvHeader.setText(MessageFormat
+                .format("{0} {1} {2}", getString(R.string.dialog_chart_header), hours,
+                    getString(R.string.hours)));
+        }
 
         List<Entry> valuesLvl = new ArrayList<>();
         List<Entry> valuesTemperature = new ArrayList<>();
@@ -153,24 +153,26 @@ public class BatteryDialogActivity extends AppCompatActivity {
             int pDiff = (int) f;
             if (pDiff != old_pDiff) {
                 old_pDiff = pDiff;
-            } else pDiff++;
+            } else {
+                pDiff++;
+            }
 
             int relativeX = btyStats.size() * pDiff / 100;
 
             valuesLvl.add(new Entry(btyStats.get(i).getLevel(), relativeX));
             valuesTemperature.add(new Entry(btyStats.get(i).getTemperature(), relativeX));
-            valuesScreenState.add(new Entry((btyStats.get(i).isScreenOn() ? 100000f : -100f),
-                    relativeX));
+            valuesScreenState
+                .add(new Entry((btyStats.get(i).isScreenOn() ? 100000f : -100f), relativeX));
 
-            xVals.add(TimeFormatUtilsLocalized.formatTime(btyStats.get(i).getStamp(),
-                    TimeFormatUtils.DEFAULT_FORMAT_MD_HM));
+            xVals.add(TimeFormatUtilsLocalized
+                .formatTime(btyStats.get(i).getStamp(), TimeFormatUtils.DEFAULT_FORMAT_MD_HM));
         }
 
         /**
          *  Level
          * */
-        LineDataSet lineDataSetLvl = new LineDataSet(valuesLvl, getString(R.string
-                .chart_legend_level));
+        LineDataSet lineDataSetLvl = new LineDataSet(valuesLvl,
+            getString(R.string.chart_legend_level));
         lineDataSetLvl.setAxisDependency(YAxis.AxisDependency.LEFT);
         lineDataSetLvl.setLineWidth(2f);
         lineDataSetLvl.setDrawCircles(false);
@@ -180,8 +182,8 @@ public class BatteryDialogActivity extends AppCompatActivity {
         /**
          *  Screen state
          * */
-        LineDataSet lineDataSetScreenState = new LineDataSet(valuesScreenState, getString(R
-                .string.chart_legend_screen_state));
+        LineDataSet lineDataSetScreenState = new LineDataSet(valuesScreenState,
+            getString(R.string.chart_legend_screen_state));
         lineDataSetScreenState.setAxisDependency(YAxis.AxisDependency.LEFT);
         lineDataSetScreenState.setLineWidth(0f);
         lineDataSetScreenState.setDrawCircles(false);
@@ -193,8 +195,8 @@ public class BatteryDialogActivity extends AppCompatActivity {
         /**
          * Temperature
          * */
-        LineDataSet lineDataSetTemperature = new LineDataSet(valuesTemperature, getString(R
-                .string.chart_legend_temperature));
+        LineDataSet lineDataSetTemperature = new LineDataSet(valuesTemperature,
+            getString(R.string.chart_legend_temperature));
         lineDataSetTemperature.setAxisDependency(YAxis.AxisDependency.RIGHT);
         lineDataSetTemperature.setLineWidth(2f);
         lineDataSetTemperature.setDrawCircles(false);

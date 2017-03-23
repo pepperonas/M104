@@ -23,7 +23,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.view.View;
-
 import com.pepperonas.m104.MainActivity;
 import com.pepperonas.m104.R;
 import com.pepperonas.materialdialog.MaterialDialog;
@@ -35,45 +34,41 @@ public class DialogTestPhaseExpired {
 
     public DialogTestPhaseExpired(final MainActivity mainActivity) {
         new MaterialDialog.Builder(mainActivity)
-                .title(mainActivity.getString(R.string.dialog_test_phase_expired_title))
-                .message(mainActivity.getString(R.string.dialog_test_phase_expired_msg))
-                .positiveText(mainActivity.getString(R.string.ok))
-                .negativeText(mainActivity.getString(R.string.cancel))
-                .showListener(new MaterialDialog.ShowListener() {
-                    @Override
-                    public void onShow(AlertDialog dialog) {
-                        super.onShow(dialog);
-                        dialog.getButton(DialogInterface.BUTTON_NEGATIVE).setOnLongClickListener(new View.OnLongClickListener() {
-                            @Override
-                            public boolean onLongClick(View v) {
-                                new DialogAndroidId(mainActivity);
-                                return false;
-                            }
+            .title(mainActivity.getString(R.string.dialog_test_phase_expired_title))
+            .message(mainActivity.getString(R.string.dialog_test_phase_expired_msg))
+            .positiveText(mainActivity.getString(R.string.ok))
+            .negativeText(mainActivity.getString(R.string.cancel))
+            .showListener(new MaterialDialog.ShowListener() {
+                @Override
+                public void onShow(AlertDialog dialog) {
+                    super.onShow(dialog);
+                    dialog.getButton(DialogInterface.BUTTON_NEGATIVE)
+                        .setOnLongClickListener(v -> {
+                            new DialogAndroidId(mainActivity);
+                            return false;
                         });
-                    }
-                })
-                .buttonCallback(new MaterialDialog.ButtonCallback() {
-                    @Override
-                    public void onPositive(MaterialDialog dialog) {
-                        super.onPositive(dialog);
-                        mainActivity.startActivity(new Intent("android.intent.action.VIEW", Uri.parse("http://play.google" +
-                                ".com/store/apps/details?id=" + "com.pepperonas.m104.key")));
-                    }
+                }
+            }).buttonCallback(new MaterialDialog.ButtonCallback() {
+            @Override
+            public void onPositive(MaterialDialog dialog) {
+                super.onPositive(dialog);
+                mainActivity.startActivity(new Intent("android.intent.action.VIEW", Uri.parse(
+                    "http://play.google" + ".com/store/apps/details?id="
+                        + "com.pepperonas.m104.key")));
+            }
 
-                })
-                .dismissListener(new MaterialDialog.DismissListener() {
-                    @Override
-                    public void onDismiss() {
-                        super.onDismiss();
+        }).dismissListener(new MaterialDialog.DismissListener() {
+            @Override
+            public void onDismiss() {
+                super.onDismiss();
 
-                        NotificationManager notificationManager = (NotificationManager) mainActivity.getSystemService(Context
-                                .NOTIFICATION_SERVICE);
-                        notificationManager.cancelAll();
+                NotificationManager notificationManager = (NotificationManager) mainActivity
+                    .getSystemService(Context.NOTIFICATION_SERVICE);
+                notificationManager.cancelAll();
 
-                        mainActivity.finish();
-                    }
-                })
-                .show();
+                mainActivity.finish();
+            }
+        }).show();
     }
 
 }

@@ -27,7 +27,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
 import com.pepperonas.m104.R;
 import com.pepperonas.m104.fragments.FragmentRoot;
 import com.pepperonas.m104.interfaces.IInstalledBasicsCommunicator;

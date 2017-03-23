@@ -29,7 +29,6 @@ import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.widget.ListView;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -69,19 +68,17 @@ public class SwipeableRecyclerViewTouchListener implements RecyclerView.OnItemTo
      * Constructs a new swipe touch listener for the given {@link android.support.v7.widget.RecyclerView}
      *
      * @param recyclerView The recycler view whose items should be dismissable by swiping.
-     * @param listener     The listener for the swipe events.
+     * @param listener The listener for the swipe events.
      */
     public SwipeableRecyclerViewTouchListener(RecyclerView recyclerView, SwipeListener listener) {
         ViewConfiguration vc = ViewConfiguration.get(recyclerView.getContext());
         mSlop = vc.getScaledTouchSlop();
         mMinFlingVelocity = vc.getScaledMinimumFlingVelocity() * 16;
         mMaxFlingVelocity = vc.getScaledMaximumFlingVelocity();
-        mAnimationTime = recyclerView.getContext().getResources().getInteger(
-                android.R.integer.config_shortAnimTime);
+        mAnimationTime = recyclerView.getContext().getResources()
+            .getInteger(android.R.integer.config_shortAnimTime);
         mRecyclerView = recyclerView;
         mSwipeListener = listener;
-
-
 
         /**
          * This will ensure that this SwipeableRecyclerViewTouchListener is paused during list view scrolling.
@@ -158,7 +155,8 @@ public class SwipeableRecyclerViewTouchListener implements RecyclerView.OnItemTo
                     }
                 }
 
-                if (mDownView != null && mAnimatingPosition != mRecyclerView.getChildPosition(mDownView)) {
+                if (mDownView != null && mAnimatingPosition != mRecyclerView
+                    .getChildPosition(mDownView)) {
                     mAlpha = mDownView.getAlpha();
                     mDownX = motionEvent.getRawX();
                     mDownY = motionEvent.getRawY();
@@ -180,11 +178,8 @@ public class SwipeableRecyclerViewTouchListener implements RecyclerView.OnItemTo
 
                 if (mDownView != null && mSwiping) {
                     // cancel
-                    mDownView.animate()
-                             .translationX(0)
-                             .alpha(mAlpha)
-                             .setDuration(mAnimationTime)
-                             .setListener(null);
+                    mDownView.animate().translationX(0).alpha(mAlpha).setDuration(mAnimationTime)
+                        .setListener(null);
                 }
                 mVelocityTracker.recycle();
                 mVelocityTracker = null;
@@ -213,34 +208,30 @@ public class SwipeableRecyclerViewTouchListener implements RecyclerView.OnItemTo
                     dismiss = true;
                     dismissRight = mFinalDelta > 0;
                 } else if (mMinFlingVelocity <= absVelocityX && absVelocityX <= mMaxFlingVelocity
-                           && absVelocityY < absVelocityX && mSwiping) {
+                    && absVelocityY < absVelocityX && mSwiping) {
                     // dismiss only if flinging in the same direction as dragging
                     dismiss = (velocityX < 0) == (mFinalDelta < 0);
                     dismissRight = mVelocityTracker.getXVelocity() > 0;
                 }
-                if (dismiss && mDownPosition != mAnimatingPosition && mDownPosition != ListView.INVALID_POSITION) {
+                if (dismiss && mDownPosition != mAnimatingPosition
+                    && mDownPosition != ListView.INVALID_POSITION) {
                     // dismiss
                     final View downView = mDownView; // mDownView gets null'd before animation ends
                     final int downPosition = mDownPosition;
                     ++mDismissAnimationRefCount;
                     mAnimatingPosition = mDownPosition;
-                    mDownView.animate()
-                             .translationX(dismissRight ? mViewWidth : -mViewWidth)
-                             .alpha(0)
-                             .setDuration(mAnimationTime)
-                             .setListener(new AnimatorListenerAdapter() {
-                                 @Override
-                                 public void onAnimationEnd(Animator animation) {
-                                     performDismiss(downView, downPosition);
-                                 }
-                             });
+                    mDownView.animate().translationX(dismissRight ? mViewWidth : -mViewWidth)
+                        .alpha(0).setDuration(mAnimationTime)
+                        .setListener(new AnimatorListenerAdapter() {
+                            @Override
+                            public void onAnimationEnd(Animator animation) {
+                                performDismiss(downView, downPosition);
+                            }
+                        });
                 } else {
                     // cancel
-                    mDownView.animate()
-                             .translationX(0)
-                             .alpha(mAlpha)
-                             .setDuration(mAnimationTime)
-                             .setListener(null);
+                    mDownView.animate().translationX(0).alpha(mAlpha).setDuration(mAnimationTime)
+                        .setListener(null);
                 }
                 mVelocityTracker.recycle();
                 mVelocityTracker = null;
@@ -260,15 +251,16 @@ public class SwipeableRecyclerViewTouchListener implements RecyclerView.OnItemTo
                 mVelocityTracker.addMovement(motionEvent);
                 float deltaX = motionEvent.getRawX() - mDownX;
                 float deltaY = motionEvent.getRawY() - mDownY;
-                if (!mSwiping && Math.abs(deltaX) > mSlop && Math.abs(deltaY) < Math.abs(deltaX) / 2) {
+                if (!mSwiping && Math.abs(deltaX) > mSlop
+                    && Math.abs(deltaY) < Math.abs(deltaX) / 2) {
                     mSwiping = true;
                     mSwipingSlop = (deltaX > 0 ? mSlop : -mSlop);
                 }
 
                 if (mSwiping) {
                     mDownView.setTranslationX(deltaX - mSwipingSlop);
-                    mDownView.setAlpha(Math.max(0f, Math.min(mAlpha,
-                                                             mAlpha * (1f - Math.abs(deltaX) / mViewWidth))));
+                    mDownView.setAlpha(Math.max(0f,
+                        Math.min(mAlpha, mAlpha * (1f - Math.abs(deltaX) / mViewWidth))));
                     return true;
                 }
                 break;
@@ -328,8 +320,8 @@ public class SwipeableRecyclerViewTouchListener implements RecyclerView.OnItemTo
 
                     // Send a cancel event
                     long time = SystemClock.uptimeMillis();
-                    MotionEvent cancelEvent = MotionEvent.obtain(time, time,
-                                                                 MotionEvent.ACTION_CANCEL, 0, 0, 0);
+                    MotionEvent cancelEvent = MotionEvent
+                        .obtain(time, time, MotionEvent.ACTION_CANCEL, 0, 0, 0);
                     mRecyclerView.dispatchTouchEvent(cancelEvent);
 
                     mPendingDismisses.clear();
@@ -352,8 +344,8 @@ public class SwipeableRecyclerViewTouchListener implements RecyclerView.OnItemTo
 
 
     /**
-     * The callback interface used by {@link SwipeableRecyclerViewTouchListener} to inform its client
-     * about a swipe of one or more list item positions.
+     * The callback interface used by {@link SwipeableRecyclerViewTouchListener} to inform its
+     * client about a swipe of one or more list item positions.
      */
     public interface SwipeListener {
 
@@ -365,18 +357,18 @@ public class SwipeableRecyclerViewTouchListener implements RecyclerView.OnItemTo
         /**
          * Called when the item has been dismissed by swiping to the left.
          *
-         * @param recyclerView           The originating {@link android.support.v7.widget.RecyclerView}.
+         * @param recyclerView The originating {@link android.support.v7.widget.RecyclerView}.
          * @param reverseSortedPositions An array of positions to dismiss, sorted in descending
-         *                               order for convenience.
+         * order for convenience.
          */
         void onDismissedBySwipeLeft(RecyclerView recyclerView, int[] reverseSortedPositions);
 
         /**
          * Called when the item has been dismissed by swiping to the right.
          *
-         * @param recyclerView           The originating {@link android.support.v7.widget.RecyclerView}.
+         * @param recyclerView The originating {@link android.support.v7.widget.RecyclerView}.
          * @param reverseSortedPositions An array of positions to dismiss, sorted in descending
-         *                               order for convenience.
+         * order for convenience.
          */
         void onDismissedBySwipeRight(RecyclerView recyclerView, int[] reverseSortedPositions);
     }

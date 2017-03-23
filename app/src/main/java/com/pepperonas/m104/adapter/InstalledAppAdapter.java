@@ -28,19 +28,18 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.mikepenz.iconics.IconicsDrawable;
 import com.mikepenz.typeicons_typeface_library.Typeicons;
 import com.pepperonas.m104.R;
 import com.pepperonas.m104.model.InstalledAppSortable;
-
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * @author Martin Pfeffer (pepperonas)
  */
-public class InstalledAppAdapter extends RecyclerView.Adapter<InstalledAppAdapter.InstalledAppViewHolder> {
+public class InstalledAppAdapter extends
+    RecyclerView.Adapter<InstalledAppAdapter.InstalledAppViewHolder> {
 
     private static final int ICON_SIZE = 16;
 
@@ -58,11 +57,14 @@ public class InstalledAppAdapter extends RecyclerView.Adapter<InstalledAppAdapte
 
         @ColorRes int color = R.color.stock_android_accent;
 
-        mDrawableRx = new IconicsDrawable(ctx, Typeicons.Icon.typ_arrow_sorted_down).colorRes(color).sizeDp(ICON_SIZE);
+        mDrawableRx = new IconicsDrawable(ctx, Typeicons.Icon.typ_arrow_sorted_down).colorRes(color)
+            .sizeDp(ICON_SIZE);
 
-        mDrawableTx = new IconicsDrawable(ctx, Typeicons.Icon.typ_arrow_sorted_up).colorRes(color).sizeDp(ICON_SIZE);
+        mDrawableTx = new IconicsDrawable(ctx, Typeicons.Icon.typ_arrow_sorted_up).colorRes(color)
+            .sizeDp(ICON_SIZE);
 
-        mDrawableTotal = new IconicsDrawable(ctx, Typeicons.Icon.typ_arrow_unsorted).colorRes(color).sizeDp(ICON_SIZE);
+        mDrawableTotal = new IconicsDrawable(ctx, Typeicons.Icon.typ_arrow_unsorted).colorRes(color)
+            .sizeDp(ICON_SIZE);
 
         this.mInstalledApps = mInstalledApps;
     }
@@ -76,7 +78,8 @@ public class InstalledAppAdapter extends RecyclerView.Adapter<InstalledAppAdapte
 
     @Override
     public InstalledAppViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_app_network_stat, parent, false);
+        View v = LayoutInflater.from(parent.getContext())
+            .inflate(R.layout.card_app_network_stat, parent, false);
         return new InstalledAppViewHolder(v);
     }
 
@@ -106,7 +109,7 @@ public class InstalledAppAdapter extends RecyclerView.Adapter<InstalledAppAdapte
 
     private void setAnimation(Context ctx, View viewToAnimate, int position) {
         Animation animation = AnimationUtils
-                .loadAnimation(ctx, (position > -1) ? R.anim.fade_in_fast : R.anim.fade_out_fast);
+            .loadAnimation(ctx, (position > -1) ? R.anim.fade_in_fast : R.anim.fade_out_fast);
         viewToAnimate.startAnimation(animation);
     }
 

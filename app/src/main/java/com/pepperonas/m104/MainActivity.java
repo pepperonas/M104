@@ -39,7 +39,6 @@ import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
 import com.pepperonas.aespreferences.AesPrefs;
@@ -65,8 +64,6 @@ import com.pepperonas.m104.notification.NotificationClipboard;
 import com.pepperonas.m104.notification.NotificationNetwork;
 import com.pepperonas.m104.utils.StringFactory;
 
-import java.util.concurrent.Callable;
-
 //import com.google.android.gms.analytics.HitBuilders;
 //import com.google.android.gms.analytics.Tracker;
 
@@ -76,22 +73,16 @@ import java.util.concurrent.Callable;
  */
 public class MainActivity extends AppCompatActivity {
 
-    private static final String TAG = "MainActivity";
-
     public static final int MENU_ITEM_ROOT = 3;
-
-    private Database mDb;
-
-    private DrawerLayout mDrawerLayout;
-    private Toolbar mToolbar;
-
-    /* Fragment */
-    private Fragment mFragment;
-
+    private static final String TAG = "MainActivity";
     /* Fragment communication */
     public IBatteryInformer mBatteryInformer;
     public FragmentNetworkStats mNetworkInformer;
-
+    private Database mDb;
+    private DrawerLayout mDrawerLayout;
+    private Toolbar mToolbar;
+    /* Fragment */
+    private Fragment mFragment;
     private NavigationView mNavView;
     private Intent mMainServiceIntent;
 
@@ -118,9 +109,12 @@ public class MainActivity extends AppCompatActivity {
             mBtyStatus = intent.getIntExtra("status", 0);
 
             if (mBatteryInformer != null) {
-                mBatteryInformer.onBatteryUpdate(MainActivity.this, mBtyIsCharging, mBtyLevel, temperature, voltage,
-                        mBtyPlugged, health, mBtyStatus);
-            } else Log.w(TAG, "onReceive: Can't update battery info.");
+                mBatteryInformer
+                    .onBatteryUpdate(MainActivity.this, mBtyIsCharging, mBtyLevel, temperature,
+                        voltage, mBtyPlugged, health, mBtyStatus);
+            } else {
+                Log.w(TAG, "onReceive: Can't update battery info.");
+            }
 
         }
     };
@@ -158,63 +152,59 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "onCreate " + "androidId: " + androidId);
 
         new AppRegistry.Builder(this, "pepperonas", getPackageName(), androidId)
-                .setOnRegisterUserListener(new OnRegisterResultListener() {
-                    @Override
-                    public void onUserRegistered(@NonNull String s) {
-                        Log.d(TAG, "onUserRegistered " + s);
-                    }
+            .setOnRegisterUserListener(new OnRegisterResultListener() {
+                @Override
+                public void onUserRegistered(@NonNull String s) {
+                    Log.d(TAG, "onUserRegistered " + s);
+                }
 
 
-                    @Override
-                    public void onUserExists(@NonNull String s, Long regDate, String extraString, final Integer extraInt) {
-                        Log.d(TAG, "onUserExists: registered since: " + (System.currentTimeMillis() - regDate) / (1000 * 60) +
-                                " min.");
-                        if ((System.currentTimeMillis() > (regDate + (1000 * 60 * 60 * 24 * Const.TEST_PERIOD_IN_DAYS)))
-                                && regDate != 0) {
-                            Log.d(TAG, "onUserExists test phase (" + Const.TEST_PERIOD_IN_DAYS + " days) expired.");
+                @Override
+                public void onUserExists(@NonNull String s, Long regDate, String extraString,
+                    final Integer extraInt) {
+                    Log.d(TAG, "onUserExists: registered since: "
+                        + (System.currentTimeMillis() - regDate) / (1000 * 60) + " min.");
+                    if ((System.currentTimeMillis() > (regDate + (1000 * 60 * 60 * 24
+                        * Const.TEST_PERIOD_IN_DAYS))) && regDate != 0) {
+                        Log.d(TAG, "onUserExists test phase (" + Const.TEST_PERIOD_IN_DAYS
+                            + " days) expired.");
 
-                            AesPrefs.putBooleanRes(R.string.TEST_PHASE_EXPIRED, true);
+                        AesPrefs.putBooleanRes(R.string.TEST_PHASE_EXPIRED, true);
 
-                            if (extraInt == 111) {
-                                if (!AesPrefs.getBooleanRes(R.string.IS_PREMIUM, false)) {
-                                    AesPrefs.putBooleanRes(R.string.IS_PREMIUM, true);
-                                    ThreadUtils.runFromBackground(new Callable<Void>() {
-                                        @Override
-                                        public Void call() throws Exception {
-                                            if (AesPrefs.getBooleanRes(R.string.SHOW_DIALOG_SUCCESS, true)) {
-                                                new DialogPremiumSuccess(MainActivity.this);
-                                            }
-                                            return null;
-                                        }
-                                    });
-                                    return;
-                                }
-                            }
-                            if (!AesPrefs.getBooleanRes(R.string.IS_PREMIUM, false) && AesPrefs.getBooleanRes(R.string
-                                    .TEST_PHASE_EXPIRED, false)) {
-                                ThreadUtils.runFromBackground(new Callable<Void>() {
-                                    @Override
-                                    public Void call() throws Exception {
-                                        new DialogTestPhaseExpired(MainActivity.this);
-                                        return null;
+                        if (extraInt == 111) {
+                            if (!AesPrefs.getBooleanRes(R.string.IS_PREMIUM, false)) {
+                                AesPrefs.putBooleanRes(R.string.IS_PREMIUM, true);
+                                ThreadUtils.runFromBackground(() -> {
+                                    if (AesPrefs
+                                        .getBooleanRes(R.string.SHOW_DIALOG_SUCCESS, true)) {
+                                        new DialogPremiumSuccess(MainActivity.this);
                                     }
+                                    return null;
                                 });
+                                return;
                             }
-                        } else {
-                            Log.d(TAG, "onUserExists test phase will expire in " +
-                                    (float) (regDate + (1000 * 60 * 60 * 24 * Const.TEST_PERIOD_IN_DAYS) - (System
-                                            .currentTimeMillis()))
-                                            / (float) (1000 * 60 * 60 * 24) + " days.");
                         }
+                        if (!AesPrefs.getBooleanRes(R.string.IS_PREMIUM, false) && AesPrefs
+                            .getBooleanRes(R.string.TEST_PHASE_EXPIRED, false)) {
+                            ThreadUtils.runFromBackground(() -> {
+                                new DialogTestPhaseExpired(MainActivity.this);
+                                return null;
+                            });
+                        }
+                    } else {
+                        Log.d(TAG, "onUserExists test phase will expire in " +
+                            (float) (regDate + (1000 * 60 * 60 * 24 * Const.TEST_PERIOD_IN_DAYS)
+                                - (System.currentTimeMillis())) / (float) (1000 * 60 * 60 * 24)
+                            + " days.");
                     }
+                }
 
 
-                    @Override
-                    public void onFailed(@NonNull AppRegistry.StatusCode statusCode, int i, String s) {
-                        Log.d(TAG, "onFailed " + statusCode.name() + ", " + i + ", " + s);
-                    }
-                })
-                .send();
+                @Override
+                public void onFailed(@NonNull AppRegistry.StatusCode statusCode, int i, String s) {
+                    Log.d(TAG, "onFailed " + statusCode.name() + ", " + i + ", " + s);
+                }
+            }).send();
 
         //        initAnalytics();
     }
@@ -240,7 +230,9 @@ public class MainActivity extends AppCompatActivity {
                 makeFragmentTransaction(FragmentBatteryStats.newInstance(0));
             }
 
-        } else Log.w(TAG, "onCreate intent can't be resolved...");
+        } else {
+            Log.w(TAG, "onCreate intent can't be resolved...");
+        }
 
     }
 
@@ -258,7 +250,8 @@ public class MainActivity extends AppCompatActivity {
             startService(mMainServiceIntent);
         }
 
-        registerReceiver(mMainServiceReceiver, new IntentFilter(MainService.BROADCAST_BATTERY_INFO));
+        registerReceiver(mMainServiceReceiver,
+            new IntentFilter(MainService.BROADCAST_BATTERY_INFO));
 
     }
 
@@ -310,9 +303,12 @@ public class MainActivity extends AppCompatActivity {
         //        if (AesPrefs.getBooleanRes(R.string.IS_PREMIUM, false)) return;
 
         PackageManager manager = getPackageManager();
-        if (manager.checkSignatures("com.pepperonas.m104", "com.pepperonas.m104.key") == PackageManager.SIGNATURE_MATCH) {
+        if (manager.checkSignatures("com.pepperonas.m104", "com.pepperonas.m104.key")
+            == PackageManager.SIGNATURE_MATCH) {
             AesPrefs.putBooleanRes(R.string.IS_PREMIUM, true);
-        } else AesPrefs.putBooleanRes(R.string.IS_PREMIUM, false);
+        } else {
+            AesPrefs.putBooleanRes(R.string.IS_PREMIUM, false);
+        }
     }
 
 
@@ -337,14 +333,11 @@ public class MainActivity extends AppCompatActivity {
 
         ensureInitItemRoot();
 
-        mNavView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(MenuItem menuItem) {
-                menuItem.setChecked(menuItem.isChecked());
-                mDrawerLayout.closeDrawers();
+        mNavView.setNavigationItemSelectedListener(menuItem -> {
+            menuItem.setChecked(menuItem.isChecked());
+            mDrawerLayout.closeDrawers();
 
-                return selectNavViewItem(menuItem);
-            }
+            return selectNavViewItem(menuItem);
         });
 
         if (doTransaction) {
@@ -361,18 +354,20 @@ public class MainActivity extends AppCompatActivity {
         // first sub menu
         MenuItem itemBattery = mNavView.getMenu().getItem(0).getSubMenu().getItem(0);
         MenuItem itemNetwork = mNavView.getMenu().getItem(0).getSubMenu().getItem(1);
-        itemBattery.setIcon(new IconicsDrawable(this, GoogleMaterial.Icon.gmd_battery_std).colorRes(R.color.sa_teal).sizeDp
-                (Const.NAV_DRAWER_ICON_SIZE));
-        itemNetwork.setIcon(new IconicsDrawable(this, GoogleMaterial.Icon.gmd_network_wifi).colorRes(R.color.sa_teal).sizeDp
-                (Const.NAV_DRAWER_ICON_SIZE));
+        itemBattery.setIcon(
+            new IconicsDrawable(this, GoogleMaterial.Icon.gmd_battery_std).colorRes(R.color.sa_teal)
+                .sizeDp(Const.NAV_DRAWER_ICON_SIZE));
+        itemNetwork.setIcon(new IconicsDrawable(this, GoogleMaterial.Icon.gmd_network_wifi)
+            .colorRes(R.color.sa_teal).sizeDp(Const.NAV_DRAWER_ICON_SIZE));
 
         // second sub menu
         MenuItem itemSettings = mNavView.getMenu().getItem(1).getSubMenu().getItem(0);
         MenuItem itemAbout = mNavView.getMenu().getItem(1).getSubMenu().getItem(1);
-        itemSettings.setIcon(new IconicsDrawable(this, GoogleMaterial.Icon.gmd_settings).colorRes(R.color.sa_teal).sizeDp(Const
-                .NAV_DRAWER_ICON_SIZE));
-        itemAbout.setIcon(new IconicsDrawable(this, GoogleMaterial.Icon.gmd_info_outline).colorRes(R.color.sa_teal).sizeDp
-                (Const.NAV_DRAWER_ICON_SIZE));
+        itemSettings.setIcon(
+            new IconicsDrawable(this, GoogleMaterial.Icon.gmd_settings).colorRes(R.color.sa_teal)
+                .sizeDp(Const.NAV_DRAWER_ICON_SIZE));
+        itemAbout.setIcon(new IconicsDrawable(this, GoogleMaterial.Icon.gmd_info_outline)
+            .colorRes(R.color.sa_teal).sizeDp(Const.NAV_DRAWER_ICON_SIZE));
     }
 
 
@@ -382,8 +377,8 @@ public class MainActivity extends AppCompatActivity {
     private void initNavDrawer() {
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
-        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.open, R
-                .string.close) {
+        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
+            mToolbar, R.string.open, R.string.close) {
 
             @Override
             public void onDrawerClosed(View drawerView) {
@@ -398,7 +393,8 @@ public class MainActivity extends AppCompatActivity {
                 invalidateOptionsMenu();
 
                 TextView tvNavViewSubtitle = (TextView) findViewById(R.id.nav_view_header_subtitle);
-                tvNavViewSubtitle.setText(StringFactory.makeRemainingInfo(MainActivity.this, mBtyLevel, mBtyIsCharging));
+                tvNavViewSubtitle.setText(
+                    StringFactory.makeRemainingInfo(MainActivity.this, mBtyLevel, mBtyIsCharging));
             }
 
         };
@@ -430,25 +426,33 @@ public class MainActivity extends AppCompatActivity {
         switch (menuItem.getItemId()) {
 
             case R.id.nav_item_battery_stats: {
-                if (mFragment instanceof FragmentBatteryStats) return true;
+                if (mFragment instanceof FragmentBatteryStats) {
+                    return true;
+                }
                 makeFragmentTransaction(FragmentBatteryStats.newInstance(0));
                 return true;
             }
 
             case R.id.nav_item_network_stats: {
-                if (mFragment instanceof FragmentNetworkStats) return true;
+                if (mFragment instanceof FragmentNetworkStats) {
+                    return true;
+                }
                 makeFragmentTransaction(FragmentNetworkStats.newInstance(1));
                 return true;
             }
 
             case MENU_ITEM_ROOT: {
-                if (mFragment instanceof FragmentRoot) return true;
+                if (mFragment instanceof FragmentRoot) {
+                    return true;
+                }
                 makeFragmentTransaction(FragmentRoot.newInstance(2));
                 return true;
             }
 
             case R.id.nav_item_settings: {
-                if (mFragment instanceof FragmentSettings) return true;
+                if (mFragment instanceof FragmentSettings) {
+                    return true;
+                }
                 makeFragmentTransaction(FragmentSettings.newInstance(3));
                 return true;
             }
@@ -493,7 +497,9 @@ public class MainActivity extends AppCompatActivity {
      * Check double-press config and close the app if needed.
      */
     private void touchTwiceToExit() {
-        if (!AesPrefs.getBooleanRes(R.string.TOUCH_TWICE_TO_EXIT, true)) mIsExitPressedOnce = true;
+        if (!AesPrefs.getBooleanRes(R.string.TOUCH_TWICE_TO_EXIT, true)) {
+            mIsExitPressedOnce = true;
+        }
         if (mIsExitPressedOnce) {
             super.onBackPressed();
             return;
@@ -502,12 +508,7 @@ public class MainActivity extends AppCompatActivity {
         ToastUtils.toastShort(R.string.touch_twice_to_close);
 
         mIsExitPressedOnce = true;
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                mIsExitPressedOnce = false;
-            }
-        }, Const.DELAY_ON_BACK_PRESSED);
+        new Handler().postDelayed(() -> mIsExitPressedOnce = false, Const.DELAY_ON_BACK_PRESSED);
     }
 
 
@@ -533,7 +534,6 @@ public class MainActivity extends AppCompatActivity {
         return mDb;
     }
 
-
     //    /**
     //     * Init analytics.
     //     */
@@ -547,7 +547,6 @@ public class MainActivity extends AppCompatActivity {
     //            mTracker.send(new HitBuilders.ScreenViewBuilder().build());
     //        }
     //    }
-
 
     //    /**
     //     * Do analytics on lifecycle.
@@ -568,17 +567,15 @@ public class MainActivity extends AppCompatActivity {
     private void ensureInitItemRoot() {
         if (AesPrefs.getBooleanRes(R.string.IS_ROOT_MODE, false)) {
             if (mNavView.getMenu().getItem(0).getSubMenu().size() == 2) {
-                mNavView.getMenu().getItem(0).getSubMenu().add(0, MENU_ITEM_ROOT, 2, getString(R.string.root));
-                MenuItem itemRoot = mNavView.getMenu().getItem(0).getSubMenu().findItem(MENU_ITEM_ROOT);
-                itemRoot.setIcon(new IconicsDrawable(MainActivity.this, GoogleMaterial.Icon.gmd_android)
+                mNavView.getMenu().getItem(0).getSubMenu()
+                    .add(0, MENU_ITEM_ROOT, 2, getString(R.string.root));
+                MenuItem itemRoot = mNavView.getMenu().getItem(0).getSubMenu()
+                    .findItem(MENU_ITEM_ROOT);
+                itemRoot.setIcon(
+                    new IconicsDrawable(MainActivity.this, GoogleMaterial.Icon.gmd_android)
                         .colorRes(R.color.sa_teal).sizeDp(Const.NAV_DRAWER_ICON_SIZE));
 
-                itemRoot.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem item) {
-                        return false;
-                    }
-                });
+                itemRoot.setOnMenuItemClickListener(item -> false);
             }
         }
     }
@@ -589,17 +586,13 @@ public class MainActivity extends AppCompatActivity {
      */
     public void addItemRoot() {
         if (mNavView.getMenu().getItem(0).getSubMenu().size() == 2) {
-            mNavView.getMenu().getItem(0).getSubMenu().add(0, MENU_ITEM_ROOT, 2, getString(R.string.root));
+            mNavView.getMenu().getItem(0).getSubMenu()
+                .add(0, MENU_ITEM_ROOT, 2, getString(R.string.root));
             MenuItem itemRoot = mNavView.getMenu().getItem(0).getSubMenu().findItem(MENU_ITEM_ROOT);
             itemRoot.setIcon(new IconicsDrawable(MainActivity.this, GoogleMaterial.Icon.gmd_android)
-                    .colorRes(R.color.sa_teal).sizeDp(Const.NAV_DRAWER_ICON_SIZE));
+                .colorRes(R.color.sa_teal).sizeDp(Const.NAV_DRAWER_ICON_SIZE));
 
-            itemRoot.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-                @Override
-                public boolean onMenuItemClick(MenuItem item) {
-                    return false;
-                }
-            });
+            itemRoot.setOnMenuItemClickListener(item -> false);
         }
     }
 

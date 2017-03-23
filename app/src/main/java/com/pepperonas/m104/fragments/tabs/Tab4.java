@@ -27,14 +27,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
 import com.pepperonas.jbasx.base.StringUtils;
 import com.pepperonas.m104.R;
-import com.pepperonas.m104.model.InstalledBasic;
 import com.pepperonas.m104.fragments.FragmentRoot;
 import com.pepperonas.m104.interfaces.IInstalledBasicsCommunicator;
+import com.pepperonas.m104.model.InstalledBasic;
 import com.pepperonas.m104.utils.DumpLoader;
-
 import java.util.HashMap;
 import java.util.List;
 
@@ -63,7 +61,8 @@ public class Tab4 extends Fragment {
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
+        @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.tab_4, container, false);
     }
 
@@ -142,7 +141,8 @@ public class Tab4 extends Fragment {
                     }
                 }
 
-                List<InstalledBasic> installedBasicList = mInstalledBasicsCommunicator.onInstalledBasicsRequested();
+                List<InstalledBasic> installedBasicList = mInstalledBasicsCommunicator
+                    .onInstalledBasicsRequested();
 
                 try {
                     ((TextView) getActivity().findViewById(R.id.tv_root_tab_4)).setText(dumpData);

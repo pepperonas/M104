@@ -18,7 +18,6 @@ package com.pepperonas.m104.model;
 
 import android.content.pm.ApplicationInfo;
 import android.graphics.drawable.Drawable;
-
 import java.util.Comparator;
 
 /**

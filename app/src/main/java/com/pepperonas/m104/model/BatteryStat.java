@@ -50,30 +50,29 @@ public class BatteryStat {
     /**
      * Instantiates a new Battery stat.
      *
-     * @param stamp                 the stamp
-     * @param isCharging            the is charging
-     * @param chargeMode            the charge mode
-     * @param isCharged             the is charged
-     * @param level                 the level
-     * @param temperature           the temperature
-     * @param voltage               the makeVoltage
-     * @param isScreenOn            the is screen on
-     * @param screenBrightness      the screen brightness
-     * @param isWifiEnabled         the is wifi enabled
-     * @param isWifiConnected       the is wifi connected
-     * @param isGpsEnabled          the is gps enabled
-     * @param isGpsNetworkEnabled   the is gps network enabled
-     * @param isGpsPassiveEnabled   the is gps passive enabled
-     * @param isSyncEnabled         the is sync enabled
+     * @param stamp the stamp
+     * @param isCharging the is charging
+     * @param chargeMode the charge mode
+     * @param isCharged the is charged
+     * @param level the level
+     * @param temperature the temperature
+     * @param voltage the makeVoltage
+     * @param isScreenOn the is screen on
+     * @param screenBrightness the screen brightness
+     * @param isWifiEnabled the is wifi enabled
+     * @param isWifiConnected the is wifi connected
+     * @param isGpsEnabled the is gps enabled
+     * @param isGpsNetworkEnabled the is gps network enabled
+     * @param isGpsPassiveEnabled the is gps passive enabled
+     * @param isSyncEnabled the is sync enabled
      * @param isAirPlaneModeEnabled the is air plane mode enabled
      * @param remainingCapacity_mAh the remainingCapacity_mAh
      */
-    public BatteryStat(long stamp, boolean isCharging, ChargeMode chargeMode,
-                       boolean isCharged, int level, float temperature, float voltage,
-                       boolean isScreenOn, int screenBrightness, boolean isWifiEnabled,
-                       boolean isWifiConnected, boolean isGpsEnabled, boolean isGpsNetworkEnabled,
-                       boolean isGpsPassiveEnabled, boolean isSyncEnabled, boolean isAirPlaneModeEnabled,
-                       int remainingCapacity_mAh) {
+    public BatteryStat(long stamp, boolean isCharging, ChargeMode chargeMode, boolean isCharged,
+        int level, float temperature, float voltage, boolean isScreenOn, int screenBrightness,
+        boolean isWifiEnabled, boolean isWifiConnected, boolean isGpsEnabled,
+        boolean isGpsNetworkEnabled, boolean isGpsPassiveEnabled, boolean isSyncEnabled,
+        boolean isAirPlaneModeEnabled, int remainingCapacity_mAh) {
 
         this.stamp = stamp;
         this.isCharging = isCharging;

@@ -27,7 +27,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
 import com.pepperonas.m104.R;
 import com.pepperonas.m104.fragments.FragmentRoot;
 import com.pepperonas.m104.interfaces.IInstalledBasicsCommunicator;
@@ -58,7 +57,8 @@ public class Tab8 extends Fragment {
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
+        @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.tab_8, container, false);
     }
 

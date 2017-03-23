@@ -17,7 +17,6 @@
 package com.pepperonas.m104.interfaces;
 
 import com.pepperonas.m104.model.InstalledBasic;
-
 import java.util.List;
 
 /**

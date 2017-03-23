@@ -18,7 +18,6 @@ package com.pepperonas.m104.dialogs;
 
 import android.content.Context;
 import android.preference.CheckBoxPreference;
-
 import com.pepperonas.aespreferences.AesPrefs;
 import com.pepperonas.m104.R;
 import com.pepperonas.materialdialog.MaterialDialog;
@@ -32,34 +31,30 @@ public class DialogAnalyticsInfo {
 
 
     public DialogAnalyticsInfo(Context ctx, final CheckBoxPreference cbxP) {
-        new MaterialDialog.Builder(ctx)
-                .title(ctx.getString(R.string.dialog_analytics_title))
-                .message(ctx.getString(R.string.dialog_analytics_msg))
-                .positiveText(ctx.getString(R.string.ok))
-                .negativeText(ctx.getString(R.string.cancel))
-                .buttonCallback(new MaterialDialog.ButtonCallback() {
-                    @Override
-                    public void onPositive(MaterialDialog dialog) {
-                        super.onPositive(dialog);
-                        mDoUncheck = false;
-                    }
+        new MaterialDialog.Builder(ctx).title(ctx.getString(R.string.dialog_analytics_title))
+            .message(ctx.getString(R.string.dialog_analytics_msg))
+            .positiveText(ctx.getString(R.string.ok)).negativeText(ctx.getString(R.string.cancel))
+            .buttonCallback(new MaterialDialog.ButtonCallback() {
+                @Override
+                public void onPositive(MaterialDialog dialog) {
+                    super.onPositive(dialog);
+                    mDoUncheck = false;
+                }
 
 
-                    @Override
-                    public void onNegative(MaterialDialog dialog) {
-                        super.onNegative(dialog);
-                        mDoUncheck = true;
-                    }
-                })
-                .dismissListener(new MaterialDialog.DismissListener() {
-                    @Override
-                    public void onDismiss() {
-                        super.onDismiss();
-                        cbxP.setChecked(mDoUncheck);
-                        AesPrefs.putBooleanRes(R.string.IS_ANALYTICS, mDoUncheck);
-                    }
-                })
-                .show();
+                @Override
+                public void onNegative(MaterialDialog dialog) {
+                    super.onNegative(dialog);
+                    mDoUncheck = true;
+                }
+            }).dismissListener(new MaterialDialog.DismissListener() {
+            @Override
+            public void onDismiss() {
+                super.onDismiss();
+                cbxP.setChecked(mDoUncheck);
+                AesPrefs.putBooleanRes(R.string.IS_ANALYTICS, mDoUncheck);
+            }
+        }).show();
     }
 
 }

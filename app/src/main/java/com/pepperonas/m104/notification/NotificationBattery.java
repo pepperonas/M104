@@ -23,10 +23,8 @@ import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.widget.RemoteViews;
-
 import com.pepperonas.aespreferences.AesPrefs;
 import com.pepperonas.andbasx.AndBasx;
-import com.pepperonas.andbasx.base.Loader;
 import com.pepperonas.m104.MainActivity;
 import com.pepperonas.m104.R;
 import com.pepperonas.m104.config.Const;
@@ -60,19 +58,20 @@ public class NotificationBattery {
         this.mCtx = context;
 
         mBuilder = new NotificationCompat.Builder(context)
-                .setContentTitle(context.getString(R.string.notification_title_battery))
-                .setSmallIcon(R.drawable.ic_launcher)
-                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-                .setPriority(NotificationCompat.PRIORITY_MAX)
-                .setOngoing(true);
+            .setContentTitle(context.getString(R.string.notification_title_battery))
+            .setSmallIcon(R.drawable.ic_launcher)
+            .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+            .setPriority(NotificationCompat.PRIORITY_MAX).setOngoing(true);
 
-        mRemoteViews = new RemoteViews(context.getPackageName(), R.layout.notification_view_battery);
+        mRemoteViews = new RemoteViews(context.getPackageName(),
+            R.layout.notification_view_battery);
 
         initBatteryNotificationIntent();
 
         mBuilder.setContent(mRemoteViews);
 
-        mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        mNotificationManager = (NotificationManager) context
+            .getSystemService(Context.NOTIFICATION_SERVICE);
 
         if (AesPrefs.getBooleanRes(R.string.SHOW_BATTERY_NOTIFICATION, true)) {
             mNotificationManager.notify(Const.NOTIFICATION_BATTERY, mBuilder.build());
@@ -86,8 +85,7 @@ public class NotificationBattery {
     public void initBatteryNotificationIntent() {
         Intent chartIntent = new Intent(mCtx, BatteryDialogActivity.class);
 
-        chartIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
-                             | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        chartIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
         PendingIntent pendingIntent = PendingIntent.getActivity(mCtx, 0, chartIntent, 0);
 
@@ -95,15 +93,16 @@ public class NotificationBattery {
 
         // launch main when circle is clicked
         Intent launch = new Intent(mCtx, MainActivity.class);
-        launch.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
-                        | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        launch.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
         launch.putExtra("start_fragment", EXTRA_START_BATTERY);
 
         /**
          * Important: set {@link PendingIntent.FLAG_UPDATE_CURRENT}
          * */
-        PendingIntent btnLaunch = PendingIntent.getActivity(mCtx, Const.NOTIFICATION_BATTERY, launch, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent btnLaunch = PendingIntent
+            .getActivity(mCtx, Const.NOTIFICATION_BATTERY, launch,
+                PendingIntent.FLAG_UPDATE_CURRENT);
         mRemoteViews.setOnClickPendingIntent(R.id.iv_notification_circle_left, btnLaunch);
     }
 
@@ -111,26 +110,37 @@ public class NotificationBattery {
     /**
      * Update the notification, which is shown in {@link R.layout#notification_view_network}.
      *
-     * @param level      the level
-     * @param temp       the makeTemperatureInfo
+     * @param level the level
+     * @param temp the makeTemperatureInfo
      * @param isCharging the is charging
      */
     public void update(int level, double temp, boolean isCharging) {
 
         int imageResourceId;
+        String uri = "@drawable/";
         if (level == -1) {
-            imageResourceId = Loader.resolveDrawableId("_0");
-        } else imageResourceId = Loader.resolveDrawableId("_" + String.valueOf(level));
+            imageResourceId = mCtx.getResources()
+                .getIdentifier(uri + "_0", null, mCtx.getPackageName());
+//            imageResourceId = Loader.resolveDrawableId("_0");
+        } else {
+            imageResourceId = mCtx.getResources()
+                .getIdentifier(uri + "_" + String.valueOf(level), null, mCtx.getPackageName());
+//            imageResourceId = Loader.resolveDrawableId("_" + String.valueOf(level));
+        }
 
-        mBuilder.setSmallIcon(imageResourceId)
-                .setPriority(NotificationCompat.PRIORITY_MAX)
-                .setOngoing(true);
+        mBuilder.setSmallIcon(imageResourceId).setPriority(NotificationCompat.PRIORITY_MAX)
+            .setOngoing(true);
 
-        mRemoteViews.setTextViewText(R.id.tv_notification_circle_value, StringFactory.makeLevelInfo(mCtx, level));
-        mRemoteViews.setTextViewText(R.id.tv_m_notification_center_top, StringFactory.makeRemainingInfo(mCtx, level, isCharging));
-        mRemoteViews.setTextViewText(R.id.tv_s_notification_center_bottom, StringFactory.makePercentagePerHourInfo(mCtx, isCharging));
-        mRemoteViews.setTextViewText(R.id.tv_s_notification_right_top, StringFactory.makeTemperatureInfo(mCtx, temp));
-        mRemoteViews.setTextViewText(R.id.tv_s_notification_right_bottom, StringFactory.makeRelative_mAhInfo(mCtx, BatteryUtils.getCharge()));
+        mRemoteViews.setTextViewText(R.id.tv_notification_circle_value,
+            StringFactory.makeLevelInfo(mCtx, level));
+        mRemoteViews.setTextViewText(R.id.tv_m_notification_center_top,
+            StringFactory.makeRemainingInfo(mCtx, level, isCharging));
+        mRemoteViews.setTextViewText(R.id.tv_s_notification_center_bottom,
+            StringFactory.makePercentagePerHourInfo(mCtx, isCharging));
+        mRemoteViews.setTextViewText(R.id.tv_s_notification_right_top,
+            StringFactory.makeTemperatureInfo(mCtx, temp));
+        mRemoteViews.setTextViewText(R.id.tv_s_notification_right_bottom,
+            StringFactory.makeRelative_mAhInfo(mCtx, BatteryUtils.getCharge()));
 
         if (AesPrefs.getBooleanRes(R.string.SHOW_BATTERY_NOTIFICATION, true)) {
             Log.i(TAG, "---UPDATE---");
@@ -149,12 +159,15 @@ public class NotificationBattery {
         Log.i(TAG, "---UPDATE (set when)---");
 
         if (mNotificationManager == null) {
-            mNotificationManager = (NotificationManager) AndBasx.getContext().getSystemService(Context.NOTIFICATION_SERVICE);
+            mNotificationManager = (NotificationManager) AndBasx.getContext()
+                .getSystemService(Context.NOTIFICATION_SERVICE);
         }
         mNotificationManager.cancel(Const.NOTIFICATION_BATTERY);
 
         if (mBuilder != null) {
             mBuilder.setWhen(System.currentTimeMillis());
-        } else Log.w(TAG, "updateSetWhen " + "Error refreshing notification");
+        } else {
+            Log.w(TAG, "updateSetWhen " + "Error refreshing notification");
+        }
     }
 }

@@ -25,13 +25,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import com.pepperonas.m104.R;
-import com.pepperonas.m104.model.InstalledBasic;
 import com.pepperonas.m104.fragments.FragmentRoot;
 import com.pepperonas.m104.interfaces.IInstalledBasicsCommunicator;
+import com.pepperonas.m104.model.InstalledBasic;
 import com.pepperonas.m104.utils.DumpLoader;
-
 import java.util.List;
 
 /**
@@ -59,7 +57,8 @@ public class Tab1 extends Fragment {
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
+        @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.tab_1, container, false);
     }
 
@@ -68,13 +67,13 @@ public class Tab1 extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        List<InstalledBasic> installedBasicList = mInstalledBasicsCommunicator.onInstalledBasicsRequested();
+        List<InstalledBasic> installedBasicList = mInstalledBasicsCommunicator
+            .onInstalledBasicsRequested();
         Log.d(TAG, "onViewCreated installedAppSize: " + installedBasicList.size());
 
         //        ProgressBar progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
         new LoaderTask().execute("");
     }
-
 
     //    @Override
     //    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -144,7 +143,6 @@ public class Tab1 extends Fragment {
             }
         }
     }
-
 
     //    class LoaderTask extends AsyncTask<String, String, String> {
     //

@@ -19,7 +19,6 @@ package com.pepperonas.m104;
 import android.app.Application;
 import android.content.Context;
 import android.support.multidex.MultiDex;
-
 import com.pepperonas.aespreferences.AesPrefs;
 import com.pepperonas.andbasx.AndBasx;
 import com.pepperonas.m104.utils.BatteryUtils;
@@ -64,7 +63,6 @@ public class App extends Application {
 
         AesPrefs.initBooleanRes(R.string.IS_CHARGING, false);
     }
-
 
     //    /**
     //     * Gets the default {@link Tracker} for this {@link Application}.

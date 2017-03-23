@@ -19,11 +19,10 @@ package com.pepperonas.m104.receiver;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-
 import com.pepperonas.aespreferences.AesPrefs;
-import com.pepperonas.m104.R;
-import com.pepperonas.m104.MainService;
 import com.pepperonas.jbasx.log.Log;
+import com.pepperonas.m104.MainService;
+import com.pepperonas.m104.R;
 
 /**
  * @author Martin Pfeffer (pepperonas)

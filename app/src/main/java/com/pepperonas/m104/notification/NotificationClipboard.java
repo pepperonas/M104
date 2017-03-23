@@ -25,7 +25,6 @@ import android.graphics.drawable.Drawable;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.widget.RemoteViews;
-
 import com.pepperonas.aespreferences.AesPrefs;
 import com.pepperonas.andbasx.AndBasx;
 import com.pepperonas.andbasx.base.DrawableUtils;
@@ -55,33 +54,35 @@ public class NotificationClipboard {
     /**
      * Instantiates a new Notification panel.
      *
-     * @param context       the context
+     * @param context the context
      * @param clipDataCount the clip data count
      */
     public NotificationClipboard(Context context, int clipDataCount) {
         this.mCtx = context;
 
         mBuilder = new NotificationCompat.Builder(context)
-                .setContentTitle(context.getString(R.string.notification_title_battery))
-                .setSmallIcon(R.drawable.ic_attachment_white_24dp)
-                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-                .setPriority(NotificationCompat.PRIORITY_MAX)
-                .setOngoing(true);
+            .setContentTitle(context.getString(R.string.notification_title_battery))
+            .setSmallIcon(R.drawable.ic_attachment_white_24dp)
+            .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+            .setPriority(NotificationCompat.PRIORITY_MAX).setOngoing(true);
 
-        mRemoteViews = new RemoteViews(context.getPackageName(), R.layout.notification_view_clipboard);
+        mRemoteViews = new RemoteViews(context.getPackageName(),
+            R.layout.notification_view_clipboard);
 
         Drawable d = Loader.getDrawable(R.drawable.ic_attachment_white_24dp);
         Bitmap bm = DrawableUtils.toBitmap(d);
 
         mRemoteViews.setImageViewBitmap(R.id.iv_icon, bm);
 
-        mRemoteViews.setTextViewText(R.id.tv_s_notification_center_bottom, makeClipDataCountInfo(clipDataCount));
+        mRemoteViews.setTextViewText(R.id.tv_s_notification_center_bottom,
+            makeClipDataCountInfo(clipDataCount));
 
         initClipboardNotificationIntent();
 
         mBuilder.setContent(mRemoteViews);
 
-        mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        mNotificationManager = (NotificationManager) context
+            .getSystemService(Context.NOTIFICATION_SERVICE);
 
         if (AesPrefs.getBoolean(mCtx.getString(R.string.SHOW_CLIPBOARD_NOTIFICATION), true)) {
             mNotificationManager.notify(Const.NOTIFICATION_CLIPBOARD, mBuilder.build());
@@ -99,8 +100,12 @@ public class NotificationClipboard {
      * @return the char sequence
      */
     private CharSequence makeClipDataCountInfo(int clipDataCount) {
-        if (clipDataCount == 0) return mCtx.getString(R.string.no_entries);
-        if (clipDataCount == 1) return mCtx.getString(R.string.one_entry);
+        if (clipDataCount == 0) {
+            return mCtx.getString(R.string.no_entries);
+        }
+        if (clipDataCount == 1) {
+            return mCtx.getString(R.string.one_entry);
+        }
 
         return clipDataCount + " " + mCtx.getString(R.string.entries);
     }
@@ -112,8 +117,7 @@ public class NotificationClipboard {
     public void initClipboardNotificationIntent() {
         Intent clipboardIntent = new Intent(mCtx, ClipboardDialogActivity.class);
 
-        clipboardIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
-                                 | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        clipboardIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
         PendingIntent pendingIntent = PendingIntent.getActivity(mCtx, 0, clipboardIntent, 0);
 
@@ -121,15 +125,16 @@ public class NotificationClipboard {
 
         // launch main when circle is clicked
         Intent launch = new Intent(mCtx, MainActivity.class);
-        launch.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
-                        | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        launch.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
         launch.putExtra("start_fragment", EXTRA_START_CLIPBOARD);
 
         /**
          * Important: set {@link PendingIntent.FLAG_UPDATE_CURRENT}
          * */
-        PendingIntent btnLaunch = PendingIntent.getActivity(mCtx, Const.NOTIFICATION_CLIPBOARD, launch, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent btnLaunch = PendingIntent
+            .getActivity(mCtx, Const.NOTIFICATION_CLIPBOARD, launch,
+                PendingIntent.FLAG_UPDATE_CURRENT);
         mRemoteViews.setOnClickPendingIntent(R.id.iv_notification_circle_left, btnLaunch);
     }
 
@@ -141,9 +146,9 @@ public class NotificationClipboard {
      */
     public void update(int clipDataCount) {
         mBuilder.setSmallIcon(R.drawable.ic_attachment_white_24dp)
-                .setPriority(NotificationCompat.PRIORITY_MAX)
-                .setOngoing(true);
-        mRemoteViews.setTextViewText(R.id.tv_s_notification_center_bottom, makeClipDataCountInfo(clipDataCount));
+            .setPriority(NotificationCompat.PRIORITY_MAX).setOngoing(true);
+        mRemoteViews.setTextViewText(R.id.tv_s_notification_center_bottom,
+            makeClipDataCountInfo(clipDataCount));
 
         if (AesPrefs.getBooleanRes(R.string.SHOW_CLIPBOARD_NOTIFICATION, true)) {
             Log.i(TAG, "---UPDATE---");
@@ -161,22 +166,24 @@ public class NotificationClipboard {
         Log.i(TAG, "---UPDATE (set when)---");
 
         if (mNotificationManager == null) {
-            mNotificationManager = (NotificationManager) AndBasx.getContext().getSystemService(Context.NOTIFICATION_SERVICE);
+            mNotificationManager = (NotificationManager) AndBasx.getContext()
+                .getSystemService(Context.NOTIFICATION_SERVICE);
         }
         mNotificationManager.cancel(Const.NOTIFICATION_CLIPBOARD);
 
         if (mBuilder != null) {
             mBuilder.setWhen(System.currentTimeMillis());
-        } else Log.w(TAG, "updateSetWhen " + "Error refreshing notification");
+        } else {
+            Log.w(TAG, "updateSetWhen " + "Error refreshing notification");
+        }
 
         if (AesPrefs.getBooleanRes(R.string.SHOW_CLIPBOARD_NOTIFICATION, true)) {
             if (mBuilder == null) {
-                mBuilder = new NotificationCompat.Builder(AndBasx.getContext())
-                        .setContentTitle(AndBasx.getContext().getString(R.string.notification_title_battery))
-                        .setSmallIcon(R.drawable.ic_attachment_white_24dp)
-                        .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-                        .setPriority(NotificationCompat.PRIORITY_MAX)
-                        .setOngoing(true);
+                mBuilder = new NotificationCompat.Builder(AndBasx.getContext()).setContentTitle(
+                    AndBasx.getContext().getString(R.string.notification_title_battery))
+                    .setSmallIcon(R.drawable.ic_attachment_white_24dp)
+                    .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                    .setPriority(NotificationCompat.PRIORITY_MAX).setOngoing(true);
             }
 
             mNotificationManager.notify(Const.NOTIFICATION_CLIPBOARD, mBuilder.build());

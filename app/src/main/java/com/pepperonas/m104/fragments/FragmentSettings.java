@@ -24,7 +24,6 @@ import android.preference.CheckBoxPreference;
 import android.preference.Preference;
 import android.preference.PreferenceGroup;
 import android.view.View;
-
 import com.mikepenz.community_material_typeface_library.CommunityMaterial;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
@@ -47,15 +46,14 @@ import com.pepperonas.m104.notification.NotificationBattery;
 import com.pepperonas.m104.notification.NotificationClipboard;
 import com.pepperonas.m104.notification.NotificationNetwork;
 import com.pepperonas.materialdialog.MaterialDialog;
-
 import java.util.concurrent.Callable;
 
 /**
  * @author Martin Pfeffer (pepperonas)
  */
-public class FragmentSettings
-        extends com.github.machinarius.preferencefragment.PreferenceFragment
-        implements Preference.OnPreferenceClickListener {
+public class FragmentSettings extends
+    com.github.machinarius.preferencefragment.PreferenceFragment implements
+    Preference.OnPreferenceClickListener {
 
     private static final String TAG = "FragmentSettings";
 
@@ -84,9 +82,8 @@ public class FragmentSettings
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.fragment_preference);
 
-        AesPrefs.setClickListenersOnPreferences(
-                this,
-                findPreference(getString(R.string.IS_AUTO_START)),
+        AesPrefs
+            .setClickListenersOnPreferences(this, findPreference(getString(R.string.IS_AUTO_START)),
                 findPreference(getString(R.string.SHOW_BATTERY_NOTIFICATION)),
                 findPreference(getString(R.string.SHOW_NETWORK_NOTIFICATION)),
                 findPreference(getString(R.string.SHOW_CLIPBOARD_NOTIFICATION)),
@@ -99,8 +96,7 @@ public class FragmentSettings
                 findPreference(getString(R.string.LICENSE)),
                 findPreference(getString(R.string.BUILD_VERSION)),
                 findPreference(getString(R.string.ANALYTICS)),
-                findPreference(getString(R.string.UNITS_CELSIUS))
-        );
+                findPreference(getString(R.string.UNITS_CELSIUS)));
 
         ensureRootMode();
 
@@ -138,13 +134,15 @@ public class FragmentSettings
             ThreadUtils.runDelayed(3000, new Callable<Void>() {
                 @Override
                 public Void call() throws Exception {
-                    CheckBoxPreference cbxP = ((CheckBoxPreference) findPreference(getString(R
-                            .string.IS_ROOT_MODE)));
+                    CheckBoxPreference cbxP = ((CheckBoxPreference) findPreference(
+                        getString(R.string.IS_ROOT_MODE)));
                     AesPrefs.putBooleanRes(R.string.IS_ROOT_MODE, cbxP.isChecked());
                     ensureRootMode();
                     if (cbxP.isChecked()) {
                         ((MainActivity) getActivity()).addItemRoot();
-                    } else ((MainActivity) getActivity()).removeItemRoot();
+                    } else {
+                        ((MainActivity) getActivity()).removeItemRoot();
+                    }
                     return null;
                 }
             });
@@ -152,18 +150,18 @@ public class FragmentSettings
             cbxP = (CheckBoxPreference) findPreference(getString(R.string.IS_AUTO_START));
             AesPrefs.putBooleanRes(R.string.IS_AUTO_START, cbxP.isChecked());
         } else if (preference.getKey().equals(getString(R.string.SHOW_BATTERY_NOTIFICATION))) {
-            cbxP = (CheckBoxPreference) findPreference(getString(R.string
-                    .SHOW_BATTERY_NOTIFICATION));
+            cbxP = (CheckBoxPreference) findPreference(
+                getString(R.string.SHOW_BATTERY_NOTIFICATION));
             AesPrefs.putBooleanRes(R.string.SHOW_BATTERY_NOTIFICATION, cbxP.isChecked());
             applyNotificationState(R.string.SHOW_BATTERY_NOTIFICATION, cbxP.isChecked());
         } else if (preference.getKey().equals(getString(R.string.SHOW_NETWORK_NOTIFICATION))) {
-            cbxP = (CheckBoxPreference) findPreference(getString(R.string
-                    .SHOW_NETWORK_NOTIFICATION));
+            cbxP = (CheckBoxPreference) findPreference(
+                getString(R.string.SHOW_NETWORK_NOTIFICATION));
             AesPrefs.putBooleanRes(R.string.SHOW_NETWORK_NOTIFICATION, cbxP.isChecked());
             applyNotificationState(R.string.SHOW_NETWORK_NOTIFICATION, cbxP.isChecked());
         } else if (preference.getKey().equals(getString(R.string.SHOW_CLIPBOARD_NOTIFICATION))) {
-            cbxP = (CheckBoxPreference) findPreference(getString(R.string
-                    .SHOW_CLIPBOARD_NOTIFICATION));
+            cbxP = (CheckBoxPreference) findPreference(
+                getString(R.string.SHOW_CLIPBOARD_NOTIFICATION));
             AesPrefs.putBooleanRes(R.string.SHOW_CLIPBOARD_NOTIFICATION, cbxP.isChecked());
             applyNotificationState(R.string.SHOW_CLIPBOARD_NOTIFICATION, cbxP.isChecked());
         } else if (preference.getKey().equals(getString(R.string.TOUCH_TWICE_TO_EXIT))) {
@@ -191,25 +189,24 @@ public class FragmentSettings
             if (AesPrefs.getBooleanRes(R.string.IS_ANALYTICS, true)) {
                 new DialogAnalyticsInfo(getContext(), cbxP);
                 return false;
-            } else AesPrefs.putBooleanRes(R.string.IS_ANALYTICS, true);
+            } else {
+                AesPrefs.putBooleanRes(R.string.IS_ANALYTICS, true);
+            }
         } else if (preference.getKey().equals(getString(R.string.UNITS_CELSIUS))) {
-            new MaterialDialog.Builder(getContext())
-                    .title(R.string.pref_title_temperature_unit)
-                    .listItemsSingleSelection(true, getString(R.string.celsius), getString(R
-                            .string.fahrenheit))
-                    .selection(AesPrefs.getBooleanRes(R.string.UNITS_CELSIUS, true) ? 0 : 1)
-                    .itemClickListener(new MaterialDialog.ItemClickListener() {
-                        @Override
-                        public void onClick(View v, int position, long id) {
-                            super.onClick(v, position, id);
-                            AesPrefs.putBooleanRes(R.string.UNITS_CELSIUS, position == 0);
-                            findPreference(getString(R.string.UNITS_CELSIUS))
-                                    .setSummary(getString(AesPrefs.getBooleanRes(R.string
-                                            .UNITS_CELSIUS, true) ? R.string
-                                            ._unit_celsius : R.string._unit_fahrenheit));
-                        }
-                    })
-                    .show();
+            new MaterialDialog.Builder(getContext()).title(R.string.pref_title_temperature_unit)
+                .listItemsSingleSelection(true, getString(R.string.celsius),
+                    getString(R.string.fahrenheit))
+                .selection(AesPrefs.getBooleanRes(R.string.UNITS_CELSIUS, true) ? 0 : 1)
+                .itemClickListener(new MaterialDialog.ItemClickListener() {
+                    @Override
+                    public void onClick(View v, int position, long id) {
+                        super.onClick(v, position, id);
+                        AesPrefs.putBooleanRes(R.string.UNITS_CELSIUS, position == 0);
+                        findPreference(getString(R.string.UNITS_CELSIUS)).setSummary(getString(
+                            AesPrefs.getBooleanRes(R.string.UNITS_CELSIUS, true)
+                                ? R.string._unit_celsius : R.string._unit_fahrenheit));
+                    }
+                }).show();
         }
         return true;
     }
@@ -220,14 +217,13 @@ public class FragmentSettings
      */
     private void ensureRootMode() {
         if (SystemUtils.isRooted()) {
-            AesPrefs.setClickListenersOnPreferences(
-                    this, findPreference(getString(R.string.IS_ROOT_MODE))
-            );
+            AesPrefs.setClickListenersOnPreferences(this,
+                findPreference(getString(R.string.IS_ROOT_MODE)));
             ((CheckBoxPreference) findPreference(getString(R.string.IS_ROOT_MODE)))
-                    .setChecked(AesPrefs.getBooleanRes(R.string.IS_ROOT_MODE, false));
+                .setChecked(AesPrefs.getBooleanRes(R.string.IS_ROOT_MODE, false));
         } else {
             ((PreferenceGroup) findPreference("pref_cat_main"))
-                    .removePreference(findPreference(getString(R.string.IS_ROOT_MODE)));
+                .removePreference(findPreference(getString(R.string.IS_ROOT_MODE)));
         }
     }
 
@@ -237,21 +233,21 @@ public class FragmentSettings
      */
     private void addPrefIcons() {
         int color = R.color.sa_teal;
-        findPreference(getString(R.string.RATE_APP)).setIcon(new IconicsDrawable(getContext(),
-                GoogleMaterial.Icon.gmd_star)
+        findPreference(getString(R.string.RATE_APP)).setIcon(
+            new IconicsDrawable(getContext(), GoogleMaterial.Icon.gmd_star).colorRes(color)
+                .sizeDp(Const.NAV_DRAWER_ICON_SIZE));
+        findPreference(getString(R.string.SHARE_APP)).setIcon(
+            new IconicsDrawable(getContext(), GoogleMaterial.Icon.gmd_tag_faces).colorRes(color)
+                .sizeDp(Const.NAV_DRAWER_ICON_SIZE));
+        findPreference(getString(R.string.LICENSE)).setIcon(
+            new IconicsDrawable(getContext(), CommunityMaterial.Icon.cmd_github_circle)
                 .colorRes(color).sizeDp(Const.NAV_DRAWER_ICON_SIZE));
-        findPreference(getString(R.string.SHARE_APP)).setIcon(new IconicsDrawable(getContext(),
-                GoogleMaterial.Icon
-                        .gmd_tag_faces).colorRes(color).sizeDp(Const.NAV_DRAWER_ICON_SIZE));
-        findPreference(getString(R.string.LICENSE)).setIcon(new IconicsDrawable(getContext(),
-                CommunityMaterial.Icon
-                        .cmd_github_circle).colorRes(color).sizeDp(Const.NAV_DRAWER_ICON_SIZE));
-        findPreference(getString(R.string.SHOW_APP_INTRO_AGAIN)).setIcon(new IconicsDrawable
-                (getContext(), GoogleMaterial.Icon
-                        .gmd_info_outline).colorRes(color).sizeDp(Const.NAV_DRAWER_ICON_SIZE));
-        findPreference(getString(R.string.BUILD_VERSION)).setIcon(new IconicsDrawable(getContext
-                (), CommunityMaterial.Icon
-                .cmd_leaf).colorRes(color).sizeDp(Const.NAV_DRAWER_ICON_SIZE));
+        findPreference(getString(R.string.SHOW_APP_INTRO_AGAIN)).setIcon(
+            new IconicsDrawable(getContext(), GoogleMaterial.Icon.gmd_info_outline).colorRes(color)
+                .sizeDp(Const.NAV_DRAWER_ICON_SIZE));
+        findPreference(getString(R.string.BUILD_VERSION)).setIcon(
+            new IconicsDrawable(getContext(), CommunityMaterial.Icon.cmd_leaf).colorRes(color)
+                .sizeDp(Const.NAV_DRAWER_ICON_SIZE));
     }
 
 
@@ -273,8 +269,8 @@ public class FragmentSettings
      * Update summaries.
      */
     private void updateSummaries() {
-        CheckBoxPreference chbP = (CheckBoxPreference) findPreference(getString(R.string
-                .SHOW_BATTERY_NOTIFICATION));
+        CheckBoxPreference chbP = (CheckBoxPreference) findPreference(
+            getString(R.string.SHOW_BATTERY_NOTIFICATION));
         chbP.setChecked(AesPrefs.getBooleanRes(R.string.SHOW_BATTERY_NOTIFICATION, true));
 
         chbP = (CheckBoxPreference) findPreference(getString(R.string.SHOW_NETWORK_NOTIFICATION));
@@ -296,8 +292,8 @@ public class FragmentSettings
         chbP.setChecked(AesPrefs.getBooleanRes(R.string.IS_ANALYTICS, true));
 
         Preference p = findPreference(getString(R.string.UNITS_CELSIUS));
-        p.setSummary(getString(AesPrefs.getBooleanRes(R.string.UNITS_CELSIUS, true) ? R.string
-                ._unit_celsius
+        p.setSummary(getString(
+            AesPrefs.getBooleanRes(R.string.UNITS_CELSIUS, true) ? R.string._unit_celsius
                 : R.string._unit_fahrenheit));
     }
 
@@ -315,8 +311,8 @@ public class FragmentSettings
      * On share.
      */
     private void onShare() {
-        UsabilityUtils.launchShareAppIntent(getActivity(), "com.pepperonas.m104", getString(R
-                .string.share_app_intro_text));
+        UsabilityUtils.launchShareAppIntent(getActivity(), "com.pepperonas.m104",
+            getString(R.string.share_app_intro_text));
         //        doAnalyticsOnAction("onShare");
     }
 
@@ -329,12 +325,13 @@ public class FragmentSettings
     private void onClickEncryptDatabase(CheckBoxPreference cbxEncrypt) {
         if (cbxEncrypt.isChecked()) {
             if (AesPrefs.getRes(R.string.ENCRYPTION_PASSWORD, "").equals("")) {
-                new DialogSetPassword(getContext(), cbxEncrypt, ((MainActivity) getActivity())
-                        .getDatabase());
+                new DialogSetPassword(getContext(), cbxEncrypt,
+                    ((MainActivity) getActivity()).getDatabase());
             }
-        } else
-            new DialogDecryptDatabase(getContext(), cbxEncrypt, ((MainActivity) getActivity())
-                    .getDatabase());
+        } else {
+            new DialogDecryptDatabase(getContext(), cbxEncrypt,
+                ((MainActivity) getActivity()).getDatabase());
+        }
     }
 
 
@@ -349,7 +346,7 @@ public class FragmentSettings
     /**
      * Apply notification state.
      *
-     * @param which     the which
+     * @param which the which
      * @param isChecked the is checked
      */
     private void applyNotificationState(int which, boolean isChecked) {
@@ -358,31 +355,35 @@ public class FragmentSettings
         }
 
         NotificationManager notificationManager = (NotificationManager) getActivity()
-                .getSystemService(Context
-                        .NOTIFICATION_SERVICE);
+            .getSystemService(Context.NOTIFICATION_SERVICE);
         switch (which) {
             case R.string.SHOW_BATTERY_NOTIFICATION: {
                 if (isChecked) {
                     NotificationBattery.updateSetWhen();
-                } else notificationManager.cancel(Const.NOTIFICATION_BATTERY);
+                } else {
+                    notificationManager.cancel(Const.NOTIFICATION_BATTERY);
+                }
                 break;
             }
             case R.string.SHOW_NETWORK_NOTIFICATION: {
                 if (isChecked) {
                     NotificationNetwork.updateSetWhen();
-                } else notificationManager.cancel(Const.NOTIFICATION_NETWORK);
+                } else {
+                    notificationManager.cancel(Const.NOTIFICATION_NETWORK);
+                }
                 break;
             }
             case R.string.SHOW_CLIPBOARD_NOTIFICATION: {
                 if (isChecked) {
                     NotificationClipboard.updateSetWhen();
-                } else notificationManager.cancel(Const.NOTIFICATION_CLIPBOARD);
+                } else {
+                    notificationManager.cancel(Const.NOTIFICATION_CLIPBOARD);
+                }
                 break;
             }
         }
 
     }
-
 
     //    /**
     //     * Init analytics.
@@ -397,7 +398,6 @@ public class FragmentSettings
     //            mTracker.send(new HitBuilders.ScreenViewBuilder().build());
     //        }
     //    }
-
 
     //    /**
     //     * Do analytics on action.

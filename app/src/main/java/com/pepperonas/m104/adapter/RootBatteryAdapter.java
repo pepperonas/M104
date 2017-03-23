@@ -25,16 +25,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.pepperonas.m104.R;
 import com.pepperonas.m104.model.RootBatteryStat;
-
 import java.util.List;
 
 /**
  * @author Martin Pfeffer (pepperonas)
  */
-public class RootBatteryAdapter extends RecyclerView.Adapter<RootBatteryAdapter.InstalledAppViewHolder> {
+public class RootBatteryAdapter extends
+    RecyclerView.Adapter<RootBatteryAdapter.InstalledAppViewHolder> {
 
     private static final int ICON_SIZE = 16;
 
@@ -62,7 +61,8 @@ public class RootBatteryAdapter extends RecyclerView.Adapter<RootBatteryAdapter.
 
     @Override
     public InstalledAppViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_app_root_battery, parent, false);
+        View v = LayoutInflater.from(parent.getContext())
+            .inflate(R.layout.card_app_root_battery, parent, false);
         return new InstalledAppViewHolder(v);
     }
 
@@ -82,13 +82,11 @@ public class RootBatteryAdapter extends RecyclerView.Adapter<RootBatteryAdapter.
 
     }
 
-
     //    @Override
     //    public void onViewDetachedFromWindow(InstalledAppViewHolder holder) {
     //        super.onViewDetachedFromWindow(holder);
     //        holder.cv.clearAnimation();
     //    }
-
 
     //    private void setAnimation(View viewToAnimate, int position) {
     //        Animation animation = AnimationUtils

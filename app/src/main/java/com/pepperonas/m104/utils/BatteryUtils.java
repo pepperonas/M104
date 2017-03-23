@@ -18,7 +18,6 @@ package com.pepperonas.m104.utils;
 
 import android.content.Context;
 import android.os.BatteryManager;
-
 import com.pepperonas.aespreferences.AesPrefs;
 import com.pepperonas.andbasx.AndBasx;
 import com.pepperonas.m104.R;
@@ -40,17 +39,15 @@ public class BatteryUtils {
         final String POWER_PROFILE_CLASS = "com.android.internal.os.PowerProfile";
         try {
             Object profile = Class.forName(POWER_PROFILE_CLASS).getConstructor(Context.class)
-                                  .newInstance(AndBasx.getContext());
-            return (double) Class
-                    .forName(POWER_PROFILE_CLASS)
-                    .getMethod("getAveragePower", java.lang.String.class)
-                    .invoke(profile, "battery.capacity");
+                .newInstance(AndBasx.getContext());
+            return (double) Class.forName(POWER_PROFILE_CLASS)
+                .getMethod("getAveragePower", java.lang.String.class)
+                .invoke(profile, "battery.capacity");
         } catch (Exception e) {
             e.printStackTrace();
         }
         return -1d;
     }
-
 
 
     /**
@@ -62,8 +59,10 @@ public class BatteryUtils {
      */
     public static long getRemainingEnergy() {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-            BatteryManager batteryManager = (BatteryManager) AndBasx.getContext().getSystemService(Context.BATTERY_SERVICE);
-            return batteryManager.getLongProperty(BatteryManager.BATTERY_PROPERTY_ENERGY_COUNTER) / 1000L;
+            BatteryManager batteryManager = (BatteryManager) AndBasx.getContext()
+                .getSystemService(Context.BATTERY_SERVICE);
+            return batteryManager.getLongProperty(BatteryManager.BATTERY_PROPERTY_ENERGY_COUNTER)
+                / 1000L;
         }
         return -1L;
     }
@@ -72,13 +71,14 @@ public class BatteryUtils {
     /**
      * Gets makeRemainingInfo.
      *
-     * @param level      the level
+     * @param level the level
      * @param isCharging the is charging
      * @return the makeRemainingInfo
      */
     public static float getRemaining(int level, boolean isCharging) {
         if (!isCharging) {
-            float dischargePerHour = AesPrefs.getFloatRes(R.string.CYCLIC_CONSUMPTION_PER_HOUR, 4.5f);
+            float dischargePerHour = AesPrefs
+                .getFloatRes(R.string.CYCLIC_CONSUMPTION_PER_HOUR, 4.5f);
             return (float) level / dischargePerHour;
         } else {
             float chargePerHour = AesPrefs.getFloatRes(R.string.CYCLIC_CHARGE_PER_HOUR, 12.5f);
@@ -119,7 +119,8 @@ public class BatteryUtils {
      */
     public static int getCharge() {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-            BatteryManager batteryManager = (BatteryManager) AndBasx.getContext().getSystemService(Context.BATTERY_SERVICE);
+            BatteryManager batteryManager = (BatteryManager) AndBasx.getContext()
+                .getSystemService(Context.BATTERY_SERVICE);
             return batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CURRENT_NOW);
         }
         return -1;
@@ -129,16 +130,17 @@ public class BatteryUtils {
     /**
      * Gets current average.
      * <p/>
-     * Average battery current in microamperes, as an integer.
-     * Positive values indicate net current entering the battery from a charge source,
-     * negative values indicate net current discharging from the battery.
-     * The time period over which the average is computed may depend on the fuel gauge hardware and its configuration.
+     * Average battery current in microamperes, as an integer. Positive values indicate net current
+     * entering the battery from a charge source, negative values indicate net current discharging
+     * from the battery. The time period over which the average is computed may depend on the fuel
+     * gauge hardware and its configuration.
      *
      * @return the current average
      */
     public static int getCurrentAverage() {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-            BatteryManager batteryManager = (BatteryManager) AndBasx.getContext().getSystemService(Context.BATTERY_SERVICE);
+            BatteryManager batteryManager = (BatteryManager) AndBasx.getContext()
+                .getSystemService(Context.BATTERY_SERVICE);
             return batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CURRENT_AVERAGE);
         }
         return -1;
@@ -153,7 +155,8 @@ public class BatteryUtils {
      */
     public static int getChargeCounter() {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-            BatteryManager batteryManager = (BatteryManager) AndBasx.getContext().getSystemService(Context.BATTERY_SERVICE);
+            BatteryManager batteryManager = (BatteryManager) AndBasx.getContext()
+                .getSystemService(Context.BATTERY_SERVICE);
             return batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CHARGE_COUNTER);
         }
         return -1;

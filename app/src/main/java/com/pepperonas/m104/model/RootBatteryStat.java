@@ -17,7 +17,6 @@
 package com.pepperonas.m104.model;
 
 import android.graphics.drawable.Drawable;
-
 import com.pepperonas.jbasx.base.StringUtils;
 
 /**
@@ -35,8 +34,6 @@ public class RootBatteryStat {
         //        ApplicationInfo info = null;
         this.applicationName = pkgName;
 
-
-
         //        ApplicationInfo info = null;
         //        try {
         //            info =
@@ -48,8 +45,6 @@ public class RootBatteryStat {
         //        for (InstalledApp installedApp : SystemUtils.getInstalledApps()) {
         //            String tmpAppName = installedApp.getApplicationName();
         //            int tmpUid = installedApp.getApplicationInfo().uid;
-
-
 
     }
 

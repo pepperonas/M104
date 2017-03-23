@@ -24,21 +24,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.pepperonas.aespreferences.AesPrefs;
 import com.pepperonas.andbasx.base.ClipboardUtils;
 import com.pepperonas.andbasx.base.ToastUtils;
 import com.pepperonas.m104.R;
 import com.pepperonas.m104.model.ClipDataAdvanced;
 import com.pepperonas.m104.model.Database;
-
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * @author Martin Pfeffer (pepperonas)
  */
-public class ClipDataAdvancedAdapter extends RecyclerView.Adapter<ClipDataAdvancedAdapter.ClipDataAdvancedViewHolder> {
+public class ClipDataAdvancedAdapter extends
+    RecyclerView.Adapter<ClipDataAdvancedAdapter.ClipDataAdvancedViewHolder> {
 
     private Activity mAct;
     private List<ClipDataAdvanced> mClips = new ArrayList<>();
@@ -46,7 +45,8 @@ public class ClipDataAdvancedAdapter extends RecyclerView.Adapter<ClipDataAdvanc
     private Database mDb;
 
 
-    public ClipDataAdvancedAdapter(Activity activity, Database database, List<ClipDataAdvanced> clips) {
+    public ClipDataAdvancedAdapter(Activity activity, Database database,
+        List<ClipDataAdvanced> clips) {
         mAct = activity;
         this.mDb = database;
         this.mClips = clips;
@@ -61,7 +61,8 @@ public class ClipDataAdvancedAdapter extends RecyclerView.Adapter<ClipDataAdvanc
 
     @Override
     public ClipDataAdvancedViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_clip_data, parent, false);
+        View v = LayoutInflater.from(parent.getContext())
+            .inflate(R.layout.card_clip_data, parent, false);
         return new ClipDataAdvancedViewHolder(v);
     }
 
@@ -76,18 +77,19 @@ public class ClipDataAdvancedAdapter extends RecyclerView.Adapter<ClipDataAdvanc
         holder.tvTsDate.setText(mClips.get(pos).getCreationDate());
         holder.tvTsTime.setText(mClips.get(pos).getCreationTime());
 
-
         holder.cv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (AesPrefs.getRes(R.string.ENCRYPTION_PASSWORD, "").equals("")
-                        || AesPrefs.getLongRes(R.string.LOGOUT_TIME, 0) > System.currentTimeMillis()) {
+                    || AesPrefs.getLongRes(R.string.LOGOUT_TIME, 0) > System.currentTimeMillis()) {
                     //                    mDb.deleteClipData(mClips.get(pos).getTimestamp());
                     mDb.deleteClipData(mClips.get(pos).getClipText());
                     ClipboardUtils.setClipboard(mClips.get(pos).getClipText());
                     ToastUtils.toastShort(mAct.getString(R.string.copied_to_clipboard));
                     mAct.finish();
-                } else ToastUtils.toastShort(mAct.getString(R.string.encrypted_text_cant_be_copied));
+                } else {
+                    ToastUtils.toastShort(mAct.getString(R.string.encrypted_text_cant_be_copied));
+                }
             }
         });
     }

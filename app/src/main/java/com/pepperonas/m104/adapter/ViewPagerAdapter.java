@@ -19,7 +19,6 @@ package com.pepperonas.m104.adapter;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
-
 import com.pepperonas.m104.fragments.FragmentRoot;
 import com.pepperonas.m104.fragments.tabs.Tab1;
 import com.pepperonas.m104.fragments.tabs.Tab2;
@@ -52,15 +51,24 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
     @Override
     public Fragment getItem(int position) {
         switch (position) {
-            case 0: return Tab1.getInstance(mFragmentRoot, 1);
-            case 1: return Tab2.getInstance(mFragmentRoot, 2);
-            case 2: return Tab3.getInstance(mFragmentRoot, 3);
-            case 3: return Tab4.getInstance(mFragmentRoot, 4);
-            case 4: return Tab5.getInstance(mFragmentRoot, 5);
-            case 5: return Tab6.getInstance(mFragmentRoot, 6);
-            case 6: return Tab7.getInstance(mFragmentRoot, 7);
-            case 7: return Tab8.getInstance(mFragmentRoot, 8);
-            default: return Tab1.getInstance(mFragmentRoot, 1);
+            case 0:
+                return Tab1.getInstance(mFragmentRoot, 1);
+            case 1:
+                return Tab2.getInstance(mFragmentRoot, 2);
+            case 2:
+                return Tab3.getInstance(mFragmentRoot, 3);
+            case 3:
+                return Tab4.getInstance(mFragmentRoot, 4);
+            case 4:
+                return Tab5.getInstance(mFragmentRoot, 5);
+            case 5:
+                return Tab6.getInstance(mFragmentRoot, 6);
+            case 6:
+                return Tab7.getInstance(mFragmentRoot, 7);
+            case 7:
+                return Tab8.getInstance(mFragmentRoot, 8);
+            default:
+                return Tab1.getInstance(mFragmentRoot, 1);
         }
     }
 

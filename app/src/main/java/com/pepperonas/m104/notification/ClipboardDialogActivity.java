@@ -32,7 +32,6 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import com.mikepenz.community_material_typeface_library.CommunityMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
 import com.pepperonas.aespreferences.AesPrefs;
@@ -45,10 +44,9 @@ import com.pepperonas.m104.R;
 import com.pepperonas.m104.adapter.ClipDataAdvancedAdapter;
 import com.pepperonas.m104.config.Const;
 import com.pepperonas.m104.custom.SwipeableRecyclerViewTouchListener;
+import com.pepperonas.m104.dialogs.DialogEnterPassword;
 import com.pepperonas.m104.model.ClipDataAdvanced;
 import com.pepperonas.m104.model.Database;
-import com.pepperonas.m104.dialogs.DialogEnterPassword;
-
 import java.text.MessageFormat;
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -84,13 +82,13 @@ public class ClipboardDialogActivity extends AppCompatActivity {
         getWindow().setLayout(screenWidth, LinearLayout.LayoutParams.WRAP_CONTENT);
 
         mDb = new Database(this);
-        mClips = mDb.getClipData(AesPrefs.getInt(getString(R.string.MAX_CLIPS_IN_RECYCLER), Const.DEFAULT_MAX_CLIPS_IN_RECYCLER));
+        mClips = mDb.getClipData(AesPrefs.getInt(getString(R.string.MAX_CLIPS_IN_RECYCLER),
+            Const.DEFAULT_MAX_CLIPS_IN_RECYCLER));
         if (mClips.isEmpty()) {
             ToastUtils.toastShort(R.string.no_clip_data_set);
             finish();
             return;
         }
-
 
         ensureInitLockButton();
 
@@ -108,59 +106,57 @@ public class ClipboardDialogActivity extends AppCompatActivity {
 
         setData();
 
-        SwipeableRecyclerViewTouchListener swipeTouchListener =
-                new SwipeableRecyclerViewTouchListener(
-                        mRecyclerView, new SwipeableRecyclerViewTouchListener.SwipeListener() {
-                    @Override
-                    public boolean canSwipe(int position) {
-                        return true;
-                    }
+        SwipeableRecyclerViewTouchListener swipeTouchListener = new SwipeableRecyclerViewTouchListener(
+            mRecyclerView, new SwipeableRecyclerViewTouchListener.SwipeListener() {
+            @Override
+            public boolean canSwipe(int position) {
+                return true;
+            }
 
 
-                    @Override
-                    public void onDismissedBySwipeLeft(RecyclerView rv, int[] reverseSortedPositions) {
-                        // TODO: make favorite...
-                        removeClip(rv, reverseSortedPositions);
-                    }
+            @Override
+            public void onDismissedBySwipeLeft(RecyclerView rv, int[] reverseSortedPositions) {
+                // TODO: make favorite...
+                removeClip(rv, reverseSortedPositions);
+            }
 
 
-                    @Override
-                    public void onDismissedBySwipeRight(RecyclerView rv, int[] reverseSortedPositions) {
-                        removeClip(rv, reverseSortedPositions);
-                    }
+            @Override
+            public void onDismissedBySwipeRight(RecyclerView rv, int[] reverseSortedPositions) {
+                removeClip(rv, reverseSortedPositions);
+            }
 
 
-                    private void removeClip(RecyclerView rv, int[] reverseSortedPositions) {
-                        for (int pos : reverseSortedPositions) {
-                            //                            mDb.deleteClipData(mClips.get(pos).getTimestamp());
-                            mDb.deleteClipData(mClips.get(pos).getClipText());
-                            mClips.remove(pos);
-                            rv.getAdapter().notifyDataSetChanged();
-                            onUpdateTvHeader();
+            private void removeClip(RecyclerView rv, int[] reverseSortedPositions) {
+                for (int pos : reverseSortedPositions) {
+                    //                            mDb.deleteClipData(mClips.get(pos).getTimestamp());
+                    mDb.deleteClipData(mClips.get(pos).getClipText());
+                    mClips.remove(pos);
+                    rv.getAdapter().notifyDataSetChanged();
+                    onUpdateTvHeader();
 
-                            sendBroadcast(new Intent(MainService.BROADCAST_CLIP_DELETED));
+                    sendBroadcast(new Intent(MainService.BROADCAST_CLIP_DELETED));
 
-                            if (mClips.size() == 0) {
+                    if (mClips.size() == 0) {
 
-                                Drawable d = new IconicsDrawable(ClipboardDialogActivity.this, CommunityMaterial.Icon.cmd_check)
-                                        .colorRes(R.color.sa_teal)
-                                        .sizeDp(64);
-                                mIvEasterEgg.setVisibility(View.VISIBLE);
-                                mIvEasterEgg.setImageDrawable(d);
-                                FadeAnimation anim = new FadeAnimation(mIvEasterEgg, 1.0f, 0.0f, 600, 0);
-                                anim.fadeIn();
+                        Drawable d = new IconicsDrawable(ClipboardDialogActivity.this,
+                            CommunityMaterial.Icon.cmd_check).colorRes(R.color.sa_teal).sizeDp(64);
+                        mIvEasterEgg.setVisibility(View.VISIBLE);
+                        mIvEasterEgg.setImageDrawable(d);
+                        FadeAnimation anim = new FadeAnimation(mIvEasterEgg, 1.0f, 0.0f, 600, 0);
+                        anim.fadeIn();
 
-                                ThreadUtils.runDelayed(1500, new Callable<Void>() {
-                                    @Override
-                                    public Void call() throws Exception {
-                                        finish();
-                                        return null;
-                                    }
-                                });
+                        ThreadUtils.runDelayed(1500, new Callable<Void>() {
+                            @Override
+                            public Void call() throws Exception {
+                                finish();
+                                return null;
                             }
-                        }
+                        });
                     }
-                });
+                }
+            }
+        });
 
         mRecyclerView.addOnItemTouchListener(swipeTouchListener);
 
@@ -194,9 +190,9 @@ public class ClipboardDialogActivity extends AppCompatActivity {
             // TODO: lock when unlocked
             if (AesPrefs.getLongRes(R.string.LOGOUT_TIME, 0) < System.currentTimeMillis()) {
 
-                Drawable d = new IconicsDrawable(ClipboardDialogActivity.this, CommunityMaterial.Icon.cmd_lock_open_outline)
-                        .colorRes(R.color.stock_android_white)
-                        .sizeDp(24);
+                Drawable d = new IconicsDrawable(ClipboardDialogActivity.this,
+                    CommunityMaterial.Icon.cmd_lock_open_outline)
+                    .colorRes(R.color.stock_android_white).sizeDp(24);
                 ibtnLock.setImageDrawable(d);
                 ibtnLock.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -207,9 +203,9 @@ public class ClipboardDialogActivity extends AppCompatActivity {
 
             } else {
 
-                Drawable d = new IconicsDrawable(ClipboardDialogActivity.this, CommunityMaterial.Icon.cmd_lock_outline)
-                        .colorRes(R.color.stock_android_white)
-                        .sizeDp(24);
+                Drawable d = new IconicsDrawable(ClipboardDialogActivity.this,
+                    CommunityMaterial.Icon.cmd_lock_outline).colorRes(R.color.stock_android_white)
+                    .sizeDp(24);
                 ibtnLock.setImageDrawable(d);
                 ibtnLock.setOnClickListener(new View.OnClickListener() {
                     public boolean mCalledEnsureLockButton = false;
@@ -231,13 +227,16 @@ public class ClipboardDialogActivity extends AppCompatActivity {
                 });
             }
 
-        } else ibtnLock.setVisibility(View.INVISIBLE);
+        } else {
+            ibtnLock.setVisibility(View.INVISIBLE);
+        }
 
     } // ensureInitLockButton
 
 
     public void setData() {
-        mClips = mDb.getClipData(AesPrefs.getInt(getString(R.string.MAX_CLIPS_IN_RECYCLER), Const.DEFAULT_MAX_CLIPS_IN_RECYCLER));
+        mClips = mDb.getClipData(AesPrefs.getInt(getString(R.string.MAX_CLIPS_IN_RECYCLER),
+            Const.DEFAULT_MAX_CLIPS_IN_RECYCLER));
         ClipDataAdvancedAdapter adapter = new ClipDataAdvancedAdapter(this, mDb, mClips);
         mRecyclerView.setAdapter(adapter);
     }
@@ -262,24 +261,20 @@ public class ClipboardDialogActivity extends AppCompatActivity {
     private void onUpdateTvHeader() {
         int clipDataCount = mDb.getClipDataCount();
         if (clipDataCount == 0) {
-            mTvHeader.setText(MessageFormat.format(
-                    "{0} - {1}",
-                    getString(R.string.dialog_clipboard_header),
+            mTvHeader.setText(MessageFormat
+                .format("{0} - {1}", getString(R.string.dialog_clipboard_header),
                     getString(R.string.no_entries)));
             return;
         }
         if (clipDataCount == 1) {
-            mTvHeader.setText(MessageFormat.format(
-                    "{0} - {1}",
-                    getString(R.string.dialog_clipboard_header),
+            mTvHeader.setText(MessageFormat
+                .format("{0} - {1}", getString(R.string.dialog_clipboard_header),
                     getString(R.string.one_entry)));
             return;
         }
 
-        mTvHeader.setText(MessageFormat.format(
-                "{0} - {1} {2}",
-                getString(R.string.dialog_clipboard_header),
-                clipDataCount,
+        mTvHeader.setText(MessageFormat
+            .format("{0} - {1} {2}", getString(R.string.dialog_clipboard_header), clipDataCount,
                 getString(R.string.entries)));
     }
 

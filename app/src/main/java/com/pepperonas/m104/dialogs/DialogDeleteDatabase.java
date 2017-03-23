@@ -17,7 +17,6 @@
 package com.pepperonas.m104.dialogs;
 
 import android.app.Activity;
-
 import com.pepperonas.andbasx.base.ToastUtils;
 import com.pepperonas.m104.MainActivity;
 import com.pepperonas.m104.R;
@@ -30,24 +29,23 @@ public class DialogDeleteDatabase {
 
     public DialogDeleteDatabase(final Activity activity) {
         new MaterialDialog.Builder(activity)
-                .title(activity.getString(R.string.dialog_delete_database_title))
-                .message(activity.getString(R.string.dialog_delete_database_msg))
-                .positiveText(activity.getString(R.string.ok))
-                .negativeText(activity.getString(R.string.cancel))
-                .buttonCallback(new MaterialDialog.ButtonCallback() {
-                    @Override
-                    public void onPositive(MaterialDialog dialog) {
-                        super.onPositive(dialog);
-                        ((MainActivity) activity).getDatabase().deleteAllClips();
-                        ToastUtils.toastShort(activity.getString(R.string.to_clipboard_wiped));
-                    }
+            .title(activity.getString(R.string.dialog_delete_database_title))
+            .message(activity.getString(R.string.dialog_delete_database_msg))
+            .positiveText(activity.getString(R.string.ok))
+            .negativeText(activity.getString(R.string.cancel))
+            .buttonCallback(new MaterialDialog.ButtonCallback() {
+                @Override
+                public void onPositive(MaterialDialog dialog) {
+                    super.onPositive(dialog);
+                    ((MainActivity) activity).getDatabase().deleteAllClips();
+                    ToastUtils.toastShort(activity.getString(R.string.to_clipboard_wiped));
+                }
 
 
-                    @Override
-                    public void onNegative(MaterialDialog dialog) {
-                        super.onNegative(dialog);
-                    }
-                })
-                .show();
+                @Override
+                public void onNegative(MaterialDialog dialog) {
+                    super.onNegative(dialog);
+                }
+            }).show();
     }
 }
