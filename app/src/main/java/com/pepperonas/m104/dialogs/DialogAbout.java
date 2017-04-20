@@ -23,6 +23,7 @@ import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnTouchListener;
 import android.widget.TextView;
 import com.pepperonas.m104.R;
 import com.pepperonas.materialdialog.MaterialDialog;
@@ -49,17 +50,20 @@ public class DialogAbout {
                     tvLibInfo.setMovementMethod(LinkMovementMethod.getInstance());
 
                     dialog.getButton(DialogInterface.BUTTON_POSITIVE)
-                        .setOnTouchListener((v, event) -> {
-                            if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                                mDelta = System.currentTimeMillis();
-                            }
-                            if (event.getAction() == MotionEvent.ACTION_UP) {
-                                if ((System.currentTimeMillis() - mDelta) > 5000) {
-                                    new DialogAndroidId(context);
+                        .setOnTouchListener(new OnTouchListener() {
+                            @Override
+                            public boolean onTouch(View v, MotionEvent event) {
+                                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                                    mDelta = System.currentTimeMillis();
                                 }
-                                v.callOnClick();
+                                if (event.getAction() == MotionEvent.ACTION_UP) {
+                                    if ((System.currentTimeMillis() - mDelta) > 5000) {
+                                        new DialogAndroidId(context);
+                                    }
+                                    v.callOnClick();
+                                }
+                                return true;
                             }
-                            return true;
                         });
                 }
             }).show();

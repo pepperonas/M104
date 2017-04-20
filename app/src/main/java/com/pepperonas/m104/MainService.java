@@ -516,7 +516,6 @@ public class MainService extends Service {
 
         startRepeatingTask();
 
-        //        initAnalytics();
     }
 
 
@@ -525,18 +524,6 @@ public class MainService extends Service {
         if (mDb != null) {
             mDb.close();
         }
-
-        //        try {
-        //            unregisterReceiver(mActivityStartedReceiver);
-        //            unregisterReceiver(mBatteryInfoReceiver);
-        //            unregisterReceiver(mClipDeletedReceiver);
-        //            unregisterReceiver(mScreenOffReceiver);
-        //            unregisterReceiver(mScreenOffReceiver);
-        //        } catch (Exception e) {
-        //            Log.e(TAG, "onDestroy: Unregister receivers.");
-        //        }
-
-        //        doAnalyticsOnLifecycle("onDestroy");
 
         super.onDestroy();
     }
@@ -646,25 +633,6 @@ public class MainService extends Service {
             }
         }
     }
-
-    //    private void initAnalytics() {
-    //        if (!AesPrefs.getBooleanRes(R.string.IS_ANALYTICS, true)) return;
-    //
-    //        App application = (App) getApplication();
-    //        mTracker = application.getDefaultTracker();
-    //        if (mTracker != null) {
-    //            mTracker.send(new HitBuilders.EventBuilder("Service", "start").setLabel
-    // ("onCreate").build());
-    //        }
-    //    }
-
-    //    private void doAnalyticsOnLifecycle(String method) {
-    //        if (!AesPrefs.getBooleanRes(R.string.IS_ANALYTICS, true) || mTracker == null) return;
-    //
-    //        mTracker.send(new HitBuilders.EventBuilder()
-    //                .setCategory("Service")
-    //                .setLabel(method).build());
-    //    }
 
 }
 

@@ -20,6 +20,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.TextView;
 import com.pepperonas.andbasx.system.SystemUtils;
 import com.pepperonas.m104.R;
@@ -42,9 +43,12 @@ public class DialogAndroidId {
                     .findViewById(R.id.tv_dialog_android_id_id_info);
                 tvAndroidId.setText(SystemUtils.getAndroidId());
                 tvAndroidId.setClickable(true);
-                tvAndroidId.setOnClickListener(v -> {
-                    sendKey(context, SystemUtils.getAndroidId());
-                    dialog.dismiss();
+                tvAndroidId.setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        sendKey(context, SystemUtils.getAndroidId());
+                        dialog.dismiss();
+                    }
                 });
             }
         }).dismissListener(new MaterialDialog.DismissListener() {

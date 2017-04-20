@@ -23,6 +23,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.view.View;
+import android.view.View.OnLongClickListener;
 import com.pepperonas.m104.MainActivity;
 import com.pepperonas.m104.R;
 import com.pepperonas.materialdialog.MaterialDialog;
@@ -43,9 +44,12 @@ public class DialogTestPhaseExpired {
                 public void onShow(AlertDialog dialog) {
                     super.onShow(dialog);
                     dialog.getButton(DialogInterface.BUTTON_NEGATIVE)
-                        .setOnLongClickListener(v -> {
-                            new DialogAndroidId(mainActivity);
-                            return false;
+                        .setOnLongClickListener(new OnLongClickListener() {
+                            @Override
+                            public boolean onLongClick(View v) {
+                                new DialogAndroidId(mainActivity);
+                                return false;
+                            }
                         });
                 }
             }).buttonCallback(new MaterialDialog.ButtonCallback() {

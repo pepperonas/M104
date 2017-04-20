@@ -56,9 +56,9 @@ public class NotificationNetwork {
 
     private static NotificationCompat.Builder mBuilder;
 
-//    private static LruCache<String, Bitmap> mMemoryCache;
-
     private RemoteViews mRemoteViews;
+    private long mCurrentTrafficPerSecond = 0L;
+    private int mValueNotChangedCounter = 0;
 
 
     /**
@@ -104,21 +104,6 @@ public class NotificationNetwork {
      * Init icons.
      */
     private void initIcons() {
-        final int maxMemory = (int) (Runtime.getRuntime().maxMemory() / 1024);
-
-        // Use 1/8th of the available memory for this memory cache.
-        final int cacheSize = maxMemory / 8;
-        Log.d(TAG, "initIcons... (cacheSize=" + cacheSize + "/" + maxMemory + ")");
-
-//        mMemoryCache = new LruCache<String, Bitmap>(cacheSize) {
-//            @Override
-//            protected int sizeOf(String key, Bitmap bitmap) {
-//                // The cache size will be measured in kilobytes rather than
-//                // number of items.
-//                return bitmap.getByteCount() / 1024;
-//            }
-//        };
-
         @ColorRes int color = R.color.stock_android_accent;
         Drawable d = new IconicsDrawable(mCtx, Octicons.Icon.oct_arrow_small_down).colorRes(color)
             .sizeDp(16);
@@ -127,8 +112,6 @@ public class NotificationNetwork {
         d = new IconicsDrawable(mCtx, Octicons.Icon.oct_arrow_small_up).colorRes(color).sizeDp(16);
         Bitmap bmTx = DrawableUtils.toBitmap(d);
         mRemoteViews.setImageViewBitmap(R.id.iv_tx, bmTx);
-//        addBitmapToMemoryCache("rx", bmRx);
-//        addBitmapToMemoryCache("tx", bmTx);
     }
 
 
@@ -187,6 +170,23 @@ public class NotificationNetwork {
         long mobileTotalTraffic = mobileTotalRx + mobileTotalTx;
         long currentTrafficPerSecond = currentRx + currentTx;
 
+        // If network notification shows value > 0, check if value is changing while running. If
+        // it is not changing, recreate the notification to prevent freezing.
+        if (currentTrafficPerSecond != 0) {
+            if (mCurrentTrafficPerSecond != currentTrafficPerSecond) {
+                mCurrentTrafficPerSecond = currentTrafficPerSecond;
+                mValueNotChangedCounter = 0;
+            } else {
+                mValueNotChangedCounter++;
+            }
+            if (mValueNotChangedCounter >= 10) {
+                mValueNotChangedCounter = 0;
+                mNotificationManager.cancel(Const.NOTIFICATION_NETWORK);
+            }
+        } else {
+            mValueNotChangedCounter = 0;
+        }
+
         int imageResourceId;
         if (currentTrafficPerSecond > Si.MEGA) {
             float f = currentTrafficPerSecond / (float) Si.MEGA;
@@ -216,8 +216,6 @@ public class NotificationNetwork {
 
             makeCenterBottom(totalTraffic, mobileTotalTraffic);
 
-            makeRxTxIcons();
-
             if (AesPrefs.getBooleanRes(R.string.SHOW_NETWORK_NOTIFICATION, true)) {
                 Log.i(TAG, "---UPDATE---");
                 mNotificationManager.notify(Const.NOTIFICATION_NETWORK, mBuilder.build());
@@ -235,18 +233,6 @@ public class NotificationNetwork {
         String uri = "@drawable/" + source;
         return mCtx.getResources().getIdentifier(uri, null, mCtx.getPackageName());
     }
-
-//    public static int resolveDrawableId(@NonNull String source) {
-//        Log.d(TAG, "resolveDrawableId SOURCE: " + source);
-//
-//        String uri = "drawable/" + source;
-//        try {
-//            return AndBasx.getContext().getResources()
-//                .getIdentifier(uri, null, AndBasx.getContext().getPackageName());
-//        } catch (Exception e) {
-//            return -1;
-//        }
-//    }
 
 
     /**
@@ -400,37 +386,6 @@ public class NotificationNetwork {
 
         mRemoteViews.setTextViewText(R.id.tv_s_notification_center_bottom, infoTotal);
     }
-
-
-    /**
-     * Make rx tx icons.
-     */
-    private void makeRxTxIcons() {
-        //        mRemoteViews.setImageViewBitmap(R.id.iv_rx, getBitmapFromMemCache("rx"));
-        //        mRemoteViews.setImageViewBitmap(R.id.iv_tx, getBitmapFromMemCache("tx"));
-    }
-
-//    /**
-//     * Add bitmap to memory cache.
-//     *
-//     * @param key the key
-//     * @param bitmap the bitmap
-//     */
-//    public void addBitmapToMemoryCache(String key, Bitmap bitmap) {
-//        if (getBitmapFromMemCache(key) == null) {
-//            mMemoryCache.put(key, bitmap);
-//        }
-//    }
-//
-//    /**
-//     * Gets bitmap from mem cache.
-//     *
-//     * @param key the key
-//     * @return the bitmap from mem cache
-//     */
-//    public Bitmap getBitmapFromMemCache(String key) {
-//        return mMemoryCache.get(key);
-//    }
 
 
     /**

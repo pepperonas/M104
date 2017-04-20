@@ -26,6 +26,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.NavigationView.OnNavigationItemSelectedListener;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -37,6 +38,7 @@ import android.transition.Slide;
 import android.transition.Transition;
 import android.view.Gravity;
 import android.view.MenuItem;
+import android.view.MenuItem.OnMenuItemClickListener;
 import android.view.View;
 import android.widget.TextView;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
@@ -63,9 +65,7 @@ import com.pepperonas.m104.notification.NotificationBattery;
 import com.pepperonas.m104.notification.NotificationClipboard;
 import com.pepperonas.m104.notification.NotificationNetwork;
 import com.pepperonas.m104.utils.StringFactory;
-
-//import com.google.android.gms.analytics.HitBuilders;
-//import com.google.android.gms.analytics.Tracker;
+import java.util.concurrent.Callable;
 
 
 /**
@@ -75,6 +75,8 @@ public class MainActivity extends AppCompatActivity {
 
     public static final int MENU_ITEM_ROOT = 3;
     private static final String TAG = "MainActivity";
+    public static final String BROADCAST_FINISH_AFFINITY = "bfa";
+
     /* Fragment communication */
     public IBatteryInformer mBatteryInformer;
     public FragmentNetworkStats mNetworkInformer;
@@ -109,9 +111,9 @@ public class MainActivity extends AppCompatActivity {
             mBtyStatus = intent.getIntExtra("status", 0);
 
             if (mBatteryInformer != null) {
-                mBatteryInformer
-                    .onBatteryUpdate(MainActivity.this, mBtyIsCharging, mBtyLevel, temperature,
-                        voltage, mBtyPlugged, health, mBtyStatus);
+                mBatteryInformer.onBatteryUpdate(
+                    MainActivity.this, mBtyIsCharging, mBtyLevel, temperature,
+                    voltage, mBtyPlugged, health, mBtyStatus);
             } else {
                 Log.w(TAG, "onReceive: Can't update battery info.");
             }
@@ -158,7 +160,6 @@ public class MainActivity extends AppCompatActivity {
                     Log.d(TAG, "onUserRegistered " + s);
                 }
 
-
                 @Override
                 public void onUserExists(@NonNull String s, Long regDate, String extraString,
                     final Integer extraInt) {
@@ -174,21 +175,27 @@ public class MainActivity extends AppCompatActivity {
                         if (extraInt == 111) {
                             if (!AesPrefs.getBooleanRes(R.string.IS_PREMIUM, false)) {
                                 AesPrefs.putBooleanRes(R.string.IS_PREMIUM, true);
-                                ThreadUtils.runFromBackground(() -> {
-                                    if (AesPrefs
-                                        .getBooleanRes(R.string.SHOW_DIALOG_SUCCESS, true)) {
-                                        new DialogPremiumSuccess(MainActivity.this);
+                                ThreadUtils.runFromBackground(new Callable<Void>() {
+                                    @Override
+                                    public Void call() throws Exception {
+                                        if (AesPrefs
+                                            .getBooleanRes(R.string.SHOW_DIALOG_SUCCESS, true)) {
+                                            new DialogPremiumSuccess(MainActivity.this);
+                                        }
+                                        return null;
                                     }
-                                    return null;
                                 });
                                 return;
                             }
                         }
                         if (!AesPrefs.getBooleanRes(R.string.IS_PREMIUM, false) && AesPrefs
                             .getBooleanRes(R.string.TEST_PHASE_EXPIRED, false)) {
-                            ThreadUtils.runFromBackground(() -> {
-                                new DialogTestPhaseExpired(MainActivity.this);
-                                return null;
+                            ThreadUtils.runFromBackground(new Callable<Void>() {
+                                @Override
+                                public Void call() throws Exception {
+                                    new DialogTestPhaseExpired(MainActivity.this);
+                                    return null;
+                                }
                             });
                         }
                     } else {
@@ -274,8 +281,6 @@ public class MainActivity extends AppCompatActivity {
             mDb.close();
         }
 
-        //        doAnalyticsOnLifecycle("onDestroy");
-
         super.onDestroy();
     }
 
@@ -333,11 +338,14 @@ public class MainActivity extends AppCompatActivity {
 
         ensureInitItemRoot();
 
-        mNavView.setNavigationItemSelectedListener(menuItem -> {
-            menuItem.setChecked(menuItem.isChecked());
-            mDrawerLayout.closeDrawers();
+        mNavView.setNavigationItemSelectedListener(new OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                menuItem.setChecked(menuItem.isChecked());
+                mDrawerLayout.closeDrawers();
 
-            return selectNavViewItem(menuItem);
+                return selectNavViewItem(menuItem);
+            }
         });
 
         if (doTransaction) {
@@ -508,7 +516,12 @@ public class MainActivity extends AppCompatActivity {
         ToastUtils.toastShort(R.string.touch_twice_to_close);
 
         mIsExitPressedOnce = true;
-        new Handler().postDelayed(() -> mIsExitPressedOnce = false, Const.DELAY_ON_BACK_PRESSED);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mIsExitPressedOnce = false;
+            }
+        }, Const.DELAY_ON_BACK_PRESSED);
     }
 
 
@@ -534,32 +547,6 @@ public class MainActivity extends AppCompatActivity {
         return mDb;
     }
 
-    //    /**
-    //     * Init analytics.
-    //     */
-    //    private void initAnalytics() {
-    //        if (!AesPrefs.getBooleanRes(R.string.IS_ANALYTICS, true)) return;
-    //
-    //        App application = (App) getApplication();
-    //        mTracker = application.getDefaultTracker();
-    //        if (mTracker != null) {
-    //            mTracker.setScreenName("MainActivity");
-    //            mTracker.send(new HitBuilders.ScreenViewBuilder().build());
-    //        }
-    //    }
-
-    //    /**
-    //     * Do analytics on lifecycle.
-    //     *
-    //     * @param method the method
-    //     */
-    //    private void doAnalyticsOnLifecycle(String method) {
-    //        if (!AesPrefs.getBooleanRes(R.string.IS_ANALYTICS, true) || mTracker == null) return;
-    //
-    //        mTracker.send(new HitBuilders.EventBuilder()
-    //                .setLabel(method).build());
-    //    }
-
 
     /**
      * Ensure init item root.
@@ -575,7 +562,12 @@ public class MainActivity extends AppCompatActivity {
                     new IconicsDrawable(MainActivity.this, GoogleMaterial.Icon.gmd_android)
                         .colorRes(R.color.sa_teal).sizeDp(Const.NAV_DRAWER_ICON_SIZE));
 
-                itemRoot.setOnMenuItemClickListener(item -> false);
+                itemRoot.setOnMenuItemClickListener(new OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        return false;
+                    }
+                });
             }
         }
     }
@@ -592,7 +584,12 @@ public class MainActivity extends AppCompatActivity {
             itemRoot.setIcon(new IconicsDrawable(MainActivity.this, GoogleMaterial.Icon.gmd_android)
                 .colorRes(R.color.sa_teal).sizeDp(Const.NAV_DRAWER_ICON_SIZE));
 
-            itemRoot.setOnMenuItemClickListener(item -> false);
+            itemRoot.setOnMenuItemClickListener(new OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem item) {
+                    return false;
+                }
+            });
         }
     }
 

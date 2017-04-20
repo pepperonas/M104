@@ -240,10 +240,10 @@ public class NetworkDialogActivity extends AppCompatActivity {
 
             int relativeX = nwkStats.size() * pDiff / 100;
 
-            valuesRx
-                .add(new Entry(divideByGivenUnit(maxTraffic, nwkStats.get(i).getRx()), relativeX));
-            valuesTx
-                .add(new Entry(divideByGivenUnit(maxTraffic, nwkStats.get(i).getTx()), relativeX));
+            valuesRx.add(
+                new Entry(divideByGivenUnit(maxTraffic, nwkStats.get(i).getRx()), relativeX));
+            valuesTx.add(
+                new Entry(divideByGivenUnit(maxTraffic, nwkStats.get(i).getTx()), relativeX));
             valuesRxMobile.add(
                 new Entry(divideByGivenUnit(maxTraffic, nwkStats.get(i).getRxMobile()), relativeX));
             valuesTxMobile.add(
