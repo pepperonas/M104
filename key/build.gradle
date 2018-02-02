@@ -30,13 +30,13 @@ android {
         release
     }
 
-    compileSdkVersion 25
-    buildToolsVersion '25.0.3'
+    compileSdkVersion 27
+    buildToolsVersion '27.0.3'
 
     defaultConfig {
         applicationId "com.pepperonas.m104.key"
         minSdkVersion 16
-        targetSdkVersion 25
+        targetSdkVersion 27
         versionCode 3
         versionName "1.1.0"
         project.ext.set("archivesBaseName", "m104-key");
@@ -51,7 +51,7 @@ android {
                     if (outputFile != null && outputFile.name.endsWith('.apk')) {
                         def fileName = outputFile.name.replace(".apk", ".apk");
                         fileName = fileName.replace("release", "release" + "-" + defaultConfig.versionName + getDate());
-                        output.outputFile = new File(outputFile.parent, fileName)
+//                        output.outputFile = new File(outputFile.parent, fileName)
                     }
                 }
             }
@@ -66,10 +66,10 @@ dependencies {
 }
 
 
-def props = new Properties()
-
-props.load(new FileInputStream(rootProject.file("release.properties")))
-android.signingConfigs.release.storeFile rootProject.file(props.keyStore)
-android.signingConfigs.release.storePassword props.keyStorePassword
-android.signingConfigs.release.keyAlias props.keyAlias
-android.signingConfigs.release.keyPassword props.keyAliasPassword
+//def props = new Properties()
+//
+//props.load(new FileInputStream(rootProject.file("release.properties")))
+//android.signingConfigs.release.storeFile rootProject.file(props.keyStore)
+//android.signingConfigs.release.storePassword props.keyStorePassword
+//android.signingConfigs.release.keyAlias props.keyAlias
+//android.signingConfigs.release.keyPassword props.keyAliasPassword

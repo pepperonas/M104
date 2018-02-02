@@ -18,9 +18,10 @@ buildscript {
     repositories {
         jcenter()
         maven { url "https://jitpack.io" }
+        google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.4.0-alpha6'
+        classpath 'com.android.tools.build:gradle:3.2.0-alpha01'
     }
 }
 
@@ -47,14 +48,14 @@ android {
         release
     }
     useLibrary 'org.apache.http.legacy'
-    compileSdkVersion 25
-    buildToolsVersion '25.0.3'
+    compileSdkVersion 27
+    buildToolsVersion '27.0.3'
 
     defaultConfig {
         multiDexEnabled true
         applicationId "com.pepperonas.m104"
         minSdkVersion 16
-        targetSdkVersion 25
+        targetSdkVersion 27
         versionCode 32
         versionName "0.3.2-beta"
         project.ext.set("archivesBaseName", "m104");
@@ -70,7 +71,7 @@ android {
                     if (outputFile != null && outputFile.name.endsWith('.apk')) {
                         def fileName = outputFile.name.replace(".apk", ".apk");
                         fileName = fileName.replace("release", "release" + "-" + defaultConfig.versionName + getDate());
-                        output.outputFile = new File(outputFile.parent, fileName)
+//                        output.outputFile = new File(outputFile.parent, fileName)
                     }
                 }
             }
@@ -88,18 +89,18 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.android.support:multidex:1.0.1'
-    compile 'com.android.support:support-v4:25.3.1'
-    compile 'com.android.support:appcompat-v7:25.3.1'
-    compile 'com.android.support:design:25.3.1'
-    compile 'com.android.support:cardview-v7:25.3.1'
-    compile 'com.android.support:recyclerview-v7:25.3.1'
-    compile 'com.google.android.gms:play-services-ads:10.2.4'
-    compile 'com.google.android.gms:play-services-auth:10.2.4'
-    compile 'com.google.android.gms:play-services-gcm:10.2.4'
-    compile 'com.mikepenz:iconics-core:2.6.7@aar'
-    compile 'com.mikepenz:google-material-typeface:2.2.0.2.original@aar'
-    compile 'com.mikepenz:community-material-typeface:1.5.54.2@aar'
+    compile 'com.android.support:multidex:1.0.2'
+    compile 'com.android.support:support-v4:27.0.2'
+    compile 'com.android.support:appcompat-v7:27.0.2'
+    compile 'com.android.support:design:27.0.2'
+    compile 'com.android.support:cardview-v7:27.0.2'
+    compile 'com.android.support:recyclerview-v7:27.0.2'
+    compile 'com.google.android.gms:play-services-ads:11.8.0'
+    compile 'com.google.android.gms:play-services-auth:11.8.0'
+    compile 'com.google.android.gms:play-services-gcm:11.8.0'
+    compile 'com.mikepenz:iconics-core:2.9.3@aar'
+    compile 'com.mikepenz:google-material-typeface:3.0.1.1.original@aar'
+    compile 'com.mikepenz:community-material-typeface:1.8.36.1@aar'
     compile 'com.mikepenz:typeicons-typeface:2.0.7.2@aar'
     compile 'com.mikepenz:octicons-typeface:3.2.0.2@aar'
     compile 'com.github.PhilJay:MPAndroidChart:v2.1.6'
@@ -113,10 +114,10 @@ dependencies {
 }
 
 
-def props = new Properties()
-
-props.load(new FileInputStream(rootProject.file("release.properties")))
-android.signingConfigs.release.storeFile rootProject.file(props.keyStore)
-android.signingConfigs.release.storePassword props.keyStorePassword
-android.signingConfigs.release.keyAlias props.keyAlias
-android.signingConfigs.release.keyPassword props.keyAliasPassword
+//def props = new Properties()
+//
+//props.load(new FileInputStream(rootProject.file("release.properties")))
+//android.signingConfigs.release.storeFile rootProject.file(props.keyStore)
+//android.signingConfigs.release.storePassword props.keyStorePassword
+//android.signingConfigs.release.keyAlias props.keyAlias
+//android.signingConfigs.release.keyPassword props.keyAliasPassword
