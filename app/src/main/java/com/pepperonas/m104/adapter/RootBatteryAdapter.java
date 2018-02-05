@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Martin Pfeffer
+ * Copyright (c) 2018 Martin Pfeffer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,20 +25,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.pepperonas.m104.R;
 import com.pepperonas.m104.model.RootBatteryStat;
+
 import java.util.List;
 
 /**
- * @author Martin Pfeffer (pepperonas)
+ * @author Martin Pfeffer (celox.io) @see <a href="mailto:martin.pfeffer@celox.io">martin.pfeffer@celox.io</a>
  */
 public class RootBatteryAdapter extends
-    RecyclerView.Adapter<RootBatteryAdapter.InstalledAppViewHolder> {
+        RecyclerView.Adapter<RootBatteryAdapter.InstalledAppViewHolder> {
 
     private static final int ICON_SIZE = 16;
 
     private List<RootBatteryStat> mRootBatteryStats;
-
 
     public RootBatteryAdapter(Context ctx, List<RootBatteryStat> rootBatteryStats) {
 
@@ -52,20 +53,17 @@ public class RootBatteryAdapter extends
 
     }
 
-
     @Override
     public int getItemCount() {
         return mRootBatteryStats.size();
     }
 
-
     @Override
     public InstalledAppViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext())
-            .inflate(R.layout.card_app_root_battery, parent, false);
+                .inflate(R.layout.card_app_root_battery, parent, false);
         return new InstalledAppViewHolder(v);
     }
-
 
     @Override
     public void onBindViewHolder(InstalledAppViewHolder holder, final int pos) {
@@ -94,7 +92,6 @@ public class RootBatteryAdapter extends
     //        viewToAnimate.startAnimation(animation);
     //    }
 
-
     public class InstalledAppViewHolder extends RecyclerView.ViewHolder {
 
         private CardView cv;
@@ -107,18 +104,17 @@ public class RootBatteryAdapter extends
         private TextView tvC;
         private TextView tvR;
 
-
         public InstalledAppViewHolder(View itemView) {
             super(itemView);
-            cv = (CardView) itemView.findViewById(R.id.card_root_battery);
-            icon = (ImageView) itemView.findViewById(R.id.iv_root_battery_app_icon);
-            ivL = (ImageView) itemView.findViewById(R.id.iv_root_battery_l);
-            ivC = (ImageView) itemView.findViewById(R.id.iv_root_battery_c);
-            ivR = (ImageView) itemView.findViewById(R.id.iv_root_battery_r);
-            tvAppName = (TextView) itemView.findViewById(R.id.tv_card_root_battery_app_name);
-            tvL = (TextView) itemView.findViewById(R.id.tv_card_root_battery_l);
-            tvC = (TextView) itemView.findViewById(R.id.tv_card_root_battery_c);
-            tvR = (TextView) itemView.findViewById(R.id.tv_card_root_battery_r);
+            cv = itemView.findViewById(R.id.card_root_battery);
+            icon = itemView.findViewById(R.id.iv_root_battery_app_icon);
+            ivL = itemView.findViewById(R.id.iv_root_battery_l);
+            ivC = itemView.findViewById(R.id.iv_root_battery_c);
+            ivR = itemView.findViewById(R.id.iv_root_battery_r);
+            tvAppName = itemView.findViewById(R.id.tv_card_root_battery_app_name);
+            tvL = itemView.findViewById(R.id.tv_card_root_battery_l);
+            tvC = itemView.findViewById(R.id.tv_card_root_battery_c);
+            tvR = itemView.findViewById(R.id.tv_card_root_battery_r);
         }
     }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Martin Pfeffer
+ * Copyright (c) 2018 Martin Pfeffer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,15 +16,18 @@
 
 package com.pepperonas.m104.notification;
 
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.widget.RemoteViews;
+
 import com.pepperonas.aespreferences.AesPrefs;
 import com.pepperonas.andbasx.AndBasx;
 import com.pepperonas.andbasx.base.DrawableUtils;
@@ -34,64 +37,69 @@ import com.pepperonas.m104.R;
 import com.pepperonas.m104.config.Const;
 
 /**
- * @author Martin Pfeffer (pepperonas)
+ * @author Martin Pfeffer (celox.io)
+ * @see <a href="mailto:martin.pfeffer@celox.io">martin.pfeffer@celox.io</a>
  */
 public class NotificationClipboard {
 
     private static final String TAG = "NotificationClipboard";
 
     public static final String EXTRA_START_CLIPBOARD = "cbd";
+    private static final String NOTIFICATION_TAG = "nc_tag";
+    private static final String CHANNEL_ID = "clipboard_notification_channel";
+    private static final String GROUP = "clip";
 
     private Context mCtx;
 
     private static NotificationManager mNotificationManager;
-
     private static NotificationCompat.Builder mBuilder;
 
     private final RemoteViews mRemoteViews;
 
-
     /**
      * Instantiates a new Notification panel.
      *
-     * @param context the context
+     * @param context       the context
      * @param clipDataCount the clip data count
      */
     public NotificationClipboard(Context context, int clipDataCount) {
         this.mCtx = context;
 
-        mBuilder = new NotificationCompat.Builder(context)
-            .setContentTitle(context.getString(R.string.notification_title_battery))
-            .setSmallIcon(R.drawable.ic_attachment_white_24dp)
-            .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-            .setPriority(NotificationCompat.PRIORITY_MAX).setOngoing(true);
+        CharSequence name = context.getString(R.string.notification_title_battery);
 
-        mRemoteViews = new RemoteViews(context.getPackageName(),
-            R.layout.notification_view_clipboard);
+        mBuilder = new NotificationCompat.Builder(context)
+                .setContentTitle(context.getString(R.string.notification_title_battery))
+                .setSmallIcon(R.drawable.ic_attachment_white_24dp)
+                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                .setChannelId(CHANNEL_ID)
+                .setOnlyAlertOnce(true)
+                .setPriority(NotificationCompat.PRIORITY_MAX)
+                .setGroup(GROUP)
+                .setOngoing(true);
+
+        mRemoteViews = new RemoteViews(context.getPackageName(), R.layout.notification_view_clipboard);
 
         Drawable d = Loader.getDrawable(R.drawable.ic_attachment_white_24dp);
         Bitmap bm = DrawableUtils.toBitmap(d);
 
         mRemoteViews.setImageViewBitmap(R.id.iv_icon, bm);
-
-        mRemoteViews.setTextViewText(R.id.tv_s_notification_center_bottom,
-            makeClipDataCountInfo(clipDataCount));
-
+        mRemoteViews.setTextViewText(R.id.tv_s_notification_center_bottom, makeClipDataCountInfo(clipDataCount));
         initClipboardNotificationIntent();
 
         mBuilder.setContent(mRemoteViews);
 
-        mNotificationManager = (NotificationManager) context
-            .getSystemService(Context.NOTIFICATION_SERVICE);
+        mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
         if (AesPrefs.getBoolean(mCtx.getString(R.string.SHOW_CLIPBOARD_NOTIFICATION), true)) {
-            mNotificationManager.notify(Const.NOTIFICATION_CLIPBOARD, mBuilder.build());
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, NotificationManager.IMPORTANCE_HIGH);
+                mNotificationManager.createNotificationChannel(channel);
+            }
+            mNotificationManager.notify(NOTIFICATION_TAG, Const.NOTIFICATION_CLIPBOARD, mBuilder.build());
         } else {
-            mNotificationManager.cancel(Const.NOTIFICATION_CLIPBOARD);
+            mNotificationManager.cancel(NOTIFICATION_TAG, Const.NOTIFICATION_CLIPBOARD);
         }
-
     }
-
 
     /**
      * Make clip data count info char sequence.
@@ -110,11 +118,10 @@ public class NotificationClipboard {
         return clipDataCount + " " + mCtx.getString(R.string.entries);
     }
 
-
     /**
      * Init clipboard notification intent.
      */
-    public void initClipboardNotificationIntent() {
+    private void initClipboardNotificationIntent() {
         Intent clipboardIntent = new Intent(mCtx, ClipboardDialogActivity.class);
 
         clipboardIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -132,12 +139,9 @@ public class NotificationClipboard {
         /**
          * Important: set {@link PendingIntent.FLAG_UPDATE_CURRENT}
          * */
-        PendingIntent btnLaunch = PendingIntent
-            .getActivity(mCtx, Const.NOTIFICATION_CLIPBOARD, launch,
-                PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent btnLaunch = PendingIntent.getActivity(mCtx, Const.NOTIFICATION_CLIPBOARD, launch, PendingIntent.FLAG_UPDATE_CURRENT);
         mRemoteViews.setOnClickPendingIntent(R.id.iv_notification_circle_left, btnLaunch);
     }
-
 
     /**
      * Update.
@@ -145,19 +149,22 @@ public class NotificationClipboard {
      * @param clipDataCount the clip data count
      */
     public void update(int clipDataCount) {
-        mBuilder.setSmallIcon(R.drawable.ic_attachment_white_24dp)
-            .setPriority(NotificationCompat.PRIORITY_MAX).setOngoing(true);
-        mRemoteViews.setTextViewText(R.id.tv_s_notification_center_bottom,
-            makeClipDataCountInfo(clipDataCount));
+        mBuilder.setSmallIcon(R.drawable.ic_attachment_white_24dp);
+        //                .setPriority(NotificationCompat.PRIORITY_MAX)
+        //                .setChannelId(CHANNEL_ID)
+        //                .setOnlyAlertOnce(true)
+        //                .setPriority(NotificationCompat.PRIORITY_MAX)
+        //                .setGroup(GROUP)
+        //                .setOngoing(true);
+        mRemoteViews.setTextViewText(R.id.tv_s_notification_center_bottom, makeClipDataCountInfo(clipDataCount));
 
         if (AesPrefs.getBooleanRes(R.string.SHOW_CLIPBOARD_NOTIFICATION, true)) {
             Log.i(TAG, "---UPDATE---");
-            mNotificationManager.notify(Const.NOTIFICATION_CLIPBOARD, mBuilder.build());
+            mNotificationManager.notify(NOTIFICATION_TAG, Const.NOTIFICATION_CLIPBOARD, mBuilder.build());
         } else {
-            mNotificationManager.cancel(Const.NOTIFICATION_CLIPBOARD);
+            mNotificationManager.cancel(NOTIFICATION_TAG, Const.NOTIFICATION_CLIPBOARD);
         }
     }
-
 
     /**
      * Update set when, so the notifications will be forced to be shown in the correct order.
@@ -166,10 +173,11 @@ public class NotificationClipboard {
         Log.i(TAG, "---UPDATE (set when)---");
 
         if (mNotificationManager == null) {
-            mNotificationManager = (NotificationManager) AndBasx.getContext()
-                .getSystemService(Context.NOTIFICATION_SERVICE);
+            mNotificationManager = (NotificationManager) AndBasx.getContext().getSystemService(Context.NOTIFICATION_SERVICE);
         }
-        mNotificationManager.cancel(Const.NOTIFICATION_CLIPBOARD);
+        if (mNotificationManager != null) {
+            mNotificationManager.cancel(NOTIFICATION_TAG, Const.NOTIFICATION_CLIPBOARD);
+        }
 
         if (mBuilder != null) {
             mBuilder.setWhen(System.currentTimeMillis());
@@ -178,15 +186,18 @@ public class NotificationClipboard {
         }
 
         if (AesPrefs.getBooleanRes(R.string.SHOW_CLIPBOARD_NOTIFICATION, true)) {
-            if (mBuilder == null) {
-                mBuilder = new NotificationCompat.Builder(AndBasx.getContext()).setContentTitle(
-                    AndBasx.getContext().getString(R.string.notification_title_battery))
-                    .setSmallIcon(R.drawable.ic_attachment_white_24dp)
-                    .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-                    .setPriority(NotificationCompat.PRIORITY_MAX).setOngoing(true);
-            }
+//            if (mBuilder == null) {
+//                mBuilder = new NotificationCompat.Builder(AndBasx.getContext()).setContentTitle(AndBasx.getContext().getString(R.string.notification_title_battery))
+//                        .setSmallIcon(R.drawable.ic_attachment_white_24dp)
+//                        .setPriority(NotificationCompat.PRIORITY_MAX)
+//                        .setChannelId(CHANNEL_ID)
+//                        .setOnlyAlertOnce(true)
+//                        .setPriority(NotificationCompat.PRIORITY_MAX)
+//                        .setGroup(GROUP)
+//                        .setOngoing(true);
+//            }
 
-            mNotificationManager.notify(Const.NOTIFICATION_CLIPBOARD, mBuilder.build());
+//            mNotificationManager.notify(NOTIFICATION_TAG, Const.NOTIFICATION_CLIPBOARD, mBuilder.build());
         }
     }
 

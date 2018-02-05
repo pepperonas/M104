@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Martin Pfeffer
+ * Copyright (c) 2018 Martin Pfeffer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,11 +19,12 @@ package com.pepperonas.m104.interfaces;
 import android.content.Context;
 
 /**
- * @author Martin Pfeffer (pepperonas)
+ * @author Martin Pfeffer (celox.io)
+ * @see <a href="mailto:martin.pfeffer@celox.io">martin.pfeffer@celox.io</a>
  */
 public interface IBatteryInformer {
 
     void onBatteryUpdate(Context context, boolean isCharging, int level, double temperature,
-        int voltage, int plugged, int health, int status);
+                         int voltage, int plugged, int health, int status);
 
 }

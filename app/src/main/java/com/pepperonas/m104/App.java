@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Martin Pfeffer
+ * Copyright (c) 2018 Martin Pfeffer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,12 +19,14 @@ package com.pepperonas.m104;
 import android.app.Application;
 import android.content.Context;
 import android.support.multidex.MultiDex;
+
 import com.pepperonas.aespreferences.AesPrefs;
 import com.pepperonas.andbasx.AndBasx;
 import com.pepperonas.m104.utils.BatteryUtils;
 
 /**
- * @author Martin Pfeffer (pepperonas)
+ * @author Martin Pfeffer (celox.io)
+ * @see <a href="mailto:martin.pfeffer@celox.io">martin.pfeffer@celox.io</a>
  */
 public class App extends Application {
 
@@ -33,28 +35,22 @@ public class App extends Application {
 
     //    private Tracker mTracker;
 
-
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
         MultiDex.install(this);
     }
 
-
     @Override
     public void onCreate() {
         super.onCreate();
 
         AndBasx.init(this);
-
         AesPrefs.init(this, "aes_config", "the_apps_password", null);
-
         initStartConfig();
-
         AesPrefs.putIntRes(R.string.BATTERY_CAPACITY, (int) BatteryUtils.getBatteryCapacity());
 
     }
-
 
     private void initStartConfig() {
         AesPrefs.initInstallationDate();

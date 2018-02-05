@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Martin Pfeffer
+ * Copyright (c) 2018 Martin Pfeffer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,30 +16,34 @@
 
 package com.pepperonas.m104.model;
 
-import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.graphics.drawable.Drawable;
-import android.net.TrafficStats;
+import android.os.Build;
 import android.support.annotation.NonNull;
+import android.util.Log;
+
 import com.pepperonas.andbasx.AndBasx;
 import com.pepperonas.andbasx.base.Loader;
-import com.pepperonas.andbasx.datatype.InstalledApp;
 import com.pepperonas.andbasx.system.DeviceUtils;
 import com.pepperonas.jbasx.base.Binary;
 import com.pepperonas.m104.R;
+
 import java.text.NumberFormat;
 import java.util.Comparator;
 
 /**
- * @author Martin Pfeffer (pepperonas)
+ * @author Martin Pfeffer (celox.io)
+ * @see <a href="mailto:martin.pfeffer@celox.io">martin.pfeffer@celox.io</a>
  */
-public class InstalledAppSortable extends InstalledApp implements Comparator<InstalledApp> {
+public class InstalledAppSortable extends InstalledAppM104 implements Comparator<InstalledAppM104> {
 
-    private CharSequence formattedRxBytes = "";
-    private CharSequence formattedTxBytes = "";
-    private CharSequence formattedTotalBytes = "";
-    private Drawable icon = null;
+    @SuppressWarnings("unused")
+    private static final String TAG = "InstalledAppSortable";
 
+    private CharSequence formattedRxBytes;
+    private CharSequence formattedTxBytes;
+    private CharSequence formattedTotalBytes;
+    private Drawable icon;
 
     /**
      * Gets formatted rx bytes.
@@ -50,7 +54,6 @@ public class InstalledAppSortable extends InstalledApp implements Comparator<Ins
         return formattedRxBytes;
     }
 
-
     /**
      * Gets formatted tx bytes.
      *
@@ -59,7 +62,6 @@ public class InstalledAppSortable extends InstalledApp implements Comparator<Ins
     public CharSequence getFormattedTxBytes() {
         return formattedTxBytes;
     }
-
 
     /**
      * Gets formatted total bytes.
@@ -70,7 +72,6 @@ public class InstalledAppSortable extends InstalledApp implements Comparator<Ins
         return formattedTotalBytes;
     }
 
-
     /**
      * Gets icon.
      *
@@ -80,45 +81,42 @@ public class InstalledAppSortable extends InstalledApp implements Comparator<Ins
         return icon;
     }
 
-
     /**
      * Instantiates a new InstalledBasic app sortable.
      *
-     * @param ctx the ctx
      * @param applicationInfo the application info
      * @param applicationName the application name
      */
-    public InstalledAppSortable(Context ctx, ApplicationInfo applicationInfo,
-        String applicationName) {
-        super(applicationInfo, applicationName);
+    public InstalledAppSortable(ApplicationInfo applicationInfo, String applicationName, InstalledAppM104 installedAppM104) {
+        super(applicationInfo, applicationName, installedAppM104);
         formattedRxBytes = initFormattedRxBytes();
         formattedTxBytes = initFormattedTxBytes();
         formattedTotalBytes = initFormattedTotalBytes();
-        icon = initIcon(ctx);
+        icon = initIcon();
     }
-
 
     public static final Comparator<InstalledAppSortable> DESCENDING_COMPARATOR = new Comparator<InstalledAppSortable>() {
         public int compare(InstalledAppSortable lhs, InstalledAppSortable rhs) {
-            long rhsBytes = (TrafficStats.getUidRxBytes(lhs.getApplicationInfo().uid) + TrafficStats
-                .getUidTxBytes(lhs.getApplicationInfo().uid));
-            long lhsBytes = (TrafficStats.getUidRxBytes(rhs.getApplicationInfo().uid) + TrafficStats
-                .getUidTxBytes(rhs.getApplicationInfo().uid));
-            return lhsBytes < rhsBytes ? -1 : lhsBytes == rhsBytes ? 0 : 1;
-
+            long rhsBytes = lhs.getBytesRxMobile() + lhs.getBytesTxMobile();
+            long lhsBytes = rhs.getBytesRxMobile() + rhs.getBytesTxMobile();
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                return Long.compare(lhsBytes, rhsBytes);
+            } else {
+                return -1;
+            }
         }
     };
 
-
     @Override
-    public int compare(InstalledApp lhs, InstalledApp rhs) {
-        long rhsBytes = (TrafficStats.getUidRxBytes(lhs.getApplicationInfo().uid) + TrafficStats
-            .getUidTxBytes(lhs.getApplicationInfo().uid));
-        long lhsBytes = (TrafficStats.getUidRxBytes(rhs.getApplicationInfo().uid) + TrafficStats
-            .getUidTxBytes(rhs.getApplicationInfo().uid));
-        return lhsBytes < rhsBytes ? -1 : lhsBytes == rhsBytes ? 0 : 1;
+    public int compare(InstalledAppM104 lhs, InstalledAppM104 rhs) {
+        long rhsBytes = lhs.getBytesRxMobile() + lhs.getBytesTxMobile();
+        long lhsBytes = rhs.getBytesRxMobile() + rhs.getBytesTxMobile();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            return Long.compare(lhsBytes, rhsBytes);
+        } else {
+            return -1;
+        }
     }
-
 
     /**
      * Init formatted rx bytes char sequence.
@@ -126,10 +124,9 @@ public class InstalledAppSortable extends InstalledApp implements Comparator<Ins
      * @return the char sequence
      */
     private CharSequence initFormattedRxBytes() {
-        long traffic = TrafficStats.getUidRxBytes(this.getApplicationInfo().uid);
+        long traffic = getBytesRxMobile();
         return getCharSequence(traffic);
     }
-
 
     /**
      * Init formatted tx bytes char sequence.
@@ -137,11 +134,9 @@ public class InstalledAppSortable extends InstalledApp implements Comparator<Ins
      * @return the char sequence
      */
     private CharSequence initFormattedTxBytes() {
-        long traffic = TrafficStats.getUidTxBytes(this.getApplicationInfo().uid);
+        long traffic = getBytesTxMobile();
         return getCharSequence(traffic);
-
     }
-
 
     /**
      * Init formatted total bytes char sequence.
@@ -149,22 +144,18 @@ public class InstalledAppSortable extends InstalledApp implements Comparator<Ins
      * @return the char sequence
      */
     private CharSequence initFormattedTotalBytes() {
-        long traffic = TrafficStats.getUidRxBytes(this.getApplicationInfo().uid) + TrafficStats
-            .getUidTxBytes(this.getApplicationInfo().uid);
+        long traffic = getBytesRxMobile() + getBytesTxMobile();
         return getCharSequence(traffic);
     }
-
 
     /**
      * Init icon drawable.
      *
-     * @param ctx the ctx
      * @return the drawable
      */
-    private Drawable initIcon(Context ctx) {
+    private Drawable initIcon() {
         return getApplicationInfo().loadIcon(AndBasx.getContext().getPackageManager());
     }
-
 
     /**
      * Gets char sequence.
@@ -176,6 +167,8 @@ public class InstalledAppSortable extends InstalledApp implements Comparator<Ins
     private CharSequence getCharSequence(long traffic) {
         NumberFormat numberFormat = NumberFormat.getInstance(DeviceUtils.getLocale());
         numberFormat.setMaximumFractionDigits(1);
+
+        Log.i(TAG, "getCharSequence: " + getApplicationName() + " traffic=" + traffic);
 
         long div;
         String unit;

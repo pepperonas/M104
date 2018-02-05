@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <!--
-  ~ Copyright (c) 2017 Martin Pfeffer
+  ~ Copyright (c) 2018 Martin Pfeffer
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -16,10 +16,8 @@
   ~ limitations under the License.
   -->
 
-<PreferenceScreen
-    android:key="pref_scr_main"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    >
+<PreferenceScreen android:key="pref_scr_main"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory
         android:key="pref_cat_main"
@@ -28,104 +26,87 @@
         <CheckBoxPreference
             android:key="@string/IS_ROOT_MODE"
             android:title="@string/pref_title_root_mode"
-            android:summary="@string/pref_sum_root_mode"
-            />
+            android:summary="@string/pref_sum_root_mode" />
 
         <CheckBoxPreference
             android:key="@string/IS_AUTO_START"
             android:title="@string/pref_title_autostart"
-            android:summary="@string/pref_sum_autostart"
-            />
+            android:summary="@string/pref_sum_autostart" />
 
         <CheckBoxPreference
             android:key="@string/SHOW_BATTERY_NOTIFICATION"
             android:title="@string/pref_title_show_battery_notification"
-            android:summary="@string/pref_sum_show_battery_notification"
-            />
+            android:summary="@string/pref_sum_show_battery_notification" />
 
         <CheckBoxPreference
             android:key="@string/SHOW_NETWORK_NOTIFICATION"
             android:title="@string/pref_title_show_network_notification"
-            android:summary="@string/pref_sum_show_network_notification"
-            />
+            android:summary="@string/pref_sum_show_network_notification" />
 
         <CheckBoxPreference
             android:key="@string/SHOW_CLIPBOARD_NOTIFICATION"
             android:title="@string/pref_title_show_clipboard_notification"
-            android:summary="@string/pref_sum_show_network_notification"
-            />
+            android:summary="@string/pref_sum_show_network_notification" />
 
         <CheckBoxPreference
             android:key="@string/TOUCH_TWICE_TO_EXIT"
             android:title="@string/pref_title_touch_twice_to_exit"
-            android:summary="@string/pref_sum_touch_twice_to_exit"
-            />
+            android:summary="@string/pref_sum_touch_twice_to_exit" />
 
         <CheckBoxPreference
             android:key="@string/ANALYTICS"
             android:title="@string/pref_title_analytics"
-            android:summary="@string/pref_sum_analytics"
-            />
+            android:summary="@string/pref_sum_analytics" />
 
         <Preference
             android:key="@string/UNITS_CELSIUS"
             android:title="@string/pref_title_temperature_unit"
-            android:summary="@string/pref_sum_temperature_unit"
-            />
+            android:summary="@string/pref_sum_temperature_unit" />
 
     </PreferenceCategory>
 
 
-    <PreferenceCategory
-        android:title="@string/pref_cat_clipboard">
+    <PreferenceCategory android:title="@string/pref_cat_clipboard">
 
         <CheckBoxPreference
             android:key="@string/ENCRYPT_CLIPBOARD"
             android:title="@string/pref_title_encrypt_clipboard"
-            android:summary="@string/pref_sum_encrypt_clipboard"
-            />
+            android:summary="@string/pref_sum_encrypt_clipboard" />
 
         <Preference
             android:key="@string/DELETE_CLIPBOARD_DATABASE"
             android:title="@string/pref_title_delete_clipboard_database"
-            android:summary="@string/pref_sum_delete_clipboard_database"
-            />
+            android:summary="@string/pref_sum_delete_clipboard_database" />
 
     </PreferenceCategory>
 
 
-    <PreferenceCategory
-        android:title="@string/pref_cat_others">
+    <PreferenceCategory android:title="@string/pref_cat_others">
 
         <Preference
             android:key="@string/RATE_APP"
             android:title="@string/pref_title_rate_app"
-            android:summary="@string/empty"
-            />
+            android:summary="@string/empty" />
 
         <Preference
             android:key="@string/SHARE_APP"
             android:title="@string/pref_title_share_app"
-            android:summary="@string/empty"
-            />
+            android:summary="@string/empty" />
 
         <Preference
             android:key="@string/SHOW_APP_INTRO_AGAIN"
             android:title="@string/pref_title_show_tutorial"
-            android:summary="@string/empty"
-            />
+            android:summary="@string/empty" />
 
         <Preference
             android:key="@string/LICENSE"
             android:title="@string/pref_title_license"
-            android:summary="@string/empty"
-            />
+            android:summary="@string/empty" />
 
         <Preference
             android:key="@string/BUILD_VERSION"
             android:title="@string/pref_title_build_version"
-            android:summary="@string/empty"
-            />
+            android:summary="@string/empty" />
 
     </PreferenceCategory>
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Martin Pfeffer
+ * Copyright (c) 2018 Martin Pfeffer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,8 @@ import com.pepperonas.aespreferences.AesPrefs;
 import com.pepperonas.m104.R;
 
 /**
- * @author Martin Pfeffer (pepperonas)
+ * @author Martin Pfeffer (celox.io)
+ * @see <a href="mailto:martin.pfeffer@celox.io">martin.pfeffer@celox.io</a>
  */
 public class Calculations {
 
@@ -34,7 +35,6 @@ public class Calculations {
         return (AesPrefs.getIntRes(R.string.BATTERY_CAPACITY, 0) * (double) level / 100d);
     }
 
-
     /**
      * Gets makeRemainingInfo capacity while charging.
      *
@@ -45,7 +45,6 @@ public class Calculations {
         return (AesPrefs.getIntRes(R.string.BATTERY_CAPACITY, 0) - getRemainingCapacity(level));
     }
 
-
     /**
      * Gets hours.
      *
@@ -55,7 +54,6 @@ public class Calculations {
     public static long getHours(int hours) {
         return System.currentTimeMillis() - (hours * 60 * 60 * 1000);
     }
-
 
     /**
      * Gets minutes.

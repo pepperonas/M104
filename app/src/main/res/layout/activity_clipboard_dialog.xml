@@ -1,6 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ Copyright (c) 2017 Martin Pfeffer
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2018 Martin Pfeffer
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -15,57 +14,50 @@
   ~ limitations under the License.
   -->
 
-<android.support.v7.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/activity_chart_container_card"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/transparent"
     android:clickable="true"
     android:focusable="true"
-    android:focusableInTouchMode="true"
-    >
+    android:focusableInTouchMode="true">
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                    android:id="@+id/activity_chart_container"
-                    android:orientation="vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-        >
+        android:id="@+id/activity_chart_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical">
 
         <LinearLayout
-            android:orientation="horizontal"
+            android:id="@+id/ll_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:id="@+id/ll_header"
             android:background="@color/colorPrimary"
-            >
+            android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/tv_header"
+                style="@style/Base.TextAppearance.AppCompat.Large"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="24sp"
-                android:padding="16dp"
-                android:background="@color/colorPrimary"
-                style="@style/Base.TextAppearance.AppCompat.Large"
                 android:layout_weight="1"
-                />
+                android:background="@color/colorPrimary"
+                android:padding="16dp"
+                android:textSize="24sp" />
 
             <FrameLayout
                 android:layout_width="60dp"
-                android:layout_height="60dp"
-                >
+                android:layout_height="60dp">
 
                 <ImageButton
+                    android:id="@+id/ibtn_lock"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:id="@+id/ibtn_lock"
                     android:layout_gravity="center"
-                    android:background="@color/colorPrimary"
-                    />
+                    android:background="@color/colorPrimary" />
             </FrameLayout>
 
         </LinearLayout>
@@ -74,20 +66,19 @@
             android:id="@+id/recycler_view_clip_data"
             android:layout_width="match_parent"
             android:layout_height="280dp"
-            android:background="@color/transparent"
             android:layout_below="@+id/ll_header"
-            />
+            android:background="@color/transparent" />
 
         <ImageView
+            android:id="@+id/iv_easter_egg"
             android:layout_width="64dp"
             android:layout_height="64dp"
-            android:id="@+id/iv_easter_egg"
-            android:layout_alignParentBottom="false"
             android:layout_alignBottom="@+id/recycler_view_clip_data"
-            android:layout_marginBottom="92dp"
-            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="false"
             android:layout_alignParentEnd="false"
-            />
+            android:layout_alignParentRight="false"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="92dp" />
 
     </RelativeLayout>
 

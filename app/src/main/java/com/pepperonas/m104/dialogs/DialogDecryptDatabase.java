@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Martin Pfeffer
+ * Copyright (c) 2018 Martin Pfeffer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,71 +16,78 @@
 
 package com.pepperonas.m104.dialogs;
 
-import android.content.Context;
+import android.app.Activity;
+import android.content.Intent;
 import android.preference.CheckBoxPreference;
+import android.support.annotation.NonNull;
 import android.widget.EditText;
+
 import com.pepperonas.aespreferences.AesPrefs;
 import com.pepperonas.andbasx.base.ToastUtils;
 import com.pepperonas.jbasx.base.TextUtils;
+import com.pepperonas.m104.MainService;
 import com.pepperonas.m104.R;
 import com.pepperonas.m104.model.Database;
 import com.pepperonas.materialdialog.MaterialDialog;
 
 /**
- * @author Martin Pfeffer (pepperonas)
+ * @author Martin Pfeffer (celox.io)
+ * @see <a href="mailto:martin.pfeffer@celox.io">martin.pfeffer@celox.io</a>
  */
 public class DialogDecryptDatabase {
 
-    private boolean mDoCheck = false;
+    @SuppressWarnings("unused")
+    private static final String TAG = "DialogDecryptDatabase";
 
+    public DialogDecryptDatabase(@NonNull final Activity activity, final CheckBoxPreference cbxEncrypt, final Database db) {
+        new MaterialDialog.Builder(activity).customView(R.layout.dialog_set_password)
+                .title(activity.getString(R.string.dialog_enter_password_title))
+                .message(activity.getString(R.string.dialog_enter_password_to_decrypt_msg))
+                .positiveText(activity.getString(R.string.ok))
+                .neutralText(R.string.reset)
+                .negativeText(activity.getString(R.string.cancel))
+                .buttonCallback(new MaterialDialog.ButtonCallback() {
+                    @Override
+                    public void onPositive(MaterialDialog dialog) {
+                        super.onPositive(dialog);
 
-    public DialogDecryptDatabase(Context ctx, final CheckBoxPreference cbxEncrypt,
-        final Database db) {
-        new MaterialDialog.Builder(ctx).customView(R.layout.dialog_set_password)
-            .title(ctx.getString(R.string.dialog_enter_password_title))
-            .message(ctx.getString(R.string.dialog_enter_password_to_decrypt_msg))
-            .positiveText(ctx.getString(R.string.ok)).negativeText(ctx.getString(R.string.cancel))
-            .buttonCallback(new MaterialDialog.ButtonCallback() {
-                @Override
-                public void onPositive(MaterialDialog dialog) {
-                    super.onPositive(dialog);
+                        EditText etInput = dialog.findViewById(R.id.et_set_password);
+                        if (!TextUtils.isEmpty(etInput.getText().toString())) {
+                            if (etInput.getText().toString().equals(AesPrefs.getRes(R.string.ENCRYPTION_PASSWORD, ""))) {
+                                ToastUtils.toastShort(R.string.clipboard_decrypted);
 
-                    EditText etInput = (EditText) dialog.findViewById(R.id.et_set_password);
-                    if (!TextUtils.isEmpty(etInput.getText().toString())) {
-                        if (etInput.getText().toString()
-                            .equals(AesPrefs.getRes(R.string.ENCRYPTION_PASSWORD, ""))) {
-                            ToastUtils.toastShort(R.string.clipboard_decrypted);
-
-                            AesPrefs.putRes(R.string.ENCRYPTION_PASSWORD, "");
-                            mDoCheck = false;
-                            db.decryptClipboard(etInput.getText().toString());
-
+                                AesPrefs.putRes(R.string.ENCRYPTION_PASSWORD, "");
+                                db.decryptClipboard(etInput.getText().toString());
+                            } else {
+                                ToastUtils.toastShort(R.string.wrong_password);
+                                cbxEncrypt.setChecked(true);
+                            }
                         } else {
-                            ToastUtils.toastShort(R.string.wrong_password);
+                            ToastUtils.toastShort(R.string.invalid_input);
+                            cbxEncrypt.setChecked(true);
                         }
-                    } else {
-                        ToastUtils.toastShort(R.string.invalid_input);
                     }
-                }
 
+                    @Override
+                    public void onNegative(MaterialDialog dialog) {
+                        super.onNegative(dialog);
 
-                @Override
-                public void onNegative(MaterialDialog dialog) {
-                    super.onNegative(dialog);
+                        cbxEncrypt.setChecked(true);
+                    }
 
-                    mDoCheck = false;
-                    cbxEncrypt.setChecked(false);
-                    AesPrefs.putBooleanRes(R.string.ENCRYPT_CLIPBOARD, false);
-                }
-            }).dismissListener(new MaterialDialog.DismissListener() {
-            @Override
-            public void onDismiss() {
-                super.onDismiss();
+                    @Override
+                    public void onNeutral(MaterialDialog dialog) {
+                        super.onNeutral(dialog);
+                        ToastUtils.toastLong(R.string.encryption_disabled);
 
-                cbxEncrypt.setChecked(mDoCheck);
-                AesPrefs.putBooleanRes(R.string.ENCRYPT_CLIPBOARD, mDoCheck);
-            }
-        }).show();
+                        db.deleteAllClips();
+                        cbxEncrypt.setChecked(false);
+                        AesPrefs.putRes(R.string.ENCRYPTION_PASSWORD, "");
+                        AesPrefs.putBooleanRes(R.string.ENCRYPT_CLIPBOARD, false);
+
+                        activity.sendBroadcast(new Intent(MainService.BROADCAST_CLIP_DELETED));
+                    }
+                }).show();
     }
 
 }

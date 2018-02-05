@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Martin Pfeffer
+ * Copyright (c) 2018 Martin Pfeffer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,14 +17,17 @@
 package com.pepperonas.m104.utils;
 
 import android.support.annotation.NonNull;
+
 import com.pepperonas.andbasx.AndBasx;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
 /**
- * @author Martin Pfeffer (pepperonas)
+ * @author Martin Pfeffer (celox.io)
+ * @see <a href="mailto:martin.pfeffer@celox.io">martin.pfeffer@celox.io</a>
  */
 public class DumpLoader {
 
@@ -38,8 +41,7 @@ public class DumpLoader {
     public static String loadDump(String which) {
         try {
             String line;
-            BufferedReader br = new BufferedReader(
-                new FileReader(AndBasx.getContext().getFilesDir() + File.separator + which));
+            BufferedReader br = new BufferedReader(new FileReader(AndBasx.getContext().getFilesDir() + File.separator + which));
             StringBuilder sb = new StringBuilder();
             while ((line = br.readLine()) != null) {
                 sb.append(line).append("\n");

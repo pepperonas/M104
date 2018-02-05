@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Martin Pfeffer
+ * Copyright (c) 2018 Martin Pfeffer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,7 +22,8 @@ import com.pepperonas.m104.R;
 import com.pepperonas.materialdialog.MaterialDialog;
 
 /**
- * @author Martin Pfeffer (pepperonas)
+ * @author Martin Pfeffer (celox.io)
+ * @see <a href="mailto:martin.pfeffer@celox.io">martin.pfeffer@celox.io</a>
  */
 public class DialogPremiumSuccess {
 
@@ -31,14 +32,14 @@ public class DialogPremiumSuccess {
         AesPrefs.putBooleanRes(R.string.SHOW_DIALOG_SUCCESS, false);
 
         new MaterialDialog.Builder(mainActivity).title(R.string.dialog_promo_success_title)
-            .message(R.string.dialog_promo_success_msg).positiveText(R.string.ok)
-            .dismissListener(new MaterialDialog.DismissListener() {
-                @Override
-                public void onDismiss() {
-                    super.onDismiss();
-                    mainActivity.recreate();
-                }
-            }).show();
+                .message(R.string.dialog_promo_success_msg).positiveText(R.string.ok)
+                .dismissListener(new MaterialDialog.DismissListener() {
+                    @Override
+                    public void onDismiss() {
+                        super.onDismiss();
+                        mainActivity.recreate();
+                    }
+                }).show();
     }
 
 }

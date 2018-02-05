@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Martin Pfeffer
+ * Copyright (c) 2018 Martin Pfeffer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,6 +19,7 @@ package com.pepperonas.m104.adapter;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+
 import com.pepperonas.m104.fragments.FragmentRoot;
 import com.pepperonas.m104.fragments.tabs.Tab1;
 import com.pepperonas.m104.fragments.tabs.Tab2;
@@ -30,14 +31,14 @@ import com.pepperonas.m104.fragments.tabs.Tab7;
 import com.pepperonas.m104.fragments.tabs.Tab8;
 
 /**
- * @author Martin Pfeffer (pepperonas)
+ * @author Martin Pfeffer (celox.io)
+ * @see <a href="mailto:martin.pfeffer@celox.io">martin.pfeffer@celox.io</a>
  */
 public class ViewPagerAdapter extends FragmentStatePagerAdapter {
 
     private CharSequence mTitles[];
 
     private FragmentRoot mFragmentRoot;
-
 
     public ViewPagerAdapter(FragmentRoot fragmentRoot, FragmentManager fm, CharSequence mTitles[]) {
         super(fm);
@@ -46,7 +47,6 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
 
         this.mTitles = mTitles;
     }
-
 
     @Override
     public Fragment getItem(int position) {
@@ -72,12 +72,10 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
         }
     }
 
-
     @Override
     public CharSequence getPageTitle(int position) {
         return mTitles[position];
     }
-
 
     @Override
     public int getCount() {

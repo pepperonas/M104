@@ -1,6 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ Copyright (c) 2017 Martin Pfeffer
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2018 Martin Pfeffer
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -17,7 +16,7 @@
 
 <resources>
     <string name="app_name" translatable="false">M104</string>
-    <string name="empty" translatable="false"/>
+    <string name="empty" translatable="false" />
 
     <string name="unset_text_view" translatable="false">---</string>
 

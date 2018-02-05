@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Martin Pfeffer
+ * Copyright (c) 2018 Martin Pfeffer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,6 +28,7 @@ import android.os.BatteryManager;
 import android.os.Handler;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
+
 import com.pepperonas.aespreferences.AesPrefs;
 import com.pepperonas.andbasx.system.NetworkUtils;
 import com.pepperonas.andbasx.system.SystemUtils;
@@ -44,9 +45,9 @@ import com.pepperonas.m104.notification.NotificationClipboard;
 import com.pepperonas.m104.notification.NotificationNetwork;
 import com.pepperonas.m104.utils.Calculations;
 
-
 /**
- * @author Martin Pfeffer (pepperonas)
+ * @author Martin Pfeffer
+ * <a href="mailto:martin.pfeffer@celox.io">martin.pfeffer@celox.io</a>
  */
 public class MainService extends Service {
 
@@ -107,7 +108,6 @@ public class MainService extends Service {
     private BroadcastReceiver mBatteryInfoReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context ctx, Intent intent) {
-
             mLevel = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, Const.VALUE_UNSET);
             mTemperature = getTemperature(intent);
             mStatus = intent.getIntExtra(BatteryManager.EXTRA_STATUS, Const.VALUE_UNSET);
@@ -123,14 +123,14 @@ public class MainService extends Service {
 
             if (mDb != null) {
                 long tsBatteryStat = mDb.addBatteryStat(
-                    new BatteryStat(System.currentTimeMillis(), mIsCharging, cm,
-                        mStatus == BatteryManager.BATTERY_STATUS_FULL, mLevel, (float) mTemperature,
-                        (float) mVoltage, SystemUtils.isScreenOn(),
-                        SystemUtils.getSystemScreenBrightness(), SystemUtils.isWifiEnabled(),
-                        NetworkUtils.isWifiConnected(), GPS_BOOLEAN_DISABLED, GPS_BOOLEAN_DISABLED,
-                        GPS_BOOLEAN_DISABLED, SystemUtils.isMasterSyncEnabled(),
-                        SystemUtils.isAirplaneModeEnabled(),
-                        (int) Calculations.getRemainingCapacity(mLevel)));
+                        new BatteryStat(System.currentTimeMillis(), mIsCharging, cm,
+                                mStatus == BatteryManager.BATTERY_STATUS_FULL, mLevel, (float) mTemperature,
+                                (float) mVoltage, SystemUtils.isScreenOn(),
+                                SystemUtils.getSystemScreenBrightness(), SystemUtils.isWifiEnabled(),
+                                NetworkUtils.isWifiConnected(), GPS_BOOLEAN_DISABLED, GPS_BOOLEAN_DISABLED,
+                                GPS_BOOLEAN_DISABLED, SystemUtils.isMasterSyncEnabled(),
+                                SystemUtils.isAirplaneModeEnabled(),
+                                (int) Calculations.getRemainingCapacity(mLevel)));
 
                 AesPrefs.putLongRes(R.string.LAST_BATTERY_STAT, tsBatteryStat);
             }
@@ -148,27 +148,23 @@ public class MainService extends Service {
             }
 
             estimateBatteryLife(mIsCharging);
-
             ensureStoreMaxTemperature(mTemperature);
-
             sendBatteryBroadcast();
 
         } // end of onReceive()
 
-
         private void ensurePercentResolvable() {
             if (AesPrefs.getIntResNoLog(R.string.LAST_CHARGED_LEVEL, Integer.MIN_VALUE)
-                == Integer.MIN_VALUE) {
+                    == Integer.MIN_VALUE) {
                 AesPrefs.putLongRes(R.string.LAST_CHARGED_STAMP, System.currentTimeMillis());
                 AesPrefs.putIntRes(R.string.LAST_CHARGED_LEVEL, mLevel);
             }
             if (AesPrefs.getIntResNoLog(R.string.LAST_DISCHARGED_LEVEL, Integer.MIN_VALUE)
-                == Integer.MIN_VALUE) {
+                    == Integer.MIN_VALUE) {
                 AesPrefs.putLongRes(R.string.LAST_DISCHARGED_STAMP, System.currentTimeMillis());
                 AesPrefs.putIntRes(R.string.LAST_DISCHARGED_LEVEL, mLevel);
             }
         }
-
 
         private void estimateBatteryLife(boolean isCharging) {
             if (!isCharging) {
@@ -178,50 +174,38 @@ public class MainService extends Service {
             }
         }
 
-
         private void estimateOnDischarging() {
-
             int lvlDiff = AesPrefs.getIntResNoLog(R.string.LAST_CHARGED_LEVEL, 0) - mLevel;
 
-            long timeDiff = System.currentTimeMillis() - AesPrefs
-                .getLongResNoLog(R.string.LAST_CHARGED_STAMP, -1);
+            long timeDiff = System.currentTimeMillis() - AesPrefs.getLongResNoLog(R.string.LAST_CHARGED_STAMP, -1);
             if (timeDiff <= 0 || lvlDiff <= 0) {
                 Log.w(TAG, "estimateOnDischarging " + "MAD VALUES! Return...");
                 return;
             }
 
-            float consumptionPerHour =
-                (float) ConvertUtils.hourToMillisecond(lvlDiff) / (float) (timeDiff);
+            float consumptionPerHour = (float) ConvertUtils.hourToMillisecond(lvlDiff) / (float) (timeDiff);
 
             AesPrefs.putFloatRes(R.string.CYCLIC_CONSUMPTION_PER_HOUR, consumptionPerHour);
-
         }
 
-
         private void estimateOnCharging() {
-
             int lvlDiff = mLevel - AesPrefs.getIntRes(R.string.LAST_DISCHARGED_LEVEL, 0);
 
-            long timeDiff = System.currentTimeMillis() - AesPrefs
-                .getLongRes(R.string.LAST_DISCHARGED_STAMP, -1);
+            long timeDiff = System.currentTimeMillis() - AesPrefs.getLongRes(R.string.LAST_DISCHARGED_STAMP, -1);
             if (timeDiff <= 0 || lvlDiff <= 0) {
                 Log.w(TAG, "estimateOnCharging " + "MAD VALUES! Return...");
                 return;
             }
 
-            float loadPerHour =
-                (float) ConvertUtils.hourToMillisecond(lvlDiff) / (float) (timeDiff);
+            float loadPerHour = (float) ConvertUtils.hourToMillisecond(lvlDiff) / (float) (timeDiff);
 
             AesPrefs.putFloatRes(R.string.CYCLIC_CHARGE_PER_HOUR, loadPerHour);
-
         }
-
 
         private void onStateChanged(boolean isCharging) {
             Log.i(TAG, "onReceive ---STATE CHANGED---");
 
-            mDb.addChargeState(System.currentTimeMillis(),
-                AesPrefs.getLongResNoLog(R.string.LAST_BATTERY_STAT, 0), isCharging);
+            mDb.addChargeState(System.currentTimeMillis(), AesPrefs.getLongResNoLog(R.string.LAST_BATTERY_STAT, 0), isCharging);
 
             AesPrefs.putDoubleRes(R.string.CYCLIC_MAX_TEMP_VALUE, 0);
 
@@ -236,16 +220,13 @@ public class MainService extends Service {
                 AesPrefs.putIntRes(R.string.LAST_DISCHARGED_LEVEL, mLevel);
                 AesPrefs.putLongRes(R.string.LAST_DISCHARGED_STAMP, System.currentTimeMillis());
             }
-
         }
-
 
         private double getTemperature(Intent intent) {
             int result = intent.getIntExtra(BatteryManager.EXTRA_TEMPERATURE, Const.VALUE_UNSET);
             return result != Const.VALUE_UNSET ? (result / 10d) : Const.VALUE_UNSET;
         }
     };
-
 
     /**
      * Send values by broadcast.
@@ -263,15 +244,13 @@ public class MainService extends Service {
 
         // and update battery notification
         mNotificationBattery.update(mLevel, mTemperature, mIsCharging);
-
     }
-
 
     /**
      * Send values by broadcast.
      *
-     * @param rx the rx
-     * @param tx the tx
+     * @param rx  the rx
+     * @param tx  the tx
      * @param rxm the rxm
      * @param txm the txm
      */
@@ -285,9 +264,7 @@ public class MainService extends Service {
 
         // and update battery notification
         //        mNotificationBattery.update(mLevel, mTemperature, mIsCharging);
-
     }
-
 
     /**
      * Update clipboard count.
@@ -295,7 +272,6 @@ public class MainService extends Service {
     private void updateClipboardCount() {
         mNotificationClipboard.update(mDb.getClipDataCount());
     }
-
 
     /**
      * Ensure store max temperature.
@@ -311,7 +287,6 @@ public class MainService extends Service {
         }
     }
 
-
     /**
      * Reset current screen tracker.
      */
@@ -319,7 +294,6 @@ public class MainService extends Service {
         AesPrefs.putLongRes(R.string.CYCLIC_SCREEN_ON_VALUE, 0);
         AesPrefs.putLongRes(R.string.CYCLIC_SCREEN_OFF_VALUE, 0);
     }
-
 
     /**
      * Receiver to react when the screen turns on.
@@ -329,37 +303,30 @@ public class MainService extends Service {
         public void onReceive(Context ctx, Intent intent) {
             sendBatteryBroadcast();
 
-            mDb.addScreenState(System.currentTimeMillis(),
-                AesPrefs.getLongResNoLog(R.string.LAST_BATTERY_STAT, 0), true);
+            mDb.addScreenState(System.currentTimeMillis(), AesPrefs.getLongResNoLog(R.string.LAST_BATTERY_STAT, 0), true);
 
             mIsScreenOn = true;
 
             trackOnScreenOn();
-
             startRepeatingTask();
         }
     };
-
 
     /**
      * Track on screen on.
      */
     private void trackOnScreenOn() {
-        long trackedScreenOff = AesPrefs
-            .getLongResNoLog(R.string.SCREEN_TRACKER_OFF, System.currentTimeMillis());
+        long trackedScreenOff = AesPrefs.getLongResNoLog(R.string.SCREEN_TRACKER_OFF, System.currentTimeMillis());
         long screenOff = System.currentTimeMillis() - trackedScreenOff;
 
         Log.d(TAG, "trackOnScreenOn screen was off for " + screenOff / 1000 + " s.");
 
-        AesPrefs.putLongRes(R.string.CYCLIC_SCREEN_OFF_VALUE,
-            AesPrefs.getLongResNoLog(R.string.CYCLIC_SCREEN_OFF_VALUE, 0) + screenOff);
-        AesPrefs.putLongRes(R.string.GLOBAL_SCREEN_OFF_VALUE,
-            AesPrefs.getLongResNoLog(R.string.GLOBAL_SCREEN_OFF_VALUE, 0) + screenOff);
+        AesPrefs.putLongRes(R.string.CYCLIC_SCREEN_OFF_VALUE, AesPrefs.getLongResNoLog(R.string.CYCLIC_SCREEN_OFF_VALUE, 0) + screenOff);
+        AesPrefs.putLongRes(R.string.GLOBAL_SCREEN_OFF_VALUE, AesPrefs.getLongResNoLog(R.string.GLOBAL_SCREEN_OFF_VALUE, 0) + screenOff);
 
         AesPrefs.putLongRes(R.string.SCREEN_TRACKER_ON, System.currentTimeMillis());
 
     }
-
 
     /**
      * Receiver to react when the screen turns off.
@@ -367,38 +334,30 @@ public class MainService extends Service {
     private BroadcastReceiver mScreenOffReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context ctx, Intent intent) {
-            mDb.addScreenState(System.currentTimeMillis(),
-                AesPrefs.getLongResNoLog(R.string.LAST_BATTERY_STAT, 0), false);
+            mDb.addScreenState(System.currentTimeMillis(), AesPrefs.getLongResNoLog(R.string.LAST_BATTERY_STAT, 0), false);
 
             mIsScreenOn = false;
 
             trackOnScreenOff();
-
             sendBatteryBroadcast();
-
             stopRepeatingTask();
         }
     };
-
 
     /**
      * Track on screen off.
      */
     private void trackOnScreenOff() {
-        long trackedScreenOn = AesPrefs
-            .getLongResNoLog(R.string.SCREEN_TRACKER_ON, System.currentTimeMillis());
+        long trackedScreenOn = AesPrefs.getLongResNoLog(R.string.SCREEN_TRACKER_ON, System.currentTimeMillis());
         long screenOn = System.currentTimeMillis() - trackedScreenOn;
 
         Log.d(TAG, "trackOnScreenOff screen was on for " + screenOn / 1000 + " s.");
 
-        AesPrefs.putLongRes(R.string.CYCLIC_SCREEN_ON_VALUE,
-            AesPrefs.getLongResNoLog(R.string.CYCLIC_SCREEN_ON_VALUE, 0) + screenOn);
-        AesPrefs.putLongRes(R.string.GLOBAL_SCREEN_ON_VALUE,
-            AesPrefs.getLongResNoLog(R.string.GLOBAL_SCREEN_ON_VALUE, 0) + screenOn);
+        AesPrefs.putLongRes(R.string.CYCLIC_SCREEN_ON_VALUE, AesPrefs.getLongResNoLog(R.string.CYCLIC_SCREEN_ON_VALUE, 0) + screenOn);
+        AesPrefs.putLongRes(R.string.GLOBAL_SCREEN_ON_VALUE, AesPrefs.getLongResNoLog(R.string.GLOBAL_SCREEN_ON_VALUE, 0) + screenOn);
 
         AesPrefs.putLongRes(R.string.SCREEN_TRACKER_OFF, System.currentTimeMillis());
     }
-
 
     /**
      * Receiver to react when activity gets started.
@@ -408,7 +367,6 @@ public class MainService extends Service {
         public void onReceive(Context ctx, Intent intent) {
             Log.d(TAG, "onReceive activity started");
             sendBatteryBroadcast();
-
             startRepeatingTask();
         }
     };
@@ -428,19 +386,13 @@ public class MainService extends Service {
     private final Runnable mRunnableNetworkCheck = new Runnable() {
         @Override
         public void run() {
-
-            int uprateInSeconds = AesPrefs.getIntResNoLog(R.string.CONNECTION_MEASUREMENT_INTERVAL,
-                Const.DEFAULT_NWK_RECORD_INTERVAL);
+            int uprateInSeconds = AesPrefs.getIntResNoLog(R.string.CONNECTION_MEASUREMENT_INTERVAL, Const.DEFAULT_NWK_RECORD_INTERVAL);
 
             // get the difference to get the current speed
-            long rx_ivl = (long) ((TrafficStats.getTotalRxBytes() - mTmpLastRx)
-                / (float) uprateInSeconds);
-            long tx_ivl = (long) ((TrafficStats.getTotalTxBytes() - mTmpLastTx)
-                / (float) uprateInSeconds);
-            long rxm_ivl = (long) ((TrafficStats.getMobileRxBytes() - mTmpLastRxMobile)
-                / (float) uprateInSeconds);
-            long txm_ivl = (long) ((TrafficStats.getMobileTxBytes() - mTmpLastTxMobile)
-                / (float) uprateInSeconds);
+            long rx_ivl = (long) ((TrafficStats.getTotalRxBytes() - mTmpLastRx) / (float) uprateInSeconds);
+            long tx_ivl = (long) ((TrafficStats.getTotalTxBytes() - mTmpLastTx) / (float) uprateInSeconds);
+            long rxm_ivl = (long) ((TrafficStats.getMobileRxBytes() - mTmpLastRxMobile) / (float) uprateInSeconds);
+            long txm_ivl = (long) ((TrafficStats.getMobileTxBytes() - mTmpLastTxMobile) / (float) uprateInSeconds);
 
             if (mIsFirstRun) {
                 mIsFirstRun = false;
@@ -457,8 +409,7 @@ public class MainService extends Service {
             mTmpLastRxMobile = TrafficStats.getMobileRxBytes();
             mTmpLastTxMobile = TrafficStats.getMobileTxBytes();
 
-            mNotificationNetwork
-                .update(TrafficStats.getTotalRxBytes(), TrafficStats.getTotalTxBytes(),
+            mNotificationNetwork.update(TrafficStats.getTotalRxBytes(), TrafficStats.getTotalTxBytes(),
                     TrafficStats.getMobileRxBytes(), TrafficStats.getMobileTxBytes(), rx_ivl,
                     tx_ivl, SystemUtils.getNetworkType());
 
@@ -468,7 +419,7 @@ public class MainService extends Service {
              * */
             try {
                 mDb.addNetworkStat(System.currentTimeMillis(), rx_ivl, tx_ivl, rxm_ivl, txm_ivl,
-                    "x");
+                        "x");
             } catch (Exception e) {
                 Log.e(TAG, "Writing in database failed.");
             }
@@ -477,7 +428,6 @@ public class MainService extends Service {
         }
     };
 
-
     /**
      * Instantiates a new Notification service.
      */
@@ -485,13 +435,12 @@ public class MainService extends Service {
 
     }
 
-
     @Override
     public void onCreate() {
         super.onCreate();
 
         if (!AesPrefs.getBooleanRes(R.string.IS_PREMIUM, false) && AesPrefs
-            .getBooleanRes(R.string.TEST_PHASE_EXPIRED, false)) {
+                .getBooleanRes(R.string.TEST_PHASE_EXPIRED, false)) {
             stopSelf();
             return;
         }
@@ -499,25 +448,23 @@ public class MainService extends Service {
         Log.d(TAG, "onCreate " + "");
 
         mDb = new Database(getApplicationContext());
-
         mDb.cleanBatteryStats();
 
-        ((ClipboardManager) getSystemService(CLIPBOARD_SERVICE))
-            .addPrimaryClipChangedListener(new ClipboardListener());
+        ClipboardManager clipboardManager = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+        if (clipboardManager != null) {
+            clipboardManager.addPrimaryClipChangedListener(new ClipboardListener());
+        }
 
         mNotificationBattery = new NotificationBattery(getApplicationContext());
 
         mNotificationNetwork = new NotificationNetwork(getApplicationContext());
 
-        mNotificationClipboard = new NotificationClipboard(getApplicationContext(),
-            mDb.getClipDataCount());
+        mNotificationClipboard = new NotificationClipboard(getApplicationContext(), mDb.getClipDataCount());
 
         registerReceiver();
 
         startRepeatingTask();
-
     }
-
 
     @Override
     public void onDestroy() {
@@ -528,7 +475,6 @@ public class MainService extends Service {
         super.onDestroy();
     }
 
-
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.d(TAG, "onStartCommand " + "");
@@ -536,13 +482,11 @@ public class MainService extends Service {
         return START_STICKY;
     }
 
-
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
         return null;
     }
-
 
     /**
      * Register receiver.
@@ -563,7 +507,6 @@ public class MainService extends Service {
 
         registerReceiver(mClipDeletedReceiver, new IntentFilter(BROADCAST_CLIP_DELETED));
     }
-
 
     /**
      * Start repeating task.
@@ -586,7 +529,6 @@ public class MainService extends Service {
         mRunnableNetworkCheck.run();
     }
 
-
     /**
      * Stop repeating task.
      */
@@ -597,37 +539,34 @@ public class MainService extends Service {
         mHandler.removeCallbacks(mRunnableNetworkCheck);
     }
 
-
     class ClipboardListener implements ClipboardManager.OnPrimaryClipChangedListener {
 
         private long mLastAddedClip = 0;
         private long ENSURE_1000MS = 1000;
 
-
         public void onPrimaryClipChanged() {
-
             if (!AesPrefs.getBooleanRes(R.string.SHOW_CLIPBOARD_NOTIFICATION, true)) {
                 return;
             }
 
             try {
-                ClipboardManager clipboardManager = (ClipboardManager) getSystemService(
-                    CLIPBOARD_SERVICE);
-                ClipData cd = clipboardManager.getPrimaryClip();
-                ClipData.Item item = cd.getItemAt(0);
-                String text = item.getText().toString();
-
-                Log.d(TAG, "onPrimaryClipChanged " + text);
-
-                if ((System.currentTimeMillis() - mLastAddedClip) > ENSURE_1000MS) {
-                    mLastAddedClip = System.currentTimeMillis();
-
-                    mDb.addClipData(ClipDataAdvanced.TYPE_DEFAULT, text,
-                        System.currentTimeMillis());
+                ClipboardManager clipboardManager = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+                ClipData cd = null;
+                if (clipboardManager != null) {
+                    cd = clipboardManager.getPrimaryClip();
+                }
+                ClipData.Item item;
+                if (cd != null) {
+                    item = cd.getItemAt(0);
+                    String text = item.getText().toString();
+                    Log.d(TAG, "onPrimaryClipChanged " + text);
+                    if ((System.currentTimeMillis() - mLastAddedClip) > ENSURE_1000MS) {
+                        mLastAddedClip = System.currentTimeMillis();
+                        mDb.addClipData(ClipDataAdvanced.TYPE_DEFAULT, text, System.currentTimeMillis());
+                    }
                 }
 
                 mNotificationClipboard.update(mDb.getClipDataCount());
-
             } catch (Exception e) {
                 Log.d(TAG, "onPrimaryClipChanged " + "Error while getting clip-data");
             }
@@ -635,4 +574,3 @@ public class MainService extends Service {
     }
 
 }
-

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Martin Pfeffer
+ * Copyright (c) 2018 Martin Pfeffer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,30 +18,31 @@ package com.pepperonas.m104.utils;
 
 import android.content.Context;
 import android.os.BatteryManager;
+
 import com.pepperonas.aespreferences.AesPrefs;
 import com.pepperonas.andbasx.base.Loader;
 import com.pepperonas.andbasx.system.DeviceUtils;
 import com.pepperonas.jbasx.math.ConvertUtils;
 import com.pepperonas.m104.R;
 import com.pepperonas.m104.config.Const;
+
 import java.text.NumberFormat;
 
 /**
- * @author Martin Pfeffer (pepperonas)
+ * @author Martin Pfeffer (celox.io)
+ * @see <a href="mailto:martin.pfeffer@celox.io">martin.pfeffer@celox.io</a>
  */
 public class StringFactory {
 
+    @SuppressWarnings("unused")
     private static final String TAG = "StringFactory";
-
 
     public static CharSequence makeLevelInfo(Context ctx, int level) {
         return level != Const.VALUE_UNSET ? (level + " %") : (ctx.getString(R.string.ns));
     }
 
-
     public static CharSequence makeRemainingInfo(Context ctx, int level, boolean isCharging) {
         float remaining = BatteryUtils.getRemaining(level, isCharging);
-
         if (level == 100) {
             return ctx.getString(R.string.fully_charged);
         }
@@ -49,13 +50,11 @@ public class StringFactory {
         long last = (long) (remaining * 1000f * 60f * 60f);
 
         if (!isCharging) {
-            return String
-                .format(ctx.getString(R.string.discharging_message), formatRemaining(last));
+            return String.format(ctx.getString(R.string.discharging_message), formatRemaining(last));
         } else {
             return String.format(ctx.getString(R.string.charging_message), formatRemaining(last));
         }
     }
-
 
     public static CharSequence makeAbsolute_mAhValueInfo(Context ctx, int level) {
         NumberFormat numberFormat = NumberFormat.getInstance(DeviceUtils.getLocale());
@@ -64,14 +63,12 @@ public class StringFactory {
         return relative + "/" + total + " " + ctx.getString(R.string._unit_milli_ampere);
     }
 
-
     public static CharSequence makeStatusInfo(Context ctx, int status, int plugged) {
         switch (status) {
             case BatteryManager.BATTERY_STATUS_FULL:
                 return ctx.getString(R.string.battery_charge_full);
             case BatteryManager.BATTERY_STATUS_CHARGING:
-                return ctx.getString(R.string.battery_charge_charging_over) + " " + plugged(ctx,
-                    plugged);
+                return ctx.getString(R.string.battery_charge_charging_over) + " " + plugged(ctx, plugged);
             case BatteryManager.BATTERY_STATUS_DISCHARGING:
                 return ctx.getString(R.string.battery_charge_discharging);
             case BatteryManager.BATTERY_STATUS_NOT_CHARGING:
@@ -81,29 +78,23 @@ public class StringFactory {
         }
     }
 
-
     public static CharSequence makeTemperatureInfo(Context ctx, double temperature) {
         NumberFormat numberFormat = NumberFormat.getInstance(DeviceUtils.getLocale());
-        return AesPrefs.getBooleanRes(R.string.UNITS_CELSIUS, true) ? (
-            numberFormat.format((float) temperature) + " " + ctx.getString(R.string._unit_celsius))
-            : (numberFormat.format((float) ConvertUtils.celsiusToFahrenheit(temperature)) + " "
-                + ctx.getString(R.string._unit_fahrenheit));
+        return AesPrefs.getBooleanRes(R.string.UNITS_CELSIUS, true) ? (numberFormat.format((float) temperature) + " " + ctx.getString(R.string._unit_celsius))
+                : (numberFormat.format((float) ConvertUtils.celsiusToFahrenheit(temperature)) + " " + ctx.getString(R.string._unit_fahrenheit));
     }
-
 
     public static CharSequence makeRelative_mAhInfo(Context ctx, Integer current_mAh) {
         if (current_mAh != Const.VALUE_UNSET) {
             current_mAh /= 1000;
             NumberFormat numberFormat = NumberFormat.getInstance(DeviceUtils.getLocale());
-            return numberFormat.format((int) current_mAh) + " " + ctx
-                .getString(R.string._unit_milli_ampere_per_hour);
+            return numberFormat.format((int) current_mAh) + " " + ctx.getString(R.string._unit_milli_ampere_per_hour);
         } else {
             return ctx.getString(R.string.no_data_current_now);
         }
     }
 
-
-    public static CharSequence plugged(Context ctx, int plugged) {
+    private static CharSequence plugged(Context ctx, int plugged) {
         switch (plugged) {
             case BatteryManager.BATTERY_PLUGGED_AC:
                 return ctx.getString(R.string.battery_plugged_ac);
@@ -116,12 +107,10 @@ public class StringFactory {
         }
     }
 
-
-    public static CharSequence makeVoltage(Context ctx, int voltage) {
+    public static CharSequence makeVoltage(int voltage) {
         NumberFormat numberFormat = NumberFormat.getInstance(DeviceUtils.getLocale());
         return numberFormat.format((float) voltage / 1000f) + " V";
     }
-
 
     public static CharSequence makePercentagePerHourInfo(Context ctx, boolean isCharging) {
         NumberFormat percentFormat = NumberFormat.getPercentInstance(DeviceUtils.getLocale());
@@ -129,66 +118,48 @@ public class StringFactory {
         percentFormat.setMaximumFractionDigits(1);
 
         if (isCharging) {
-            float value =
-                AesPrefs.getFloatRes(R.string.CYCLIC_CHARGE_PER_HOUR, Float.MIN_VALUE) / 100f;
+            float value = AesPrefs.getFloatRes(R.string.CYCLIC_CHARGE_PER_HOUR, Float.MIN_VALUE) / 100f;
             if (value == Float.MIN_VALUE) {
                 return ctx.getString(R.string.ns);
             }
-            return "+" + String
-                .format(ctx.getString(R.string.per_hour_format), percentFormat.format(value));
+            return "+" + String.format(ctx.getString(R.string.per_hour_format), percentFormat.format(value));
         } else {
-            float value =
-                AesPrefs.getFloatRes(R.string.CYCLIC_CONSUMPTION_PER_HOUR, Float.MIN_VALUE) / 100f;
+            float value = AesPrefs.getFloatRes(R.string.CYCLIC_CONSUMPTION_PER_HOUR, Float.MIN_VALUE) / 100f;
             if (value == Float.MIN_VALUE) {
                 return ctx.getString(R.string.ns);
             }
             if (value == 0.0f) {
                 return "0 %/h";
             }
-            return "-" + String
-                .format(ctx.getString(R.string.per_hour_format), percentFormat.format(value));
+            return "-" + String.format(ctx.getString(R.string.per_hour_format), percentFormat.format(value));
         }
-
     }
-
 
     public static CharSequence makeHealthInfo(Context ctx, int health) {
         switch (health) {
             case BatteryManager.BATTERY_HEALTH_GOOD:
-                return String.format(ctx.getString(R.string.health_format),
-                    ctx.getString(R.string.battery_health_good));
+                return String.format(ctx.getString(R.string.health_format), ctx.getString(R.string.battery_health_good));
             case BatteryManager.BATTERY_HEALTH_DEAD:
-                return String.format(ctx.getString(R.string.health_format),
-                    ctx.getString(R.string.battery_health_dead));
+                return String.format(ctx.getString(R.string.health_format), ctx.getString(R.string.battery_health_dead));
             case BatteryManager.BATTERY_HEALTH_COLD:
-                return String.format(ctx.getString(R.string.health_format),
-                    ctx.getString(R.string.battery_health_cold));
+                return String.format(ctx.getString(R.string.health_format), ctx.getString(R.string.battery_health_cold));
             case BatteryManager.BATTERY_HEALTH_OVER_VOLTAGE:
-                return String.format(ctx.getString(R.string.health_format),
-                    ctx.getString(R.string.battery_health_over_voltage));
+                return String.format(ctx.getString(R.string.health_format), ctx.getString(R.string.battery_health_over_voltage));
             case BatteryManager.BATTERY_HEALTH_OVERHEAT:
-                return String.format(ctx.getString(R.string.health_format),
-                    ctx.getString(R.string.battery_health_overheat));
+                return String.format(ctx.getString(R.string.health_format), ctx.getString(R.string.battery_health_overheat));
             case BatteryManager.BATTERY_HEALTH_UNSPECIFIED_FAILURE:
-                return String.format(ctx.getString(R.string.health_format),
-                    ctx.getString(R.string.battery_health_unspecified_failure));
+                return String.format(ctx.getString(R.string.health_format), ctx.getString(R.string.battery_health_unspecified_failure));
             case BatteryManager.BATTERY_HEALTH_UNKNOWN:
             default:
-                return String.format(ctx.getString(R.string.health_format),
-                    ctx.getString(R.string.battery_health_unknown));
+                return String.format(ctx.getString(R.string.health_format), ctx.getString(R.string.battery_health_unknown));
         }
-
     }
-
 
     public static String formatRemaining(long millis) {
         int h = (int) (millis / 1000) / 3600;
         int m = (int) (millis / 1000) % 3600 / 60;
-        int s = (int) (millis / 1000) % 60;
-
         if (h != 0) {
-            return h + " " + Loader.gStr(R.string.abbr_hours) + " " + m + " " + Loader
-                .gStr(R.string.minutes);
+            return h + " " + Loader.gStr(R.string.abbr_hours) + " " + m + " " + Loader.gStr(R.string.minutes);
         }
         return m + " " + Loader.gStr(R.string.minutes);
     }

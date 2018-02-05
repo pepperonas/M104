@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Martin Pfeffer
+ * Copyright (c) 2018 Martin Pfeffer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,25 +22,27 @@ import android.content.Intent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
+
 import com.pepperonas.andbasx.system.SystemUtils;
 import com.pepperonas.m104.R;
 import com.pepperonas.materialdialog.MaterialDialog;
 
 /**
- * @author Martin Pfeffer (pepperonas)
+ * @author Martin Pfeffer (celox.io)
+ * @see <a href="mailto:martin.pfeffer@celox.io">martin.pfeffer@celox.io</a>
  */
-public class DialogAndroidId {
+class DialogAndroidId {
 
-    public DialogAndroidId(final Context context) {
+    DialogAndroidId(final Context context) {
         new MaterialDialog.Builder(context)
-            .title(context.getString(R.string.dialog_android_id_title))
-            .message(context.getString(R.string.dialog_android_id_msg))
-            .customView(R.layout.dialog_android_id).showListener(new MaterialDialog.ShowListener() {
+                .title(context.getString(R.string.dialog_android_id_title))
+                .message(context.getString(R.string.dialog_android_id_msg))
+                .customView(R.layout.dialog_android_id).showListener(new MaterialDialog.ShowListener() {
             @Override
             public void onShow(final AlertDialog dialog) {
                 super.onShow(dialog);
-                TextView tvAndroidId = (TextView) dialog
-                    .findViewById(R.id.tv_dialog_android_id_id_info);
+                TextView tvAndroidId = dialog
+                        .findViewById(R.id.tv_dialog_android_id_id_info);
                 tvAndroidId.setText(SystemUtils.getAndroidId());
                 tvAndroidId.setClickable(true);
                 tvAndroidId.setOnClickListener(new OnClickListener() {
@@ -58,7 +60,6 @@ public class DialogAndroidId {
             }
         }).canceledOnTouchOutside(false).show();
     }
-
 
     private void sendKey(Context ctx, String key) {
         Intent sendIntent = new Intent();

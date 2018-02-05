@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Martin Pfeffer
+ * Copyright (c) 2018 Martin Pfeffer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,11 +18,13 @@ package com.pepperonas.m104.model;
 
 import com.pepperonas.andbasx.system.DeviceUtils;
 import com.pepperonas.m104.custom.SizedText;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
 /**
- * @author Martin Pfeffer (pepperonas)
+ * @author Martin Pfeffer (celox.io)
+ * @see <a href="mailto:martin.pfeffer@celox.io">martin.pfeffer@celox.io</a>
  */
 public class ClipDataAdvanced {
 
@@ -34,27 +36,24 @@ public class ClipDataAdvanced {
     private SizedText sizedText;
     private final long iv;
 
-
     public SizedText getSizedText() {
         return sizedText;
     }
-
 
     /**
      * Instantiates a new Clip data advanced.
      *
      * @param timestamp the timestamp
-     * @param type the type
-     * @param clipText the clipText
+     * @param type      the type
+     * @param clipText  the clipText
      */
-    public ClipDataAdvanced(long timestamp, int type, String clipText, long iv) {
+    ClipDataAdvanced(long timestamp, int type, String clipText, long iv) {
         this.timestamp = timestamp;
         this.type = type;
         this.clipText = clipText;
         this.sizedText = initSizedText();
         this.iv = iv;
     }
-
 
     /**
      * Gets timestamp.
@@ -65,7 +64,6 @@ public class ClipDataAdvanced {
         return timestamp;
     }
 
-
     public String getCreationDate() {
         DateFormat dateFormat = new SimpleDateFormat("dd.MM", DeviceUtils.getLocale());
         String tmp = dateFormat.format(timestamp);
@@ -73,13 +71,10 @@ public class ClipDataAdvanced {
 
     }
 
-
     public String getCreationTime() {
         DateFormat dateFormat = new SimpleDateFormat("HH:mm", DeviceUtils.getLocale());
-        String tmp = dateFormat.format(timestamp);
-        return tmp;
+        return dateFormat.format(timestamp);
     }
-
 
     /**
      * Sets timestamp.
@@ -90,7 +85,6 @@ public class ClipDataAdvanced {
         this.timestamp = timestamp;
     }
 
-
     /**
      * Gets type.
      *
@@ -99,7 +93,6 @@ public class ClipDataAdvanced {
     public int getType() {
         return type;
     }
-
 
     /**
      * Sets type.
@@ -110,7 +103,6 @@ public class ClipDataAdvanced {
         this.type = type;
     }
 
-
     /**
      * Gets clipText.
      *
@@ -120,7 +112,6 @@ public class ClipDataAdvanced {
         return clipText;
     }
 
-
     /**
      * Sets clipText.
      *
@@ -129,7 +120,6 @@ public class ClipDataAdvanced {
     public void setClipText(String clipText) {
         this.clipText = clipText;
     }
-
 
     private SizedText initSizedText() {
         SizedText sizedText = new SizedText();
@@ -152,7 +142,6 @@ public class ClipDataAdvanced {
         sizedText.setText(tmpText);
         return sizedText;
     }
-
 
     public long getIv() {
         return iv;

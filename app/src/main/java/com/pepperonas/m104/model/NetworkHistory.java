@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Martin Pfeffer
+ * Copyright (c) 2018 Martin Pfeffer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,7 +17,8 @@
 package com.pepperonas.m104.model;
 
 /**
- * @author Martin Pfeffer (pepperonas)
+ * @author Martin Pfeffer (celox.io)
+ * @see <a href="mailto:martin.pfeffer@celox.io">martin.pfeffer@celox.io</a>
  */
 public class NetworkHistory {
 
@@ -26,9 +27,7 @@ public class NetworkHistory {
     private long rxMobile, txMobile;
     private String pgkName;
 
-
-    public NetworkHistory(long stamp, long rx, long tx, long rxMobile, long txMobile,
-        String pkgName) {
+    NetworkHistory(long stamp, long rx, long tx, long rxMobile, long txMobile, String pkgName) {
         this.stamp = stamp;
         this.rx = rx;
         this.tx = tx;
@@ -37,61 +36,49 @@ public class NetworkHistory {
         this.pgkName = pkgName;
     }
 
-
     public long getStamp() {
         return stamp;
     }
-
 
     public void setStamp(long stamp) {
         this.stamp = stamp;
     }
 
-
     public long getRx() {
         return rx;
     }
-
 
     public void setRx(long rx) {
         this.rx = rx;
     }
 
-
     public long getTx() {
         return tx;
     }
-
 
     public void setTx(long tx) {
         this.tx = tx;
     }
 
-
     public long getRxMobile() {
         return rxMobile;
     }
-
 
     public void setRxMobile(long rxMobile) {
         this.rxMobile = rxMobile;
     }
 
-
     public long getTxMobile() {
         return txMobile;
     }
-
 
     public void setTxMobile(long txMobile) {
         this.txMobile = txMobile;
     }
 
-
     public String getPgkName() {
         return pgkName;
     }
-
 
     public void setPgkName(String pgkName) {
         this.pgkName = pgkName;

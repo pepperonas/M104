@@ -1,5 +1,5 @@
 <!--
-  ~ Copyright (c) 2017 Martin Pfeffer
+  ~ Copyright (c) 2018 Martin Pfeffer
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -20,42 +20,36 @@
 
         <item
             android:id="@+id/navigation_cat_game"
-            android:title="@string/navigation_subtitle_main"
-            >
+            android:title="@string/navigation_subtitle_main">
             <menu>
                 <item
                     android:id="@+id/nav_item_battery_stats"
                     android:checked="false"
                     android:icon="@mipmap/ic_launcher"
-                    android:title="@string/menu_battery_stats"
-                    />
+                    android:title="@string/menu_battery_stats" />
                 <item
                     android:id="@+id/nav_item_network_stats"
                     android:checked="false"
                     android:icon="@mipmap/ic_launcher"
-                    android:title="@string/menu_network_stats"
-                    />
+                    android:title="@string/menu_network_stats" />
             </menu>
         </item>
 
 
         <item
             android:id="@+id/navigation_cat_config"
-            android:title="@string/navigation_subtitle_config"
-            >
+            android:title="@string/navigation_subtitle_config">
             <menu>
                 <item
                     android:id="@+id/nav_item_settings"
                     android:checked="false"
                     android:icon="@mipmap/ic_launcher"
-                    android:title="@string/settings"
-                    />
+                    android:title="@string/settings" />
                 <item
                     android:id="@+id/nav_item_about"
                     android:checked="false"
                     android:icon="@mipmap/ic_launcher"
-                    android:title="@string/about"
-                    />
+                    android:title="@string/about" />
             </menu>
 
         </item>

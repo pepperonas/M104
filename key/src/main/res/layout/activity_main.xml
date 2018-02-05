@@ -1,6 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ Copyright (c) 2017 Martin Pfeffer
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2018 Martin Pfeffer
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -15,22 +14,19 @@
   ~ limitations under the License.
   -->
 
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    android:orientation="vertical"
-    >
+    android:orientation="vertical">
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1"
-        >
+        android:layout_weight="1">
 
         <TextView
             android:layout_width="wrap_content"
@@ -39,8 +35,7 @@
             android:text="@string/thanks"
             android:id="@+id/textView"
             android:layout_gravity="center"
-            android:textSize="32sp"
-            />
+            android:textSize="32sp" />
     </FrameLayout>
 
     <Button
@@ -52,7 +47,6 @@
         android:text="@string/click_to_hide"
         android:onClick="onHideLauncherIcon"
         android:textSize="20sp"
-        android:textColor="@color/sa_teal"
-        />
+        android:textColor="@color/sa_teal" />
 
 </LinearLayout>

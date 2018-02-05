@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Martin Pfeffer
+ * Copyright (c) 2018 Martin Pfeffer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,34 +21,29 @@ import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 
 /**
- * @author Martin Pfeffer (pepperonas)
+ * @author Martin Pfeffer (celox.io)
+ * @see <a href="mailto:martin.pfeffer@celox.io">martin.pfeffer@celox.io</a>
  */
 public class CustomRecyclerView extends RecyclerView {
 
     Context context;
-
 
     public CustomRecyclerView(Context context) {
         super(context);
         this.context = context;
     }
 
-
     public CustomRecyclerView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
-
 
     public CustomRecyclerView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
     }
 
-
     @Override
     public boolean fling(int velocityX, int velocityY) {
-
         velocityY *= 1;
-
         return super.fling(velocityX, velocityY);
     }
 

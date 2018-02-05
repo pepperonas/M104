@@ -1,6 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ Copyright (c) 2017 Martin Pfeffer
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2018 Martin Pfeffer
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -16,11 +15,10 @@
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:id="@+id/notification_container"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:orientation="horizontal"
-    >
+    android:id="@+id/notification_container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
 
     <FrameLayout
         android:id="@+id/notification_circle_layout"
@@ -29,8 +27,7 @@
         android:orientation="horizontal"
         android:layout_marginLeft="0dp"
         android:clickable="true"
-        android:foreground="?android:selectableItemBackground"
-        >
+        android:foreground="?android:selectableItemBackground">
 
         <ImageView
             android:id="@+id/iv_notification_circle_left"
@@ -43,8 +40,7 @@
             android:layout_marginRight="12dp"
             android:layout_marginLeft="12dp"
             android:clickable="true"
-            android:foreground="?android:selectableItemBackground"
-            />
+            android:foreground="?android:selectableItemBackground" />
 
         <TextView
             android:id="@+id/tv_notification_circle_value"
@@ -56,24 +52,21 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:textStyle="bold"
-            android:textColor="@color/primary_text_default_material_dark_failsafe"
-            />
+            android:textColor="@color/primary_text_default_material_dark_failsafe" />
 
     </FrameLayout>
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
-            android:layout_weight="1"
-            >
+            android:layout_weight="1">
 
             <TextView
                 android:id="@+id/tv_m_notification_center_top"
@@ -82,8 +75,7 @@
                 android:textColor="@color/primary_text_default_material_light_failsafe"
                 android:text="Medium Text"
                 android:textSize="16sp"
-                android:paddingBottom="1dp"
-                />
+                android:paddingBottom="1dp" />
 
             <TextView
                 android:id="@+id/tv_s_notification_center_bottom"
@@ -93,8 +85,7 @@
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="Small Text"
                 android:textSize="14sp"
-                android:paddingTop="1dp"
-                />
+                android:paddingTop="1dp" />
 
         </LinearLayout>
 
@@ -103,8 +94,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:layout_marginRight="8dp"
-            >
+            android:layout_marginRight="8dp">
 
             <TextView
                 android:id="@+id/tv_s_notification_right_top"
@@ -113,8 +103,7 @@
                 android:textColor="@color/secondary_text_default_material_light_failsafe"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="Small Text"
-                android:paddingBottom="2dp"
-                />
+                android:paddingBottom="2dp" />
 
             <TextView
                 android:id="@+id/tv_s_notification_right_bottom"
@@ -123,8 +112,7 @@
                 android:textColor="@color/secondary_text_default_material_light_failsafe"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="Small Text"
-                android:paddingTop="2dp"
-                />
+                android:paddingTop="2dp" />
 
         </LinearLayout>
 

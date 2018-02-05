@@ -1,5 +1,5 @@
 <!--
-  ~ Copyright (c) 2017 Martin Pfeffer
+  ~ Copyright (c) 2018 Martin Pfeffer
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -41,8 +41,11 @@
         <item name="android:windowNoTitle">true</item>
         <item name="td_accent_color">@color/colorAccent</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:textColorPrimary">@color/primary_text_default_material_dark_failsafe</item>
-        <item name="android:textColorSecondary">@color/secondary_text_default_material_dark_failsafe</item>
+        <item name="android:textColorPrimary">@color/primary_text_default_material_dark_failsafe
+        </item>
+        <item name="android:textColorSecondary">
+            @color/secondary_text_default_material_dark_failsafe
+        </item>
     </style>
 
 

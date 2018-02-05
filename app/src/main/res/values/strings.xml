@@ -1,5 +1,5 @@
 <!--
-  ~ Copyright (c) 2017 Martin Pfeffer
+  ~ Copyright (c) 2018 Martin Pfeffer
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -15,39 +15,39 @@
   -->
 
 <resources>
-    
+
     <string name="notification_title_battery">Battery</string>
-    
+
     <string name="ns">n.s.</string>
-    
+
     <!--Charging-States-->
     <string name="battery_charge_unknown">Unknown</string>
     <string name="battery_charge_full">Charged</string>
     <string name="battery_charge_charging_over">Charging over</string>
     <string name="battery_charge_discharging">Discharging</string>
     <string name="battery_charge_not_charging">Not charging</string>
-    
+
     <string name="last">last</string>
-    
+
     <string name="about">About</string>
     <string name="premium">Premium</string>
     <string name="settings">Settings</string>
     <string name="until_full">until full</string>
     <string name="fully_charged">Fully charged</string>
-    
+
     <!--Plugged-States-->
     <string name="battery_plugged_ac">AC</string>
     <string name="battery_plugged_usb">USB</string>
     <string name="battery_plugged_wireless">Wireless</string>
     <string name="unknown">Unknown</string>
-    
+
     <string name="abbr_hours">hours</string>
 
     <string name="chart_legend_level">Battery (%)</string>
     <string name="hours">hours</string>
     <string name="minutes">minutes</string>
     <string name="last_hour">Last hour</string>
-    
+
     <!--Chart-Legends-->
     <string name="chart_legend_volt">Voltage (V)</string>
     <string name="chart_legend_current_mAh">Energy (mAh)</string>
@@ -61,12 +61,12 @@
     <string name="network_type_wifi">WLAN</string>
     <string name="network_type_mobile">Mobile</string>
     <string name="notification_title_network">Data usage</string>
-    
+
     <string name="rx_mobile">Rx Mobile</string>
     <string name="tx_mobile">Tx Mobile</string>
     <string name="rx_wlan">Rx WLAN</string>
     <string name="tx_wlan">Tx WLAN</string>
-    
+
     <string name="dialog_network_header_on_init">Data usage</string>
     <string name="last_mins">last</string>
     <string name="mins">min.</string>
@@ -207,5 +207,6 @@
     <string name="tab6" translatable="false">Tab 6</string>
     <string name="tab7" translatable="false">Tab 7</string>
     <string name="tab8" translatable="false">Tab 8</string>
+    <string name="encryption_disabled">Encryption disabled</string>
 
 </resources>

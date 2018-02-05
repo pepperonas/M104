@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Martin Pfeffer
+ * Copyright (c) 2018 Martin Pfeffer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,22 +17,23 @@
 package com.pepperonas.m104.fragments;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import com.pepperonas.m104.MainActivity;
 import com.pepperonas.m104.R;
 
 /**
- * @author Martin Pfeffer (pepperonas)
+ * @author Martin Pfeffer (celox.io)
+ * @see <a href="mailto:martin.pfeffer@celox.io">martin.pfeffer@celox.io</a>
  */
 public class FragmentAbout extends Fragment {
 
+    @SuppressWarnings("unused")
     private static final String TAG = "FragmentInstruction";
-
-    private MainActivity mMain;
-
 
     public static Fragment newInstance(int i) {
         Fragment fragment = new Fragment();
@@ -44,13 +45,13 @@ public class FragmentAbout extends Fragment {
         return fragment;
     }
 
-
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-        Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_battery_stats, container, false);
-        mMain = (MainActivity) getActivity();
-        mMain.setTitle(getString(R.string.empty));
+        MainActivity main = (MainActivity) getActivity();
+        if (main != null) {
+            main.setTitle(getString(R.string.empty));
+        }
         return v;
     }
 

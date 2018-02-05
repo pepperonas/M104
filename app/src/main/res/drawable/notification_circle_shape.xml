@@ -1,6 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ Copyright (c) 2017 Martin Pfeffer
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2018 Martin Pfeffer
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -16,10 +15,9 @@
   -->
 
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
-       android:shape="oval">
-    <solid
-        android:color="@color/notification_circle_bg"/>
+    android:shape="oval">
+    <solid android:color="@color/notification_circle_bg" />
     <size
         android:width="@dimen/notification_circle_size"
-        android:height="@dimen/notification_circle_size"/>
+        android:height="@dimen/notification_circle_size" />
 </shape>

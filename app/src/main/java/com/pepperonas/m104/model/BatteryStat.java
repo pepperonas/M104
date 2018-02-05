@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Martin Pfeffer
+ * Copyright (c) 2018 Martin Pfeffer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,7 +17,8 @@
 package com.pepperonas.m104.model;
 
 /**
- * @author Martin Pfeffer (pepperonas)
+ * @author Martin Pfeffer (celox.io)
+ * @see <a href="mailto:martin.pfeffer@celox.io">martin.pfeffer@celox.io</a>
  */
 public class BatteryStat {
 
@@ -46,33 +47,32 @@ public class BatteryStat {
 
     private int remainingCapacity_mAh;
 
-
     /**
      * Instantiates a new Battery stat.
      *
-     * @param stamp the stamp
-     * @param isCharging the is charging
-     * @param chargeMode the charge mode
-     * @param isCharged the is charged
-     * @param level the level
-     * @param temperature the temperature
-     * @param voltage the makeVoltage
-     * @param isScreenOn the is screen on
-     * @param screenBrightness the screen brightness
-     * @param isWifiEnabled the is wifi enabled
-     * @param isWifiConnected the is wifi connected
-     * @param isGpsEnabled the is gps enabled
-     * @param isGpsNetworkEnabled the is gps network enabled
-     * @param isGpsPassiveEnabled the is gps passive enabled
-     * @param isSyncEnabled the is sync enabled
+     * @param stamp                 the stamp
+     * @param isCharging            the is charging
+     * @param chargeMode            the charge mode
+     * @param isCharged             the is charged
+     * @param level                 the level
+     * @param temperature           the temperature
+     * @param voltage               the makeVoltage
+     * @param isScreenOn            the is screen on
+     * @param screenBrightness      the screen brightness
+     * @param isWifiEnabled         the is wifi enabled
+     * @param isWifiConnected       the is wifi connected
+     * @param isGpsEnabled          the is gps enabled
+     * @param isGpsNetworkEnabled   the is gps network enabled
+     * @param isGpsPassiveEnabled   the is gps passive enabled
+     * @param isSyncEnabled         the is sync enabled
      * @param isAirPlaneModeEnabled the is air plane mode enabled
      * @param remainingCapacity_mAh the remainingCapacity_mAh
      */
     public BatteryStat(long stamp, boolean isCharging, ChargeMode chargeMode, boolean isCharged,
-        int level, float temperature, float voltage, boolean isScreenOn, int screenBrightness,
-        boolean isWifiEnabled, boolean isWifiConnected, boolean isGpsEnabled,
-        boolean isGpsNetworkEnabled, boolean isGpsPassiveEnabled, boolean isSyncEnabled,
-        boolean isAirPlaneModeEnabled, int remainingCapacity_mAh) {
+                       int level, float temperature, float voltage, boolean isScreenOn, int screenBrightness,
+                       boolean isWifiEnabled, boolean isWifiConnected, boolean isGpsEnabled,
+                       boolean isGpsNetworkEnabled, boolean isGpsPassiveEnabled, boolean isSyncEnabled,
+                       boolean isAirPlaneModeEnabled, int remainingCapacity_mAh) {
 
         this.stamp = stamp;
         this.isCharging = isCharging;
@@ -93,7 +93,6 @@ public class BatteryStat {
         this.remainingCapacity_mAh = remainingCapacity_mAh;
     }
 
-
     /**
      * Gets stamp.
      *
@@ -102,7 +101,6 @@ public class BatteryStat {
     public long getStamp() {
         return stamp;
     }
-
 
     /**
      * Sets stamp.
@@ -113,7 +111,6 @@ public class BatteryStat {
         this.stamp = stamp;
     }
 
-
     /**
      * Is charging boolean.
      *
@@ -122,7 +119,6 @@ public class BatteryStat {
     public boolean isCharging() {
         return isCharging;
     }
-
 
     /**
      * Sets charging.
@@ -133,7 +129,6 @@ public class BatteryStat {
         isCharging = charging;
     }
 
-
     /**
      * Gets charge mode.
      *
@@ -142,7 +137,6 @@ public class BatteryStat {
     public ChargeMode getChargeMode() {
         return chargeMode;
     }
-
 
     /**
      * Sets charge mode.
@@ -153,7 +147,6 @@ public class BatteryStat {
         this.chargeMode = chargeMode;
     }
 
-
     /**
      * Is charged boolean.
      *
@@ -162,7 +155,6 @@ public class BatteryStat {
     public boolean isCharged() {
         return isCharged;
     }
-
 
     /**
      * Sets charged.
@@ -173,7 +165,6 @@ public class BatteryStat {
         isCharged = charged;
     }
 
-
     /**
      * Gets level.
      *
@@ -182,7 +173,6 @@ public class BatteryStat {
     public int getLevel() {
         return level;
     }
-
 
     /**
      * Sets level.
@@ -193,7 +183,6 @@ public class BatteryStat {
         this.level = level;
     }
 
-
     /**
      * Gets temperature.
      *
@@ -202,7 +191,6 @@ public class BatteryStat {
     public float getTemperature() {
         return temperature;
     }
-
 
     /**
      * Sets temperature.
@@ -213,7 +201,6 @@ public class BatteryStat {
         this.temperature = temperature;
     }
 
-
     /**
      * Gets makeVoltage.
      *
@@ -222,7 +209,6 @@ public class BatteryStat {
     public float getVoltage() {
         return voltage;
     }
-
 
     /**
      * Sets makeVoltage.
@@ -233,7 +219,6 @@ public class BatteryStat {
         this.voltage = voltage;
     }
 
-
     /**
      * Is screen on boolean.
      *
@@ -242,7 +227,6 @@ public class BatteryStat {
     public boolean isScreenOn() {
         return isScreenOn;
     }
-
 
     /**
      * Sets screen on.
@@ -253,7 +237,6 @@ public class BatteryStat {
         isScreenOn = screenOn;
     }
 
-
     /**
      * Gets screen brightness.
      *
@@ -262,7 +245,6 @@ public class BatteryStat {
     public int getScreenBrightness() {
         return screenBrightness;
     }
-
 
     /**
      * Sets screen brightness.
@@ -273,7 +255,6 @@ public class BatteryStat {
         this.screenBrightness = screenBrightness;
     }
 
-
     /**
      * Is wifi enabled boolean.
      *
@@ -282,7 +263,6 @@ public class BatteryStat {
     public boolean isWifiEnabled() {
         return isWifiEnabled;
     }
-
 
     /**
      * Sets wifi enabled.
@@ -293,7 +273,6 @@ public class BatteryStat {
         isWifiEnabled = wifiEnabled;
     }
 
-
     /**
      * Is wifi connected boolean.
      *
@@ -302,7 +281,6 @@ public class BatteryStat {
     public boolean isWifiConnected() {
         return isWifiConnected;
     }
-
 
     /**
      * Sets wifi connected.
@@ -313,7 +291,6 @@ public class BatteryStat {
         isWifiConnected = wifiConnected;
     }
 
-
     /**
      * Is gps enabled boolean.
      *
@@ -322,7 +299,6 @@ public class BatteryStat {
     public boolean isGpsEnabled() {
         return isGpsEnabled;
     }
-
 
     /**
      * Sets gps enabled.
@@ -333,7 +309,6 @@ public class BatteryStat {
         isGpsEnabled = gpsEnabled;
     }
 
-
     /**
      * Is gps network enabled boolean.
      *
@@ -342,7 +317,6 @@ public class BatteryStat {
     public boolean isGpsNetworkEnabled() {
         return isGpsNetworkEnabled;
     }
-
 
     /**
      * Sets gps network enabled.
@@ -353,7 +327,6 @@ public class BatteryStat {
         isGpsNetworkEnabled = gpsNetworkEnabled;
     }
 
-
     /**
      * Is gps passive enabled boolean.
      *
@@ -362,7 +335,6 @@ public class BatteryStat {
     public boolean isGpsPassiveEnabled() {
         return isGpsPassiveEnabled;
     }
-
 
     /**
      * Sets gps passive enabled.
@@ -373,7 +345,6 @@ public class BatteryStat {
         isGpsPassiveEnabled = gpsPassiveEnabled;
     }
 
-
     /**
      * Is sync enabled boolean.
      *
@@ -382,7 +353,6 @@ public class BatteryStat {
     public boolean isSyncEnabled() {
         return isSyncEnabled;
     }
-
 
     /**
      * Sets sync enabled.
@@ -393,7 +363,6 @@ public class BatteryStat {
         isSyncEnabled = syncEnabled;
     }
 
-
     /**
      * Is air plane mode enabled boolean.
      *
@@ -402,7 +371,6 @@ public class BatteryStat {
     public boolean isAirPlaneModeEnabled() {
         return isAirPlaneModeEnabled;
     }
-
 
     /**
      * Sets air plane mode enabled.
@@ -413,7 +381,6 @@ public class BatteryStat {
         isAirPlaneModeEnabled = airPlaneModeEnabled;
     }
 
-
     /**
      * Gets current now.
      *
@@ -422,7 +389,6 @@ public class BatteryStat {
     public int getRemainingCapacity_mAh() {
         return remainingCapacity_mAh;
     }
-
 
     /**
      * Sets current now.

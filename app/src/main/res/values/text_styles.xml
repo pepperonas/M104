@@ -1,6 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ Copyright (c) 2017 Martin Pfeffer
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2018 Martin Pfeffer
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -32,8 +31,7 @@
     </style>
 
 
-    <style name="text_card_screen_time" parent="@style/Base.TextAppearance.AppCompat">
-    </style>
+    <style name="text_card_screen_time" parent="@style/Base.TextAppearance.AppCompat"></style>
 
     <style name="title_text_card_battery" parent="@style/Base.TextAppearance.AppCompat">
         <item name="android:layout_marginTop">8dp</item>
@@ -56,8 +54,7 @@
     </style>
 
     <!--rx-, tx-, total-text in recycler view / network fragment-->
-    <style name="text_card_network_traffic" parent="@style/Base.TextAppearance.AppCompat">
-    </style>
+    <style name="text_card_network_traffic" parent="@style/Base.TextAppearance.AppCompat"></style>
 
 
 </resources>

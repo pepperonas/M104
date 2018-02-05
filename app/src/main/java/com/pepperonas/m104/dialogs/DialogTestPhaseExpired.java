@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Martin Pfeffer
+ * Copyright (c) 2018 Martin Pfeffer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,41 +24,42 @@ import android.content.Intent;
 import android.net.Uri;
 import android.view.View;
 import android.view.View.OnLongClickListener;
+
 import com.pepperonas.m104.MainActivity;
 import com.pepperonas.m104.R;
 import com.pepperonas.materialdialog.MaterialDialog;
 
 /**
- * @author Martin Pfeffer (pepperonas)
+ * @author Martin Pfeffer (celox.io)
+ * @see <a href="mailto:martin.pfeffer@celox.io">martin.pfeffer@celox.io</a>
  */
 public class DialogTestPhaseExpired {
 
     public DialogTestPhaseExpired(final MainActivity mainActivity) {
         new MaterialDialog.Builder(mainActivity)
-            .title(mainActivity.getString(R.string.dialog_test_phase_expired_title))
-            .message(mainActivity.getString(R.string.dialog_test_phase_expired_msg))
-            .positiveText(mainActivity.getString(R.string.ok))
-            .negativeText(mainActivity.getString(R.string.cancel))
-            .showListener(new MaterialDialog.ShowListener() {
-                @Override
-                public void onShow(AlertDialog dialog) {
-                    super.onShow(dialog);
-                    dialog.getButton(DialogInterface.BUTTON_NEGATIVE)
-                        .setOnLongClickListener(new OnLongClickListener() {
+                .title(mainActivity.getString(R.string.dialog_test_phase_expired_title))
+                .message(mainActivity.getString(R.string.dialog_test_phase_expired_msg))
+                .positiveText(mainActivity.getString(R.string.ok))
+                .negativeText(mainActivity.getString(R.string.cancel))
+                .showListener(new MaterialDialog.ShowListener() {
+                    @Override
+                    public void onShow(AlertDialog dialog) {
+                        super.onShow(dialog);
+                        dialog.getButton(DialogInterface.BUTTON_NEGATIVE).setOnLongClickListener(new OnLongClickListener() {
                             @Override
                             public boolean onLongClick(View v) {
                                 new DialogAndroidId(mainActivity);
                                 return false;
                             }
                         });
-                }
-            }).buttonCallback(new MaterialDialog.ButtonCallback() {
+                    }
+                }).buttonCallback(new MaterialDialog.ButtonCallback() {
             @Override
             public void onPositive(MaterialDialog dialog) {
                 super.onPositive(dialog);
                 mainActivity.startActivity(new Intent("android.intent.action.VIEW", Uri.parse(
-                    "http://play.google" + ".com/store/apps/details?id="
-                        + "com.pepperonas.m104.key")));
+                        "http://play.google" + ".com/store/apps/details?id="
+                                + "com.pepperonas.m104.key")));
             }
 
         }).dismissListener(new MaterialDialog.DismissListener() {
@@ -67,8 +68,10 @@ public class DialogTestPhaseExpired {
                 super.onDismiss();
 
                 NotificationManager notificationManager = (NotificationManager) mainActivity
-                    .getSystemService(Context.NOTIFICATION_SERVICE);
-                notificationManager.cancelAll();
+                        .getSystemService(Context.NOTIFICATION_SERVICE);
+                if (notificationManager != null) {
+                    notificationManager.cancelAll();
+                }
 
                 mainActivity.finish();
             }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Martin Pfeffer
+ * Copyright (c) 2018 Martin Pfeffer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,10 +17,12 @@
 package com.pepperonas.m104.model;
 
 import android.graphics.drawable.Drawable;
+
 import com.pepperonas.jbasx.base.StringUtils;
 
 /**
- * @author Martin Pfeffer (pepperonas)
+ * @author Martin Pfeffer (celox.io)
+ * @see <a href="mailto:martin.pfeffer@celox.io">martin.pfeffer@celox.io</a>
  */
 public class RootBatteryStat {
 
@@ -28,11 +30,9 @@ public class RootBatteryStat {
     private Drawable icon;
     private String applicationName;
 
-
     public RootBatteryStat(String line) {
-        String pkgName = StringUtils.fastSplit(line, ' ')[0].replace("package=", "");
         //        ApplicationInfo info = null;
-        this.applicationName = pkgName;
+        this.applicationName = StringUtils.fastSplit(line, ' ')[0].replace("package=", "");
 
         //        ApplicationInfo info = null;
         //        try {
@@ -48,11 +48,9 @@ public class RootBatteryStat {
 
     }
 
-
     public Drawable getIcon() {
         return icon;
     }
-
 
     public String getApplicationName() {
         return applicationName;

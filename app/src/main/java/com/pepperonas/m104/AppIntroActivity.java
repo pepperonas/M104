@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Martin Pfeffer
+ * Copyright (c) 2018 Martin Pfeffer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,35 +17,39 @@
 package com.pepperonas.m104;
 
 import android.os.Bundle;
+
 import com.github.paolorotolo.appintro.AppIntro2;
 import com.pepperonas.aespreferences.AesPrefs;
 import com.pepperonas.andbasx.base.Loader;
 import com.pepperonas.m104.custom.CustomAppIntroFragment;
 
+/**
+ * @author Martin Pfeffer (celox.io)
+ * @see <a href="mailto:martin.pfeffer@celox.io">martin.pfeffer@celox.io</a>
+ */
 public class AppIntroActivity extends AppIntro2 {
 
     @Override
     public void init(Bundle savedInstanceState) {
 
         addSlide(CustomAppIntroFragment.newInstance(getString(R.string.app_intro_title_clipboard),
-            getString(R.string.app_intro_description_clipboard), R.drawable.intro_n6p_clipboard,
-            Loader.getColor(R.color.colorPrimary)));
+                getString(R.string.app_intro_description_clipboard), R.drawable.intro_n6p_clipboard,
+                Loader.getColor(R.color.colorPrimary)));
 
         addSlide(CustomAppIntroFragment.newInstance(getString(R.string.app_intro_title_body),
-            getString(R.string.app_intro_description_body), R.drawable.intro_n6p_body,
-            Loader.getColor(R.color.colorPrimary)));
+                getString(R.string.app_intro_description_body), R.drawable.intro_n6p_body,
+                Loader.getColor(R.color.colorPrimary)));
 
         addSlide(CustomAppIntroFragment.newInstance(getString(R.string.app_intro_title_icon),
-            getString(R.string.app_intro_description_icon), R.drawable.intro_n6p_icon,
-            Loader.getColor(R.color.colorPrimary)));
+                getString(R.string.app_intro_description_icon), R.drawable.intro_n6p_icon,
+                Loader.getColor(R.color.colorPrimary)));
 
         addSlide(CustomAppIntroFragment.newInstance(getString(R.string.app_intro_title_order),
-            getString(R.string.app_intro_description_order), R.drawable.intro_n6p_order,
-            Loader.getColor(R.color.colorPrimary)));
+                getString(R.string.app_intro_description_order), R.drawable.intro_n6p_order,
+                Loader.getColor(R.color.colorPrimary)));
 
         setProgressButtonEnabled(true);
     }
-
 
     @Override
     public void onDonePressed() {
@@ -53,12 +57,9 @@ public class AppIntroActivity extends AppIntro2 {
         finish();
     }
 
-
     @Override
     public void onSlideChanged() {
-
     }
-
 
     @Override
     public void onNextPressed() {

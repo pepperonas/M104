@@ -1,6 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ Copyright (c) 2017 Martin Pfeffer
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2018 Martin Pfeffer
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -18,15 +17,12 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:state_pressed="true">
         <shape android:shape="rectangle">
-            <solid android:color="@color/ripple_card"/>
+            <solid android:color="@color/ripple_card" />
         </shape>
     </item>
-    <item
-        android:state_focused="true"
-        android:state_enabled="true"
-        >
+    <item android:state_focused="true" android:state_enabled="true">
         <shape android:shape="rectangle">
-            <solid android:color="@color/ripple_card"/>
+            <solid android:color="@color/ripple_card" />
         </shape>
     </item>
 </selector>

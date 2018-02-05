@@ -1,6 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ Copyright (c) 2017 Martin Pfeffer
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2018 Martin Pfeffer
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -15,21 +14,18 @@
   ~ limitations under the License.
   -->
 
-<android.support.v7.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/card_installed_app"
     style="@style/card_style_network"
-    app:cardCornerRadius="@dimen/card_corner_radius_network"
-    >
+    app:cardCornerRadius="@dimen/card_corner_radius_network">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"
         android:paddingBottom="4dp"
-        android:paddingTop="4dp"
-        >
+        android:paddingTop="4dp">
 
         <ImageView
             android:layout_width="40dp"
@@ -44,16 +40,14 @@
             android:layout_alignParentEnd="false"
             android:layout_marginTop="16dp"
             android:layout_centerVertical="true"
-            android:layout_marginBottom="16dp"
-            />
+            android:layout_marginBottom="16dp" />
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_toEndOf="@+id/iv_network_card_app_icon"
             android:layout_centerVertical="true"
-            android:layout_marginStart="16dp"
-            >
+            android:layout_marginStart="16dp">
 
             <TextView
                 android:id="@+id/tv_card_network_app_name"
@@ -61,30 +55,26 @@
                 android:layout_height="wrap_content"
                 android:text="Large Text"
                 android:gravity="center_vertical"
-                style="@style/text_card_network_title"
-                />
+                style="@style/text_card_network_title" />
 
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv_card_network_app_name"
-                android:layout_marginTop="12dp"
-                >
+                android:layout_marginTop="12dp">
 
                 <LinearLayout
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    >
+                    android:layout_weight="1">
 
                     <ImageView
                         android:id="@+id/iv_rx"
                         android:layout_width="16dp"
                         android:layout_height="16dp"
-                        android:src="@drawable/ic_launcher"
-                        />
+                        android:src="@drawable/ic_launcher" />
 
                     <TextView
                         android:id="@+id/tv_card_network_traffic_rx"
@@ -93,23 +83,20 @@
                         android:text="2.87 GB"
                         style="@style/text_card_network_traffic"
                         android:textAlignment="viewEnd"
-                        android:layout_marginRight="36dp"
-                        />
+                        android:layout_marginRight="36dp" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    >
+                    android:layout_weight="1">
 
                     <ImageView
                         android:id="@+id/iv_tx"
                         android:layout_width="16dp"
                         android:layout_height="16dp"
-                        android:src="@drawable/ic_launcher"
-                        />
+                        android:src="@drawable/ic_launcher" />
 
                     <TextView
                         android:id="@+id/tv_card_network_traffic_tx"
@@ -118,23 +105,20 @@
                         style="@style/text_card_network_traffic"
                         android:text="4.763 kB"
                         android:textAlignment="viewEnd"
-                        android:layout_marginRight="36dp"
-                        />
+                        android:layout_marginRight="36dp" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    >
+                    android:layout_weight="1">
 
                     <ImageView
                         android:id="@+id/iv_total"
                         android:layout_width="16dp"
                         android:layout_height="16dp"
-                        android:src="@drawable/ic_launcher"
-                        />
+                        android:src="@drawable/ic_launcher" />
 
                     <TextView
                         android:id="@+id/tv_card_network_traffic_total"
@@ -144,8 +128,7 @@
                         android:textStyle="italic"
                         style="@style/text_card_network_traffic"
                         android:textAlignment="viewEnd"
-                        android:layout_marginRight="36dp"
-                        />
+                        android:layout_marginRight="36dp" />
                 </LinearLayout>
 
             </LinearLayout>

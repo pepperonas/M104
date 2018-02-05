@@ -18,7 +18,7 @@ You find M104 on Google Play: https://play.google.com/store/apps/details?id=com.
 
 ## License
 
-    Copyright 2017 Martin Pfeffer
+    Copyright 2018 Martin Pfeffer
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.

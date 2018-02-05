@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Martin Pfeffer
+ * Copyright (c) 2018 Martin Pfeffer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,11 +24,13 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import com.github.paolorotolo.appintro.AppIntroFragment;
 import com.pepperonas.m104.R;
 
 /**
- * @author Martin Pfeffer (pepperonas)
+ * @author Martin Pfeffer (celox.io)
+ * @see <a href="mailto:martin.pfeffer@celox.io">martin.pfeffer@celox.io</a>
  */
 public class CustomAppIntroFragment extends AppIntroFragment {
 
@@ -39,9 +41,8 @@ public class CustomAppIntroFragment extends AppIntroFragment {
     private static final String ARG_TITLE_COLOR = "title_color";
     private static final String ARG_DESC_COLOR = "desc_color";
 
-
     public static CustomAppIntroFragment newInstance(String title, String description,
-        int imageDrawable, int bgColor) {
+                                                     int imageDrawable, int bgColor) {
         CustomAppIntroFragment sampleSlide = new CustomAppIntroFragment();
 
         Bundle args = new Bundle();
@@ -54,9 +55,8 @@ public class CustomAppIntroFragment extends AppIntroFragment {
         return sampleSlide;
     }
 
-
     public static CustomAppIntroFragment newInstance(String title, String description,
-        int imageDrawable, int bgColor, int titleColor, int descColor) {
+                                                     int imageDrawable, int bgColor, int titleColor, int descColor) {
         CustomAppIntroFragment sampleSlide = new CustomAppIntroFragment();
         Bundle args = new Bundle();
         args.putString(ARG_TITLE, title);
@@ -70,10 +70,8 @@ public class CustomAppIntroFragment extends AppIntroFragment {
         return sampleSlide;
     }
 
-
     private int drawable, bgColor, titleColor, descColor;
     private String title, description;
-
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -85,25 +83,24 @@ public class CustomAppIntroFragment extends AppIntroFragment {
             description = getArguments().getString(ARG_DESC);
             bgColor = getArguments().getInt(ARG_BG_COLOR);
             titleColor =
-                getArguments().containsKey(ARG_TITLE_COLOR) ? getArguments().getInt(ARG_TITLE_COLOR)
-                    : 0;
+                    getArguments().containsKey(ARG_TITLE_COLOR) ? getArguments().getInt(ARG_TITLE_COLOR)
+                            : 0;
             descColor =
-                getArguments().containsKey(ARG_DESC_COLOR) ? getArguments().getInt(ARG_DESC_COLOR)
-                    : 0;
+                    getArguments().containsKey(ARG_DESC_COLOR) ? getArguments().getInt(ARG_DESC_COLOR)
+                            : 0;
         }
     }
-
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
-        @Nullable Bundle savedInstanceState) {
+                             @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.custom_fragment_intro, container, false);
-        TextView t = (TextView) v.findViewById(com.github.paolorotolo.appintro.R.id.title);
-        TextView d = (TextView) v.findViewById(com.github.paolorotolo.appintro.R.id.description);
-        ImageView i = (ImageView) v.findViewById(com.github.paolorotolo.appintro.R.id.image);
+        TextView t = v.findViewById(com.github.paolorotolo.appintro.R.id.title);
+        TextView d = v.findViewById(com.github.paolorotolo.appintro.R.id.description);
+        ImageView i = v.findViewById(com.github.paolorotolo.appintro.R.id.image);
 
-        LinearLayout m = (LinearLayout) v.findViewById(com.github.paolorotolo.appintro.R.id.main);
+        LinearLayout m = v.findViewById(com.github.paolorotolo.appintro.R.id.main);
         t.setText(title);
         if (titleColor != 0) {
             t.setTextColor(titleColor);

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Martin Pfeffer
+ * Copyright (c) 2018 Martin Pfeffer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,61 +28,51 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.mikepenz.iconics.IconicsDrawable;
 import com.mikepenz.typeicons_typeface_library.Typeicons;
 import com.pepperonas.m104.R;
 import com.pepperonas.m104.model.InstalledAppSortable;
-import java.util.ArrayList;
+
 import java.util.List;
 
 /**
- * @author Martin Pfeffer (pepperonas)
+ * @author Martin Pfeffer (celox.io)
+ * @see <a href="mailto:martin.pfeffer@celox.io">martin.pfeffer@celox.io</a>
  */
-public class InstalledAppAdapter extends
-    RecyclerView.Adapter<InstalledAppAdapter.InstalledAppViewHolder> {
+public class InstalledAppAdapter extends RecyclerView.Adapter<InstalledAppAdapter.InstalledAppViewHolder> {
 
     private static final int ICON_SIZE = 16;
 
     private Context mCtx;
 
-    private List<InstalledAppSortable> mInstalledApps = new ArrayList<>();
+    private List<InstalledAppSortable> mInstalledApps;
 
     private Drawable mDrawableRx;
     private Drawable mDrawableTx;
     private Drawable mDrawableTotal;
 
-
     public InstalledAppAdapter(Context ctx, List<InstalledAppSortable> mInstalledApps) {
         mCtx = ctx;
 
         @ColorRes int color = R.color.stock_android_accent;
-
-        mDrawableRx = new IconicsDrawable(ctx, Typeicons.Icon.typ_arrow_sorted_down).colorRes(color)
-            .sizeDp(ICON_SIZE);
-
-        mDrawableTx = new IconicsDrawable(ctx, Typeicons.Icon.typ_arrow_sorted_up).colorRes(color)
-            .sizeDp(ICON_SIZE);
-
-        mDrawableTotal = new IconicsDrawable(ctx, Typeicons.Icon.typ_arrow_unsorted).colorRes(color)
-            .sizeDp(ICON_SIZE);
+        mDrawableRx = new IconicsDrawable(ctx, Typeicons.Icon.typ_arrow_sorted_down).colorRes(color).sizeDp(ICON_SIZE);
+        mDrawableTx = new IconicsDrawable(ctx, Typeicons.Icon.typ_arrow_sorted_up).colorRes(color).sizeDp(ICON_SIZE);
+        mDrawableTotal = new IconicsDrawable(ctx, Typeicons.Icon.typ_arrow_unsorted).colorRes(color).sizeDp(ICON_SIZE);
 
         this.mInstalledApps = mInstalledApps;
     }
-
 
     @Override
     public int getItemCount() {
         return mInstalledApps.size();
     }
 
-
     @Override
     public InstalledAppViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext())
-            .inflate(R.layout.card_app_network_stat, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_app_network_stat, parent, false);
         return new InstalledAppViewHolder(v);
     }
-
 
     @Override
     public void onBindViewHolder(InstalledAppViewHolder holder, final int pos) {
@@ -96,9 +86,7 @@ public class InstalledAppAdapter extends
         holder.tvRx.setText(mInstalledApps.get(pos).getFormattedRxBytes());
         holder.tvTx.setText(mInstalledApps.get(pos).getFormattedTxBytes());
         holder.tvTrafficTotal.setText(mInstalledApps.get(pos).getFormattedTotalBytes());
-
     }
-
 
     @Override
     public void onViewDetachedFromWindow(InstalledAppViewHolder holder) {
@@ -106,16 +94,12 @@ public class InstalledAppAdapter extends
         holder.cv.clearAnimation();
     }
 
-
     private void setAnimation(Context ctx, View viewToAnimate, int position) {
-        Animation animation = AnimationUtils
-            .loadAnimation(ctx, (position > -1) ? R.anim.fade_in_fast : R.anim.fade_out_fast);
+        Animation animation = AnimationUtils.loadAnimation(ctx, (position > -1) ? R.anim.fade_in_fast : R.anim.fade_out_fast);
         viewToAnimate.startAnimation(animation);
     }
 
-
-    public class InstalledAppViewHolder extends RecyclerView.ViewHolder {
-
+    class InstalledAppViewHolder extends RecyclerView.ViewHolder {
         private CardView cv;
         private ImageView ivRx;
         private ImageView ivTx;
@@ -126,18 +110,17 @@ public class InstalledAppAdapter extends
         private TextView tvTx;
         private TextView tvTrafficTotal;
 
-
-        public InstalledAppViewHolder(View itemView) {
+        InstalledAppViewHolder(View itemView) {
             super(itemView);
-            cv = (CardView) itemView.findViewById(R.id.card_installed_app);
-            icon = (ImageView) itemView.findViewById(R.id.iv_network_card_app_icon);
-            ivRx = (ImageView) itemView.findViewById(R.id.iv_rx);
-            ivTx = (ImageView) itemView.findViewById(R.id.iv_tx);
-            ivTrafficTotal = (ImageView) itemView.findViewById(R.id.iv_total);
-            tvAppName = (TextView) itemView.findViewById(R.id.tv_card_network_app_name);
-            tvRx = (TextView) itemView.findViewById(R.id.tv_card_network_traffic_rx);
-            tvTx = (TextView) itemView.findViewById(R.id.tv_card_network_traffic_tx);
-            tvTrafficTotal = (TextView) itemView.findViewById(R.id.tv_card_network_traffic_total);
+            cv = itemView.findViewById(R.id.card_installed_app);
+            icon = itemView.findViewById(R.id.iv_network_card_app_icon);
+            ivRx = itemView.findViewById(R.id.iv_rx);
+            ivTx = itemView.findViewById(R.id.iv_tx);
+            ivTrafficTotal = itemView.findViewById(R.id.iv_total);
+            tvAppName = itemView.findViewById(R.id.tv_card_network_app_name);
+            tvRx = itemView.findViewById(R.id.tv_card_network_traffic_rx);
+            tvTx = itemView.findViewById(R.id.tv_card_network_traffic_tx);
+            tvTrafficTotal = itemView.findViewById(R.id.tv_card_network_traffic_total);
         }
     }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Martin Pfeffer
+ * Copyright (c) 2018 Martin Pfeffer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,14 +18,16 @@ package com.pepperonas.m104.model;
 
 import android.content.pm.ApplicationInfo;
 import android.graphics.drawable.Drawable;
+
 import java.util.Comparator;
 
 /**
- * @author Martin Pfeffer (pepperonas)
+ * @author Martin Pfeffer (celox.io)
+ * @see <a href="mailto:martin.pfeffer@celox.io">martin.pfeffer@celox.io</a>
  */
 public class InstalledBasic implements Comparator<String> {
 
-    private Drawable icon = null;
+    private Drawable icon;
 
     private String packageName;
 
@@ -35,7 +37,6 @@ public class InstalledBasic implements Comparator<String> {
 
     private final String processName;
 
-
     /**
      * Gets icon.
      *
@@ -44,7 +45,6 @@ public class InstalledBasic implements Comparator<String> {
     public Drawable getIcon() {
         return icon;
     }
-
 
     /**
      * Instantiates a new InstalledBasic app sortable.
@@ -60,24 +60,20 @@ public class InstalledBasic implements Comparator<String> {
         this.processName = applicationInfo.processName;
     }
 
-
     @Override
     public boolean equals(Object o) {
         return o.toString().equals(packageName);
     }
-
 
     @Override
     public String toString() {
         return packageName;
     }
 
-
     @Override
     public int hashCode() {
         return super.hashCode();
     }
-
 
     @Override
     public int compare(String lhs, String rhs) {

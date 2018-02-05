@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Martin Pfeffer
+ * Copyright (c) 2018 Martin Pfeffer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 
 package com.pepperonas.m104;
 
+import android.Manifest;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -27,6 +28,7 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.NavigationView.OnNavigationItemSelectedListener;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -41,6 +43,8 @@ import android.view.MenuItem;
 import android.view.MenuItem.OnMenuItemClickListener;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
 import com.pepperonas.aespreferences.AesPrefs;
@@ -65,17 +69,19 @@ import com.pepperonas.m104.notification.NotificationBattery;
 import com.pepperonas.m104.notification.NotificationClipboard;
 import com.pepperonas.m104.notification.NotificationNetwork;
 import com.pepperonas.m104.utils.StringFactory;
+
 import java.util.concurrent.Callable;
 
-
 /**
- * @author Martin Pfeffer (pepperonas)
+ * @author Martin Pfeffer (celox.io)
+ * @see <a href="mailto:martin.pfeffer@celox.io">martin.pfeffer@celox.io</a>
  */
 public class MainActivity extends AppCompatActivity {
 
-    public static final int MENU_ITEM_ROOT = 3;
     private static final String TAG = "MainActivity";
-    public static final String BROADCAST_FINISH_AFFINITY = "bfa";
+
+    public static final int MENU_ITEM_ROOT = 3;
+    private final int REQUEST_PERMISSION_PHONE_STATE = 1;
 
     /* Fragment communication */
     public IBatteryInformer mBatteryInformer;
@@ -83,6 +89,7 @@ public class MainActivity extends AppCompatActivity {
     private Database mDb;
     private DrawerLayout mDrawerLayout;
     private Toolbar mToolbar;
+
     /* Fragment */
     private Fragment mFragment;
     private NavigationView mNavView;
@@ -112,15 +119,13 @@ public class MainActivity extends AppCompatActivity {
 
             if (mBatteryInformer != null) {
                 mBatteryInformer.onBatteryUpdate(
-                    MainActivity.this, mBtyIsCharging, mBtyLevel, temperature,
-                    voltage, mBtyPlugged, health, mBtyStatus);
+                        MainActivity.this, mBtyIsCharging, mBtyLevel, temperature,
+                        voltage, mBtyPlugged, health, mBtyStatus);
             } else {
                 Log.w(TAG, "onReceive: Can't update battery info.");
             }
-
         }
     };
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -137,16 +142,12 @@ public class MainActivity extends AppCompatActivity {
         }
 
         checkForKey();
-
         initToolbar();
-
         initNavView(savedInstanceState == null);
-
         initNavDrawer();
 
         mMainServiceIntent = new Intent(this, MainService.class);
         startService(mMainServiceIntent);
-
         sendBroadcastRequestBatteryInfo();
 
         final String androidId = SystemUtils.getAndroidId();
@@ -154,68 +155,78 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "onCreate " + "androidId: " + androidId);
 
         new AppRegistry.Builder(this, "pepperonas", getPackageName(), androidId)
-            .setOnRegisterUserListener(new OnRegisterResultListener() {
-                @Override
-                public void onUserRegistered(@NonNull String s) {
-                    Log.d(TAG, "onUserRegistered " + s);
-                }
+                .setOnRegisterUserListener(new OnRegisterResultListener() {
+                    @Override
+                    public void onUserRegistered(@NonNull String s) {
+                        Log.d(TAG, "onUserRegistered " + s);
+                    }
 
-                @Override
-                public void onUserExists(@NonNull String s, Long regDate, String extraString,
-                    final Integer extraInt) {
-                    Log.d(TAG, "onUserExists: registered since: "
-                        + (System.currentTimeMillis() - regDate) / (1000 * 60) + " min.");
-                    if ((System.currentTimeMillis() > (regDate + (1000 * 60 * 60 * 24
-                        * Const.TEST_PERIOD_IN_DAYS))) && regDate != 0) {
-                        Log.d(TAG, "onUserExists test phase (" + Const.TEST_PERIOD_IN_DAYS
-                            + " days) expired.");
+                    @Override
+                    public void onUserExists(@NonNull String s, Long regDate, String extraString, final Integer extraInt) {
+                        Log.d(TAG, "onUserExists: registered since: "
+                                + (System.currentTimeMillis() - regDate) / (1000 * 60) + " min.");
+                        if ((System.currentTimeMillis() > (regDate + (1000 * 60 * 60 * 24
+                                * Const.TEST_PERIOD_IN_DAYS))) && regDate != 0) {
+                            Log.d(TAG, "onUserExists test phase (" + Const.TEST_PERIOD_IN_DAYS + " days) expired.");
 
-                        AesPrefs.putBooleanRes(R.string.TEST_PHASE_EXPIRED, true);
+                            AesPrefs.putBooleanRes(R.string.TEST_PHASE_EXPIRED, true);
 
-                        if (extraInt == 111) {
-                            if (!AesPrefs.getBooleanRes(R.string.IS_PREMIUM, false)) {
-                                AesPrefs.putBooleanRes(R.string.IS_PREMIUM, true);
+                            if (extraInt == 111) {
+                                if (!AesPrefs.getBooleanRes(R.string.IS_PREMIUM, false)) {
+                                    AesPrefs.putBooleanRes(R.string.IS_PREMIUM, true);
+                                    ThreadUtils.runFromBackground(new Callable<Void>() {
+                                        @Override
+                                        public Void call() {
+                                            if (AesPrefs.getBooleanRes(R.string.SHOW_DIALOG_SUCCESS, true)) {
+                                                new DialogPremiumSuccess(MainActivity.this);
+                                            }
+                                            return null;
+                                        }
+                                    });
+                                    return;
+                                }
+                            }
+                            if (!AesPrefs.getBooleanRes(R.string.IS_PREMIUM, false)
+                                    && AesPrefs.getBooleanRes(R.string.TEST_PHASE_EXPIRED, false)) {
                                 ThreadUtils.runFromBackground(new Callable<Void>() {
                                     @Override
-                                    public Void call() throws Exception {
-                                        if (AesPrefs
-                                            .getBooleanRes(R.string.SHOW_DIALOG_SUCCESS, true)) {
-                                            new DialogPremiumSuccess(MainActivity.this);
-                                        }
+                                    public Void call() {
+                                        new DialogTestPhaseExpired(MainActivity.this);
                                         return null;
                                     }
                                 });
-                                return;
                             }
+                        } else {
+                            Log.d(TAG, "onUserExists test phase will expire in " +
+                                    (float) (regDate + (1000 * 60 * 60 * 24 * Const.TEST_PERIOD_IN_DAYS)
+                                            - (System.currentTimeMillis())) / (float) (1000 * 60 * 60 * 24) + " days.");
                         }
-                        if (!AesPrefs.getBooleanRes(R.string.IS_PREMIUM, false) && AesPrefs
-                            .getBooleanRes(R.string.TEST_PHASE_EXPIRED, false)) {
-                            ThreadUtils.runFromBackground(new Callable<Void>() {
-                                @Override
-                                public Void call() throws Exception {
-                                    new DialogTestPhaseExpired(MainActivity.this);
-                                    return null;
-                                }
-                            });
-                        }
-                    } else {
-                        Log.d(TAG, "onUserExists test phase will expire in " +
-                            (float) (regDate + (1000 * 60 * 60 * 24 * Const.TEST_PERIOD_IN_DAYS)
-                                - (System.currentTimeMillis())) / (float) (1000 * 60 * 60 * 24)
-                            + " days.");
                     }
-                }
 
-
-                @Override
-                public void onFailed(@NonNull AppRegistry.StatusCode statusCode, int i, String s) {
-                    Log.d(TAG, "onFailed " + statusCode.name() + ", " + i + ", " + s);
-                }
-            }).send();
+                    @Override
+                    public void onFailed(@NonNull AppRegistry.StatusCode statusCode, int i, String s) {
+                        Log.d(TAG, "onFailed " + statusCode.name() + ", " + i + ", " + s);
+                    }
+                }).send();
 
         //        initAnalytics();
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case REQUEST_PERMISSION_PHONE_STATE:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Toast.makeText(MainActivity.this, "Permission Granted!", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(MainActivity.this, "Permission Denied!", Toast.LENGTH_SHORT).show();
+                }
+        }
+    }
+
+    private void requestPermission(String permissionName, int permissionRequestCode) {
+        ActivityCompat.requestPermissions(this, new String[]{permissionName}, permissionRequestCode);
+    }
 
     @Override
     protected void onNewIntent(Intent intent) {
@@ -240,9 +251,7 @@ public class MainActivity extends AppCompatActivity {
         } else {
             Log.w(TAG, "onCreate intent can't be resolved...");
         }
-
     }
-
 
     @Override
     protected void onResume() {
@@ -257,11 +266,8 @@ public class MainActivity extends AppCompatActivity {
             startService(mMainServiceIntent);
         }
 
-        registerReceiver(mMainServiceReceiver,
-            new IntentFilter(MainService.BROADCAST_BATTERY_INFO));
-
+        registerReceiver(mMainServiceReceiver, new IntentFilter(MainService.BROADCAST_BATTERY_INFO));
     }
-
 
     @Override
     protected void onPause() {
@@ -274,7 +280,6 @@ public class MainActivity extends AppCompatActivity {
         super.onPause();
     }
 
-
     @Override
     protected void onDestroy() {
         if (mDb != null) {
@@ -284,21 +289,19 @@ public class MainActivity extends AppCompatActivity {
         super.onDestroy();
     }
 
-
     /**
      * Overriding to be able to close the {@link NavigationView}.
      * when the BACK-key is touched.
      */
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
             touchTwiceToExit();
         }
     }
-
 
     /**
      * Check for key.
@@ -308,23 +311,20 @@ public class MainActivity extends AppCompatActivity {
         //        if (AesPrefs.getBooleanRes(R.string.IS_PREMIUM, false)) return;
 
         PackageManager manager = getPackageManager();
-        if (manager.checkSignatures("com.pepperonas.m104", "com.pepperonas.m104.key")
-            == PackageManager.SIGNATURE_MATCH) {
+        if (manager.checkSignatures("com.pepperonas.m104", "com.pepperonas.m104.key") == PackageManager.SIGNATURE_MATCH) {
             AesPrefs.putBooleanRes(R.string.IS_PREMIUM, true);
         } else {
             AesPrefs.putBooleanRes(R.string.IS_PREMIUM, false);
         }
     }
 
-
     /**
      * Init toolbar.
      */
     private void initToolbar() {
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        mToolbar = findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
     }
-
 
     /**
      * Init nav view.
@@ -332,10 +332,9 @@ public class MainActivity extends AppCompatActivity {
      * @param doTransaction the do transaction
      */
     private void initNavView(boolean doTransaction) {
-        mNavView = (NavigationView) findViewById(R.id.navigation_view);
+        mNavView = findViewById(R.id.navigation_view);
 
         initNavDrawerIcons();
-
         ensureInitItemRoot();
 
         mNavView.setNavigationItemSelectedListener(new OnNavigationItemSelectedListener() {
@@ -354,7 +353,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
     /**
      * Init nav drawer icons.
      */
@@ -362,31 +360,28 @@ public class MainActivity extends AppCompatActivity {
         // first sub menu
         MenuItem itemBattery = mNavView.getMenu().getItem(0).getSubMenu().getItem(0);
         MenuItem itemNetwork = mNavView.getMenu().getItem(0).getSubMenu().getItem(1);
-        itemBattery.setIcon(
-            new IconicsDrawable(this, GoogleMaterial.Icon.gmd_battery_std).colorRes(R.color.sa_teal)
+        itemBattery.setIcon(new IconicsDrawable(this, GoogleMaterial.Icon.gmd_battery_std).colorRes(R.color.sa_teal)
                 .sizeDp(Const.NAV_DRAWER_ICON_SIZE));
         itemNetwork.setIcon(new IconicsDrawable(this, GoogleMaterial.Icon.gmd_network_wifi)
-            .colorRes(R.color.sa_teal).sizeDp(Const.NAV_DRAWER_ICON_SIZE));
+                .colorRes(R.color.sa_teal).sizeDp(Const.NAV_DRAWER_ICON_SIZE));
 
         // second sub menu
         MenuItem itemSettings = mNavView.getMenu().getItem(1).getSubMenu().getItem(0);
         MenuItem itemAbout = mNavView.getMenu().getItem(1).getSubMenu().getItem(1);
-        itemSettings.setIcon(
-            new IconicsDrawable(this, GoogleMaterial.Icon.gmd_settings).colorRes(R.color.sa_teal)
+        itemSettings.setIcon(new IconicsDrawable(this, GoogleMaterial.Icon.gmd_settings).colorRes(R.color.sa_teal)
                 .sizeDp(Const.NAV_DRAWER_ICON_SIZE));
         itemAbout.setIcon(new IconicsDrawable(this, GoogleMaterial.Icon.gmd_info_outline)
-            .colorRes(R.color.sa_teal).sizeDp(Const.NAV_DRAWER_ICON_SIZE));
+                .colorRes(R.color.sa_teal).sizeDp(Const.NAV_DRAWER_ICON_SIZE));
     }
-
 
     /**
      * Init nav drawer.
      */
     private void initNavDrawer() {
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerLayout = findViewById(R.id.drawer_layout);
 
         ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
-            mToolbar, R.string.open, R.string.close) {
+                mToolbar, R.string.open, R.string.close) {
 
             @Override
             public void onDrawerClosed(View drawerView) {
@@ -394,17 +389,14 @@ public class MainActivity extends AppCompatActivity {
                 invalidateOptionsMenu();
             }
 
-
             @Override
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
                 invalidateOptionsMenu();
 
-                TextView tvNavViewSubtitle = (TextView) findViewById(R.id.nav_view_header_subtitle);
-                tvNavViewSubtitle.setText(
-                    StringFactory.makeRemainingInfo(MainActivity.this, mBtyLevel, mBtyIsCharging));
+                TextView tvNavViewSubtitle = findViewById(R.id.nav_view_header_subtitle);
+                tvNavViewSubtitle.setText(StringFactory.makeRemainingInfo(MainActivity.this, mBtyLevel, mBtyIsCharging));
             }
-
         };
 
         mDrawerLayout.setDrawerListener(actionBarDrawerToggle);
@@ -412,7 +404,6 @@ public class MainActivity extends AppCompatActivity {
         // updating Drawer's state
         actionBarDrawerToggle.syncState();
     }
-
 
     /**
      * Send broadcast request battery info.
@@ -422,7 +413,6 @@ public class MainActivity extends AppCompatActivity {
     public void sendBroadcastRequestBatteryInfo() {
         sendBroadcast(new Intent(MainService.BROADCAST_MAIN_STARTED));
     }
-
 
     /**
      * Select nav view item boolean.
@@ -442,6 +432,8 @@ public class MainActivity extends AppCompatActivity {
             }
 
             case R.id.nav_item_network_stats: {
+                requestPermission(Manifest.permission.READ_PHONE_STATE, REQUEST_PERMISSION_PHONE_STATE);
+
                 if (mFragment instanceof FragmentNetworkStats) {
                     return true;
                 }
@@ -473,7 +465,6 @@ public class MainActivity extends AppCompatActivity {
         return false;
     }
 
-
     /**
      * Replace the fragment
      *
@@ -497,9 +488,7 @@ public class MainActivity extends AppCompatActivity {
 
         fragmentTransaction.replace(R.id.main_frame, mFragment);
         fragmentTransaction.commit();
-
     }
-
 
     /**
      * Check double-press config and close the app if needed.
@@ -524,7 +513,6 @@ public class MainActivity extends AppCompatActivity {
         }, Const.DELAY_ON_BACK_PRESSED);
     }
 
-
     /**
      * Gets navigation view.
      *
@@ -533,7 +521,6 @@ public class MainActivity extends AppCompatActivity {
     public NavigationView getNavigationView() {
         return mNavView;
     }
-
 
     /**
      * Gets database.
@@ -547,7 +534,6 @@ public class MainActivity extends AppCompatActivity {
         return mDb;
     }
 
-
     /**
      * Ensure init item root.
      */
@@ -555,12 +541,12 @@ public class MainActivity extends AppCompatActivity {
         if (AesPrefs.getBooleanRes(R.string.IS_ROOT_MODE, false)) {
             if (mNavView.getMenu().getItem(0).getSubMenu().size() == 2) {
                 mNavView.getMenu().getItem(0).getSubMenu()
-                    .add(0, MENU_ITEM_ROOT, 2, getString(R.string.root));
+                        .add(0, MENU_ITEM_ROOT, 2, getString(R.string.root));
                 MenuItem itemRoot = mNavView.getMenu().getItem(0).getSubMenu()
-                    .findItem(MENU_ITEM_ROOT);
+                        .findItem(MENU_ITEM_ROOT);
                 itemRoot.setIcon(
-                    new IconicsDrawable(MainActivity.this, GoogleMaterial.Icon.gmd_android)
-                        .colorRes(R.color.sa_teal).sizeDp(Const.NAV_DRAWER_ICON_SIZE));
+                        new IconicsDrawable(MainActivity.this, GoogleMaterial.Icon.gmd_android)
+                                .colorRes(R.color.sa_teal).sizeDp(Const.NAV_DRAWER_ICON_SIZE));
 
                 itemRoot.setOnMenuItemClickListener(new OnMenuItemClickListener() {
                     @Override
@@ -572,17 +558,16 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
     /**
      * Add item root.
      */
     public void addItemRoot() {
         if (mNavView.getMenu().getItem(0).getSubMenu().size() == 2) {
             mNavView.getMenu().getItem(0).getSubMenu()
-                .add(0, MENU_ITEM_ROOT, 2, getString(R.string.root));
+                    .add(0, MENU_ITEM_ROOT, 2, getString(R.string.root));
             MenuItem itemRoot = mNavView.getMenu().getItem(0).getSubMenu().findItem(MENU_ITEM_ROOT);
             itemRoot.setIcon(new IconicsDrawable(MainActivity.this, GoogleMaterial.Icon.gmd_android)
-                .colorRes(R.color.sa_teal).sizeDp(Const.NAV_DRAWER_ICON_SIZE));
+                    .colorRes(R.color.sa_teal).sizeDp(Const.NAV_DRAWER_ICON_SIZE));
 
             itemRoot.setOnMenuItemClickListener(new OnMenuItemClickListener() {
                 @Override
@@ -592,7 +577,6 @@ public class MainActivity extends AppCompatActivity {
             });
         }
     }
-
 
     /**
      * Remove item root.

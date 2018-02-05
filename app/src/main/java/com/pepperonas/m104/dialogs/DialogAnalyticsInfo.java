@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Martin Pfeffer
+ * Copyright (c) 2018 Martin Pfeffer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,36 +18,36 @@ package com.pepperonas.m104.dialogs;
 
 import android.content.Context;
 import android.preference.CheckBoxPreference;
+
 import com.pepperonas.aespreferences.AesPrefs;
 import com.pepperonas.m104.R;
 import com.pepperonas.materialdialog.MaterialDialog;
 
 /**
- * @author Martin Pfeffer (pepperonas)
+ * @author Martin Pfeffer (celox.io)
+ * @see <a href="mailto:martin.pfeffer@celox.io">martin.pfeffer@celox.io</a>
  */
 public class DialogAnalyticsInfo {
 
-    boolean mDoUncheck = false;
-
+    private boolean mDoUncheck = false;
 
     public DialogAnalyticsInfo(Context ctx, final CheckBoxPreference cbxP) {
         new MaterialDialog.Builder(ctx).title(ctx.getString(R.string.dialog_analytics_title))
-            .message(ctx.getString(R.string.dialog_analytics_msg))
-            .positiveText(ctx.getString(R.string.ok)).negativeText(ctx.getString(R.string.cancel))
-            .buttonCallback(new MaterialDialog.ButtonCallback() {
-                @Override
-                public void onPositive(MaterialDialog dialog) {
-                    super.onPositive(dialog);
-                    mDoUncheck = false;
-                }
+                .message(ctx.getString(R.string.dialog_analytics_msg))
+                .positiveText(ctx.getString(R.string.ok)).negativeText(ctx.getString(R.string.cancel))
+                .buttonCallback(new MaterialDialog.ButtonCallback() {
+                    @Override
+                    public void onPositive(MaterialDialog dialog) {
+                        super.onPositive(dialog);
+                        mDoUncheck = false;
+                    }
 
-
-                @Override
-                public void onNegative(MaterialDialog dialog) {
-                    super.onNegative(dialog);
-                    mDoUncheck = true;
-                }
-            }).dismissListener(new MaterialDialog.DismissListener() {
+                    @Override
+                    public void onNegative(MaterialDialog dialog) {
+                        super.onNegative(dialog);
+                        mDoUncheck = true;
+                    }
+                }).dismissListener(new MaterialDialog.DismissListener() {
             @Override
             public void onDismiss() {
                 super.onDismiss();

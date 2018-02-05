@@ -1,6 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ Copyright (c) 2017 Martin Pfeffer
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2018 Martin Pfeffer
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -14,20 +13,16 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-<ScrollView
-    android:layout_width="match_parent"
+<ScrollView android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    >
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/ll_battery_stats_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        >
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/tv_head"
@@ -38,8 +33,7 @@
             android:layout_weight="1"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
             android:layout_marginTop="@dimen/card_container_margin_top"
-            android:paddingLeft="16dp"
-            />
+            android:paddingLeft="16dp" />
 
         <LinearLayout
             android:id="@+id/card_container"
@@ -47,20 +41,17 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/card_container_margin_bottom"
             android:orientation="vertical"
-            android:layout_marginTop="@dimen/card_container_margin_top_smaller"
-            >
+            android:layout_marginTop="@dimen/card_container_margin_top_smaller">
 
             <android.support.v7.widget.CardView
                 android:id="@+id/cv_01"
                 style="@style/card_style_battery"
-                app:cardCornerRadius="@dimen/card_corner_radius_battery"
-                >
+                app:cardCornerRadius="@dimen/card_corner_radius_battery">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:paddingBottom="8dp"
-                    >
+                    android:paddingBottom="8dp">
 
                     <TextView
                         style="@style/title_text_card_battery"
@@ -69,8 +60,7 @@
                         android:textAppearance="?android:attr/textAppearanceMedium"
                         android:text="@string/title_battery_card_01"
                         android:id="@+id/tv_title_card_01"
-                        android:textStyle="bold"
-                        />
+                        android:textStyle="bold" />
 
                     <TextView
                         style="@style/text_card_screen_time"
@@ -82,8 +72,7 @@
                         android:layout_marginTop="8dp"
                         android:layout_marginLeft="16dp"
                         android:id="@+id/tv_status"
-                        android:layout_below="@+id/tv_title_card_01"
-                        />
+                        android:layout_below="@+id/tv_title_card_01" />
 
                     <TextView
                         style="@style/text_card_screen_time"
@@ -95,8 +84,7 @@
                         android:layout_marginTop="16dp"
                         android:layout_below="@+id/tv_status"
                         android:layout_marginLeft="16dp"
-                        android:id="@+id/tv_current_mah"
-                        />
+                        android:id="@+id/tv_current_mah" />
 
                     <TextView
                         style="@style/text_card_screen_time"
@@ -108,8 +96,7 @@
                         android:layout_alignParentRight="true"
                         android:layout_marginRight="16dp"
                         android:id="@+id/tv_percent"
-                        android:layout_alignTop="@+id/tv_status"
-                        />
+                        android:layout_alignTop="@+id/tv_status" />
 
                     <TextView
                         style="@style/text_card_screen_time"
@@ -122,22 +109,19 @@
                         android:layout_marginRight="16dp"
                         android:id="@+id/tv_temperature"
                         android:layout_below="@+id/tv_percent"
-                        android:layout_marginTop="16dp"
-                        />
+                        android:layout_marginTop="16dp" />
                 </RelativeLayout>
             </android.support.v7.widget.CardView>
 
             <android.support.v7.widget.CardView
                 android:id="@+id/cv_02"
                 style="@style/card_style_battery"
-                app:cardCornerRadius="@dimen/card_corner_radius_battery"
-                >
+                app:cardCornerRadius="@dimen/card_corner_radius_battery">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:paddingBottom="8dp"
-                    >
+                    android:paddingBottom="8dp">
 
                     <TextView
                         style="@style/title_text_card_battery"
@@ -146,8 +130,7 @@
                         android:textAppearance="?android:attr/textAppearanceMedium"
                         android:text="@string/title_battery_card_02"
                         android:id="@+id/tv_title_card_02"
-                        android:textStyle="bold"
-                        />
+                        android:textStyle="bold" />
 
                     <TextView
                         style="@style/text_card_screen_time"
@@ -159,8 +142,7 @@
                         android:gravity="center"
                         android:layout_marginTop="8dp"
                         android:layout_below="@+id/tv_title_card_02"
-                        android:layout_marginLeft="16dp"
-                        />
+                        android:layout_marginLeft="16dp" />
 
                     <TextView
                         style="@style/text_card_screen_time"
@@ -172,8 +154,7 @@
                         android:gravity="center"
                         android:layout_marginTop="16dp"
                         android:layout_below="@+id/tv_percent_per_hour"
-                        android:layout_marginLeft="16dp"
-                        />
+                        android:layout_marginLeft="16dp" />
 
                     <TextView
                         style="@style/text_card_screen_time"
@@ -185,8 +166,7 @@
                         android:gravity="center"
                         android:layout_alignTop="@+id/tv_percent_per_hour"
                         android:layout_alignParentRight="true"
-                        android:layout_marginRight="16dp"
-                        />
+                        android:layout_marginRight="16dp" />
 
                     <TextView
                         style="@style/text_card_screen_time"
@@ -198,8 +178,7 @@
                         android:gravity="center"
                         android:layout_alignParentRight="true"
                         android:layout_alignTop="@+id/tv_volt"
-                        android:layout_marginRight="16dp"
-                        />
+                        android:layout_marginRight="16dp" />
                 </RelativeLayout>
             </android.support.v7.widget.CardView>
 
@@ -207,14 +186,12 @@
             <android.support.v7.widget.CardView
                 android:id="@+id/cv_03"
                 style="@style/card_style_battery_screen_states"
-                app:cardCornerRadius="@dimen/card_corner_radius_battery"
-                >
+                app:cardCornerRadius="@dimen/card_corner_radius_battery">
 
                 <LinearLayout
                     android:orientation="vertical"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    >
+                    android:layout_height="match_parent">
 
                     <TextView
                         style="@style/title_text_card_battery"
@@ -223,16 +200,14 @@
                         android:textAppearance="?android:attr/textAppearanceMedium"
                         android:text="@string/title_battery_card_03"
                         android:id="@+id/tv_title_card_03"
-                        android:textStyle="bold"
-                        />
+                        android:textStyle="bold" />
 
                     <RelativeLayout
                         android:orientation="horizontal"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="8dp"
-                        >
+                        android:layout_marginTop="8dp">
 
                         <ImageView
                             android:layout_width="24dp"
@@ -242,8 +217,7 @@
                             android:layout_alignParentTop="true"
                             android:layout_alignParentLeft="true"
                             android:layout_marginLeft="16dp"
-                            android:src="@drawable/ic_brightness_7_grey600_18dp"
-                            />
+                            android:src="@drawable/ic_brightness_7_grey600_18dp" />
 
                         <TextView
                             android:id="@+id/tv_screen_on_boot_desc"
@@ -255,8 +229,7 @@
                             android:gravity="center"
                             android:layout_marginTop="16dp"
                             android:layout_below="@+id/iv_screen_on"
-                            style="@style/text_card_screen_time"
-                            />
+                            style="@style/text_card_screen_time" />
 
                         <TextView
                             android:id="@+id/tv_screen_on_boot_value"
@@ -273,8 +246,7 @@
                             android:layout_marginRight="16dp"
                             android:textAlignment="textEnd"
                             android:layout_alignTop="@+id/tv_screen_on_boot_desc"
-                            style="@style/text_card_screen_time"
-                            />
+                            style="@style/text_card_screen_time" />
 
                         <TextView
                             android:id="@+id/tv_screen_on_global_desc"
@@ -286,8 +258,7 @@
                             android:layout_below="@+id/tv_screen_on_boot_desc"
                             android:layout_marginTop="8dp"
                             android:layout_alignLeft="@+id/tv_screen_on_boot_desc"
-                            style="@style/text_card_screen_time"
-                            />
+                            style="@style/text_card_screen_time" />
 
                         <TextView
                             android:id="@+id/tv_screen_on_global_value"
@@ -305,8 +276,7 @@
                             android:minWidth="160dp"
                             android:layout_alignParentRight="true"
                             android:layout_marginRight="16dp"
-                            style="@style/text_card_screen_time"
-                            />
+                            style="@style/text_card_screen_time" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -318,8 +288,7 @@
                             android:layout_alignTop="@+id/iv_screen_on"
                             android:layout_alignBottom="@+id/iv_screen_on"
                             android:layout_marginLeft="8dp"
-                            android:gravity="center_vertical"
-                            />
+                            android:gravity="center_vertical" />
 
                     </RelativeLayout>
 
@@ -329,8 +298,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         android:layout_marginTop="24dp"
-                        android:layout_marginBottom="8dp"
-                        >
+                        android:layout_marginBottom="8dp">
 
                         <ImageView
                             android:layout_width="24dp"
@@ -340,8 +308,7 @@
                             android:layout_alignParentTop="true"
                             android:layout_alignParentLeft="true"
                             android:layout_marginLeft="16dp"
-                            android:src="@drawable/ic_brightness_5_grey600_18dp"
-                            />
+                            android:src="@drawable/ic_brightness_5_grey600_18dp" />
 
                         <TextView
                             android:id="@+id/tv_screen_off_boot_desc"
@@ -353,8 +320,7 @@
                             android:layout_alignLeft="@+id/iv_screen_off"
                             android:layout_below="@+id/iv_screen_off"
                             android:layout_marginTop="16dp"
-                            style="@style/text_card_screen_time"
-                            />
+                            style="@style/text_card_screen_time" />
 
                         <TextView
                             android:id="@+id/tv_screen_off_boot_value"
@@ -371,8 +337,7 @@
                             android:minWidth="160dp"
                             android:layout_marginRight="16dp"
                             android:textAlignment="textEnd"
-                            style="@style/text_card_screen_time"
-                            />
+                            style="@style/text_card_screen_time" />
 
                         <TextView
                             android:id="@+id/tv_screen_off_global_desc"
@@ -384,8 +349,7 @@
                             android:layout_below="@+id/tv_screen_off_boot_desc"
                             android:layout_alignLeft="@+id/tv_screen_off_boot_desc"
                             android:layout_marginTop="8dp"
-                            style="@style/text_card_screen_time"
-                            />
+                            style="@style/text_card_screen_time" />
 
                         <TextView
                             android:id="@+id/tv_screen_off_global_value"
@@ -403,8 +367,7 @@
                             android:maxLines="1"
                             android:minWidth="160dp"
                             android:layout_marginRight="16dp"
-                            style="@style/text_card_screen_time"
-                            />
+                            style="@style/text_card_screen_time" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -416,8 +379,7 @@
                             android:layout_alignTop="@+id/iv_screen_off"
                             android:layout_alignBottom="@+id/iv_screen_off"
                             android:layout_marginLeft="8dp"
-                            android:gravity="center_vertical"
-                            />
+                            android:gravity="center_vertical" />
                     </RelativeLayout>
 
                 </LinearLayout>

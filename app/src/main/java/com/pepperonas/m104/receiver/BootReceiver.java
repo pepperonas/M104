@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Martin Pfeffer
+ * Copyright (c) 2018 Martin Pfeffer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,18 +19,19 @@ package com.pepperonas.m104.receiver;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+
 import com.pepperonas.aespreferences.AesPrefs;
 import com.pepperonas.jbasx.log.Log;
 import com.pepperonas.m104.MainService;
 import com.pepperonas.m104.R;
 
 /**
- * @author Martin Pfeffer (pepperonas)
+ * @author Martin Pfeffer (celox.io)
+ * @see <a href="mailto:martin.pfeffer@celox.io">martin.pfeffer@celox.io</a>
  */
 public class BootReceiver extends BroadcastReceiver {
 
     private static final String TAG = "BootReceiver";
-
 
     @Override
     public void onReceive(Context ctx, Intent intent) {

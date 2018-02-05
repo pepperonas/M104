@@ -1,6 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ Copyright (c) 2017 Martin Pfeffer
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2018 Martin Pfeffer
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -16,11 +15,10 @@
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:id="@+id/notification_container"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:orientation="horizontal"
-    >
+    android:id="@+id/notification_container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
 
     <FrameLayout
         android:id="@+id/notification_circle_layout"
@@ -29,8 +27,7 @@
         android:orientation="horizontal"
         android:layout_marginStart="0dp"
         android:clickable="true"
-        android:foreground="?android:selectableItemBackground"
-        >
+        android:foreground="?android:selectableItemBackground">
 
         <ImageView
             android:id="@+id/iv_notification_circle_left"
@@ -44,15 +41,13 @@
             android:layout_marginLeft="12dp"
             android:clickable="true"
             android:foreground="?android:selectableItemBackground"
-            android:contentDescription="@string/empty"
-            />
+            android:contentDescription="@string/empty" />
 
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_gravity="center"
-            >
+            android:layout_gravity="center">
 
             <TextView
                 android:id="@+id/tv_notification_circle_value"
@@ -65,8 +60,7 @@
                 android:gravity="center"
                 android:textStyle="bold"
                 android:textColor="@color/primary_text_default_material_dark_failsafe"
-                android:layout_marginTop="2dp"
-                />
+                android:layout_marginTop="2dp" />
 
             <TextView
                 android:id="@+id/tv_notification_circle_values_unit"
@@ -77,8 +71,7 @@
                 android:textColor="@color/primary_text_default_material_dark_failsafe"
                 android:textSize="8sp"
                 android:gravity="center"
-                android:textStyle="bold"
-                />
+                android:textStyle="bold" />
         </LinearLayout>
 
     </FrameLayout>
@@ -87,15 +80,13 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:baselineAligned="false"
-        >
+        android:baselineAligned="false">
 
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:gravity="center_vertical"
-            >
+            android:gravity="center_vertical">
 
             <TextView
                 android:id="@+id/tv_m_notification_center_top"
@@ -104,8 +95,7 @@
                 android:textColor="@color/primary_text_default_material_light_failsafe"
                 android:text="Medium Text"
                 android:textSize="16sp"
-                android:paddingBottom="1dp"
-                />
+                android:paddingBottom="1dp" />
 
             <TextView
                 android:id="@+id/tv_s_notification_center_bottom"
@@ -115,8 +105,7 @@
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="Small Text"
                 android:textSize="14sp"
-                android:paddingTop="1dp"
-                />
+                android:paddingTop="1dp" />
 
         </LinearLayout>
 
@@ -125,8 +114,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:layout_marginEnd="4dp"
-            >
+            android:layout_marginEnd="4dp">
 
             <TextView
                 android:id="@+id/tv_s_notification_right_top"
@@ -138,8 +126,7 @@
                 android:layout_marginBottom="2dp"
                 android:gravity="bottom"
                 android:layout_weight="1"
-                android:layout_gravity="end"
-                />
+                android:layout_gravity="end" />
 
             <TextView
                 android:id="@+id/tv_s_notification_right_bottom"
@@ -150,8 +137,7 @@
                 android:text="Small Text"
                 android:layout_marginTop="2dp"
                 android:layout_weight="1"
-                android:layout_gravity="end"
-                />
+                android:layout_gravity="end" />
         </LinearLayout>
 
         <LinearLayout
@@ -159,8 +145,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="0"
-            android:layout_marginRight="8dp"
-            >
+            android:layout_marginRight="8dp">
 
             <ImageView
                 android:layout_width="12dp"
@@ -168,8 +153,7 @@
                 android:id="@+id/iv_tx"
                 android:src="@drawable/ic_launcher"
                 android:layout_weight="1"
-                android:layout_marginTop="8dp"
-                />
+                android:layout_marginTop="8dp" />
 
             <ImageView
                 android:layout_width="12dp"
@@ -177,8 +161,7 @@
                 android:id="@+id/iv_rx"
                 android:src="@drawable/ic_launcher"
                 android:layout_weight="1"
-                android:layout_marginBottom="8dp"
-                />
+                android:layout_marginBottom="8dp" />
         </LinearLayout>
 
     </LinearLayout>

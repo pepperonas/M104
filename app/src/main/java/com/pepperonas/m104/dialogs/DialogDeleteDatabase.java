@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Martin Pfeffer
+ * Copyright (c) 2018 Martin Pfeffer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,35 +17,36 @@
 package com.pepperonas.m104.dialogs;
 
 import android.app.Activity;
+
 import com.pepperonas.andbasx.base.ToastUtils;
 import com.pepperonas.m104.MainActivity;
 import com.pepperonas.m104.R;
 import com.pepperonas.materialdialog.MaterialDialog;
 
 /**
- * @author Martin Pfeffer (pepperonas)
+ * @author Martin Pfeffer (celox.io)
+ * @see <a href="mailto:martin.pfeffer@celox.io">martin.pfeffer@celox.io</a>
  */
 public class DialogDeleteDatabase {
 
     public DialogDeleteDatabase(final Activity activity) {
         new MaterialDialog.Builder(activity)
-            .title(activity.getString(R.string.dialog_delete_database_title))
-            .message(activity.getString(R.string.dialog_delete_database_msg))
-            .positiveText(activity.getString(R.string.ok))
-            .negativeText(activity.getString(R.string.cancel))
-            .buttonCallback(new MaterialDialog.ButtonCallback() {
-                @Override
-                public void onPositive(MaterialDialog dialog) {
-                    super.onPositive(dialog);
-                    ((MainActivity) activity).getDatabase().deleteAllClips();
-                    ToastUtils.toastShort(activity.getString(R.string.to_clipboard_wiped));
-                }
+                .title(activity.getString(R.string.dialog_delete_database_title))
+                .message(activity.getString(R.string.dialog_delete_database_msg))
+                .positiveText(activity.getString(R.string.ok))
+                .negativeText(activity.getString(R.string.cancel))
+                .buttonCallback(new MaterialDialog.ButtonCallback() {
+                    @Override
+                    public void onPositive(MaterialDialog dialog) {
+                        super.onPositive(dialog);
+                        ((MainActivity) activity).getDatabase().deleteAllClips();
+                        ToastUtils.toastShort(activity.getString(R.string.to_clipboard_wiped));
+                    }
 
-
-                @Override
-                public void onNegative(MaterialDialog dialog) {
-                    super.onNegative(dialog);
-                }
-            }).show();
+                    @Override
+                    public void onNegative(MaterialDialog dialog) {
+                        super.onNegative(dialog);
+                    }
+                }).show();
     }
 }
