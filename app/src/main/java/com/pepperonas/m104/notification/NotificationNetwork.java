@@ -54,7 +54,7 @@ public class NotificationNetwork {
     private static final String TAG = "NotificationNetwork";
 
     public static final String EXTRA_START_NETWORK = "nwk";
-    private static final String NOTIFICATION_TAG = "nn_tag";
+    public static final String NOTIFICATION_TAG = "nn_tag";
     private static final String CHANNEL_ID = "network_notification_channel";
     private static final String GROUP = "net";
 
@@ -76,8 +76,6 @@ public class NotificationNetwork {
     public NotificationNetwork(Context context) {
         this.mCtx = context;
 
-        CharSequence name = context.getString(R.string.notification_title_network);
-
         try {
             mBuilder = new NotificationCompat.Builder(context)
                     .setContentTitle(context.getString(R.string.notification_title_network))
@@ -97,7 +95,8 @@ public class NotificationNetwork {
 
             if (AesPrefs.getBooleanRes(R.string.SHOW_NETWORK_NOTIFICATION, true)) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, NotificationManager.IMPORTANCE_HIGH);
+                    NotificationChannel channel = new NotificationChannel(CHANNEL_ID, context.getString(R.string.notification_title_network),
+                            NotificationManager.IMPORTANCE_HIGH);
                     mNotificationManager.createNotificationChannel(channel);
                 }
                 mNotificationManager.notify(NOTIFICATION_TAG, Const.NOTIFICATION_NETWORK, mBuilder.build());
@@ -420,7 +419,7 @@ public class NotificationNetwork {
     /**
      * Update set when, so the notifications will be forced to be shown in the correct order.
      */
-    public static void updateSetWhen() {
+    public static void updateSetWhen(@NonNull Context context) {
         Log.i(TAG, "---UPDATE (set when)---");
 
         if (mNotificationManager == null) {
@@ -434,6 +433,17 @@ public class NotificationNetwork {
             mBuilder.setWhen(System.currentTimeMillis());
         } else {
             Log.w(TAG, "updateSetWhen " + "Error refreshing notification");
+        }
+
+        if (AesPrefs.getBooleanRes(R.string.SHOW_NETWORK_NOTIFICATION, true)) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                NotificationChannel channel = new NotificationChannel(CHANNEL_ID, context.getString(R.string.notification_title_network),
+                        NotificationManager.IMPORTANCE_HIGH);
+                mNotificationManager.createNotificationChannel(channel);
+            }
+            mNotificationManager.notify(NOTIFICATION_TAG, Const.NOTIFICATION_NETWORK, mBuilder.build());
+        } else {
+            mNotificationManager.cancel(NOTIFICATION_TAG, Const.NOTIFICATION_NETWORK);
         }
     }
 

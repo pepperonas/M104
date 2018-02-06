@@ -20,7 +20,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory
-        android:key="pref_cat_main"
+        android:key="@string/PREF_CAT_MAIN"
         android:title="@string/pref_cat_main">
 
         <CheckBoxPreference

@@ -472,6 +472,12 @@ public class MainService extends Service {
             mDb.close();
         }
 
+        unregisterReceiver(mBatteryInfoReceiver);
+        unregisterReceiver(mScreenOnReceiver);
+        unregisterReceiver(mScreenOffReceiver);
+        unregisterReceiver(mActivityStartedReceiver);
+        unregisterReceiver(mClipDeletedReceiver);
+
         super.onDestroy();
     }
 

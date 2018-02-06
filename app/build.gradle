@@ -58,7 +58,8 @@ android {
         targetSdkVersion 27
         versionCode 33
         versionName "0.3.3-beta"
-        project.ext.set("archivesBaseName", "m104")
+//        project.ext.set("archivesBaseName", "m104")
+        setProperty("archivesBaseName", "m104-$versionName")
     }
     buildTypes {
         release {

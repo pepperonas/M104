@@ -43,7 +43,7 @@ public class NotificationBattery {
     private static final String TAG = "NotificationBattery";
 
     public static final String EXTRA_START_BATTERY = "bty";
-    private static final String NOTIFICATION_TAG = "nb_tag";
+    public static final String NOTIFICATION_TAG = "nb_tag";
     private static final String CHANNEL_ID = "battery_notification_channel";
     private static final String GROUP = "bat";
 
@@ -166,6 +166,13 @@ public class NotificationBattery {
             mBuilder.setWhen(System.currentTimeMillis());
         } else {
             Log.w(TAG, "updateSetWhen " + "Error refreshing notification");
+        }
+
+        if (AesPrefs.getBooleanRes(R.string.SHOW_BATTERY_NOTIFICATION, true)) {
+            Log.i(TAG, "---UPDATE---");
+            mNotificationManager.notify(NOTIFICATION_TAG, Const.NOTIFICATION_BATTERY, mBuilder.build());
+        } else {
+            mNotificationManager.cancel(NOTIFICATION_TAG, Const.NOTIFICATION_BATTERY);
         }
     }
 }

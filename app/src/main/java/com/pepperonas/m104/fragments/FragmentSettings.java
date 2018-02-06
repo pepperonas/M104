@@ -215,7 +215,7 @@ public class FragmentSettings extends com.github.machinarius.preferencefragment.
             AesPrefs.setClickListenersOnPreferences(this, findPreference(getString(R.string.IS_ROOT_MODE)));
             ((CheckBoxPreference) findPreference(getString(R.string.IS_ROOT_MODE))).setChecked(AesPrefs.getBooleanRes(R.string.IS_ROOT_MODE, false));
         } else {
-            ((PreferenceGroup) findPreference("pref_cat_main")).removePreference(findPreference(getString(R.string.IS_ROOT_MODE)));
+            ((PreferenceGroup) findPreference(getString(R.string.PREF_CAT_MAIN))).removePreference(findPreference(getString(R.string.IS_ROOT_MODE)));
         }
     }
 
@@ -345,15 +345,17 @@ public class FragmentSettings extends com.github.machinarius.preferencefragment.
                         if (isChecked) {
                             NotificationBattery.updateSetWhen();
                         } else {
-                            manager.cancel(Const.NOTIFICATION_BATTERY);
+                            manager.cancel(NotificationBattery.NOTIFICATION_TAG, Const.NOTIFICATION_BATTERY);
                         }
                         break;
                     }
                     case R.string.SHOW_NETWORK_NOTIFICATION: {
                         if (isChecked) {
-                            NotificationNetwork.updateSetWhen();
+                            if (getContext() != null) {
+                                NotificationNetwork.updateSetWhen(getContext());
+                            }
                         } else {
-                            manager.cancel(Const.NOTIFICATION_NETWORK);
+                            manager.cancel(NotificationNetwork.NOTIFICATION_TAG, Const.NOTIFICATION_NETWORK);
                         }
                         break;
                     }
@@ -361,7 +363,7 @@ public class FragmentSettings extends com.github.machinarius.preferencefragment.
                         if (isChecked) {
                             NotificationClipboard.updateSetWhen();
                         } else {
-                            manager.cancel(Const.NOTIFICATION_CLIPBOARD);
+                            manager.cancel(NotificationClipboard.NOTIFICATION_TAG, Const.NOTIFICATION_CLIPBOARD);
                         }
                         break;
                     }

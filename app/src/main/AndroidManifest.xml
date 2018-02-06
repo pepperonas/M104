@@ -14,21 +14,27 @@
   ~ limitations under the License.
   -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.pepperonas.m104">
 
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.BATTERY_STATS" />
+    <uses-permission
+        android:name="android.permission.BATTERY_STATS"
+        tools:ignore="ProtectedPermissions" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission
+        android:name="android.permission.PACKAGE_USAGE_STATS"
+        tools:ignore="ProtectedPermissions" />
     <!--<uses-permission android:name="android.permission.READ_SYNC_SETTINGS" />-->
-    <!--<uses-permission android:name="android.permission.PACKAGE_USAGE_STATS" />-->
     <!--<uses-permission android:name="android.permission.READ_PRIVILEGED_PHONE_STATE" />-->
 
     <application
         android:name=".App"
         android:allowBackup="true"
+        android:fullBackupContent="false"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:largeHeap="false"
@@ -39,9 +45,25 @@
             android:configChanges="orientation|keyboardHidden|screenSize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <!--<intent-filter><action android:name="android.intent.action.VIEW" />-->
+
+            <!--<category android:name="android.intent.category.DEFAULT" />-->
+            <!--<category android:name="android.intent.category.BROWSABLE" />-->
+
+            <!--<action android:name="android.intent.action.VIEW" />-->
+
+            <!--<category android:name="android.intent.category.DEFAULT" />-->
+            <!--<category android:name="android.intent.category.BROWSABLE" />-->
+            <!--<data-->
+            <!--android:host="https://celox.io"-->
+            <!--android:pathPrefix="/"-->
+            <!--android:scheme="https" />-->
+            <!--<data-->
+            <!--android:host="m104"-->
+            <!--android:scheme="celox" />-->
+            <!--</intent-filter>-->
         </activity>
         <activity
             android:name=".notification.BatteryDialogActivity"
@@ -64,6 +86,7 @@
 
         <service
             android:name=".MainService"
+            android:exported="false"
             android:label="@string/empty">
             <intent-filter>
                 <action android:name="com.pepperonas.bettery.notification.NotificationService" />

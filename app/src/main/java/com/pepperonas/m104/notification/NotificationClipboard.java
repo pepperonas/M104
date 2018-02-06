@@ -45,7 +45,7 @@ public class NotificationClipboard {
     private static final String TAG = "NotificationClipboard";
 
     public static final String EXTRA_START_CLIPBOARD = "cbd";
-    private static final String NOTIFICATION_TAG = "nc_tag";
+    public static final String NOTIFICATION_TAG = "nc_tag";
     private static final String CHANNEL_ID = "clipboard_notification_channel";
     private static final String GROUP = "clip";
 
@@ -150,12 +150,6 @@ public class NotificationClipboard {
      */
     public void update(int clipDataCount) {
         mBuilder.setSmallIcon(R.drawable.ic_attachment_white_24dp);
-        //                .setPriority(NotificationCompat.PRIORITY_MAX)
-        //                .setChannelId(CHANNEL_ID)
-        //                .setOnlyAlertOnce(true)
-        //                .setPriority(NotificationCompat.PRIORITY_MAX)
-        //                .setGroup(GROUP)
-        //                .setOngoing(true);
         mRemoteViews.setTextViewText(R.id.tv_s_notification_center_bottom, makeClipDataCountInfo(clipDataCount));
 
         if (AesPrefs.getBooleanRes(R.string.SHOW_CLIPBOARD_NOTIFICATION, true)) {
@@ -186,18 +180,10 @@ public class NotificationClipboard {
         }
 
         if (AesPrefs.getBooleanRes(R.string.SHOW_CLIPBOARD_NOTIFICATION, true)) {
-//            if (mBuilder == null) {
-//                mBuilder = new NotificationCompat.Builder(AndBasx.getContext()).setContentTitle(AndBasx.getContext().getString(R.string.notification_title_battery))
-//                        .setSmallIcon(R.drawable.ic_attachment_white_24dp)
-//                        .setPriority(NotificationCompat.PRIORITY_MAX)
-//                        .setChannelId(CHANNEL_ID)
-//                        .setOnlyAlertOnce(true)
-//                        .setPriority(NotificationCompat.PRIORITY_MAX)
-//                        .setGroup(GROUP)
-//                        .setOngoing(true);
-//            }
-
-//            mNotificationManager.notify(NOTIFICATION_TAG, Const.NOTIFICATION_CLIPBOARD, mBuilder.build());
+            Log.i(TAG, "---UPDATE---");
+            mNotificationManager.notify(NOTIFICATION_TAG, Const.NOTIFICATION_CLIPBOARD, mBuilder.build());
+        } else {
+            mNotificationManager.cancel(NOTIFICATION_TAG, Const.NOTIFICATION_CLIPBOARD);
         }
     }
 

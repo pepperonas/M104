@@ -28,6 +28,7 @@
     <string name="ANALYTICS" translatable="false">ANALYTICS</string>
     <string name="IS_ANALYTICS" translatable="false">IS_ANALYTICS</string>
 
+    <string name="PREF_CAT_MAIN" translatable="false">PREF_CAT_MAIN</string>
     <string name="IS_ROOT_MODE" translatable="false">IS_ROOT_MODE</string>
     <string name="IS_AUTO_START" translatable="false">IS_AUTO_START</string>
     <string name="UNITS_CELSIUS" translatable="false">UNITS_CELSIUS</string>

@@ -432,6 +432,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
             case R.id.nav_item_network_stats: {
+                // TODO: 05.02.18 19:45 show dialog & ask for permission and proceed only when set
                 requestPermission(Manifest.permission.READ_PHONE_STATE, REQUEST_PERMISSION_PHONE_STATE);
 
                 if (mFragment instanceof FragmentNetworkStats) {
