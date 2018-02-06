@@ -17,6 +17,7 @@
 package com.pepperonas.m104;
 
 import android.Manifest;
+import android.app.AppOpsManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -25,10 +26,10 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Process;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.NavigationView.OnNavigationItemSelectedListener;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -57,6 +58,8 @@ import com.pepperonas.appregistry.OnRegisterResultListener;
 import com.pepperonas.jbasx.log.Log;
 import com.pepperonas.m104.config.Const;
 import com.pepperonas.m104.dialogs.DialogAbout;
+import com.pepperonas.m104.dialogs.DialogPermissionAccessUsageSettings;
+import com.pepperonas.m104.dialogs.DialogPermissionReadPhoneState;
 import com.pepperonas.m104.dialogs.DialogPremiumSuccess;
 import com.pepperonas.m104.dialogs.DialogTestPhaseExpired;
 import com.pepperonas.m104.fragments.FragmentBatteryStats;
@@ -72,6 +75,8 @@ import com.pepperonas.m104.utils.StringFactory;
 
 import java.util.concurrent.Callable;
 
+import static com.pepperonas.andbasx.AndBasx.getContext;
+
 /**
  * @author Martin Pfeffer (celox.io)
  * @see <a href="mailto:martin.pfeffer@celox.io">martin.pfeffer@celox.io</a>
@@ -81,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
 
     public static final int MENU_ITEM_ROOT = 3;
-    private final int REQUEST_PERMISSION_PHONE_STATE = 1;
+    public static final int REQUEST_PERMISSION_PHONE_STATE = 1;
 
     /* Fragment communication */
     public IBatteryInformer mBatteryInformer;
@@ -222,10 +227,6 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this, "Permission Denied!", Toast.LENGTH_SHORT).show();
                 }
         }
-    }
-
-    private void requestPermission(String permissionName, int permissionRequestCode) {
-        ActivityCompat.requestPermissions(this, new String[]{permissionName}, permissionRequestCode);
     }
 
     @Override
@@ -432,13 +433,27 @@ public class MainActivity extends AppCompatActivity {
             }
 
             case R.id.nav_item_network_stats: {
-                // TODO: 05.02.18 19:45 show dialog & ask for permission and proceed only when set
-                requestPermission(Manifest.permission.READ_PHONE_STATE, REQUEST_PERMISSION_PHONE_STATE);
-
-                if (mFragment instanceof FragmentNetworkStats) {
-                    return true;
+                if (!checkPermissionReadPhoneState(Manifest.permission.READ_PHONE_STATE)) {
+                    new DialogPermissionReadPhoneState(this);
+                } else {
+                    if (mFragment instanceof FragmentNetworkStats) {
+                        return true;
+                    }
+                    int mode = 0;
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        AppOpsManager appOps = (AppOpsManager) this.getSystemService(Context.APP_OPS_SERVICE);
+                        if (appOps != null) {
+                            mode = appOps.checkOpNoThrow(AppOpsManager.OPSTR_GET_USAGE_STATS,
+                                    Process.myUid(), getPackageName());
+                        }
+                        if (mode == AppOpsManager.MODE_ALLOWED) {
+                            //                            Log.i(TAG, "onCreateView: permission set");
+                            makeFragmentTransaction(FragmentNetworkStats.newInstance(1));
+                        } else {
+                            new DialogPermissionAccessUsageSettings(this);
+                        }
+                    }
                 }
-                makeFragmentTransaction(FragmentNetworkStats.newInstance(1));
                 return true;
             }
 
@@ -464,6 +479,11 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         return false;
+    }
+
+    private boolean checkPermissionReadPhoneState(String permission) {
+        int res = getContext().checkCallingOrSelfPermission(permission);
+        return (res == PackageManager.PERMISSION_GRANTED);
     }
 
     /**

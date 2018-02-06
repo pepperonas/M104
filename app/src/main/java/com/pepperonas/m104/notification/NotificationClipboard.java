@@ -45,8 +45,8 @@ public class NotificationClipboard {
     private static final String TAG = "NotificationClipboard";
 
     public static final String EXTRA_START_CLIPBOARD = "cbd";
-    public static final String NOTIFICATION_TAG = "nc_tag";
-    private static final String CHANNEL_ID = "clipboard_notification_channel";
+    public static final String NOTIFICATION_TAG = null;
+    private static final String CHANNEL_ID = "com.pepperonas.m104.notification.clipboard";
     private static final String GROUP = "clip";
 
     private Context mCtx;
@@ -67,7 +67,7 @@ public class NotificationClipboard {
 
         CharSequence name = context.getString(R.string.notification_title_battery);
 
-        mBuilder = new NotificationCompat.Builder(context)
+        mBuilder = new NotificationCompat.Builder(context, CHANNEL_ID)
                 .setContentTitle(context.getString(R.string.notification_title_battery))
                 .setSmallIcon(R.drawable.ic_attachment_white_24dp)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
@@ -93,6 +93,7 @@ public class NotificationClipboard {
         if (AesPrefs.getBoolean(mCtx.getString(R.string.SHOW_CLIPBOARD_NOTIFICATION), true)) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, NotificationManager.IMPORTANCE_HIGH);
+                channel.setShowBadge(false);
                 mNotificationManager.createNotificationChannel(channel);
             }
             mNotificationManager.notify(NOTIFICATION_TAG, Const.NOTIFICATION_CLIPBOARD, mBuilder.build());

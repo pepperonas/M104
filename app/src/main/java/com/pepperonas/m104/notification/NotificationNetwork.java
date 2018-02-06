@@ -54,8 +54,8 @@ public class NotificationNetwork {
     private static final String TAG = "NotificationNetwork";
 
     public static final String EXTRA_START_NETWORK = "nwk";
-    public static final String NOTIFICATION_TAG = "nn_tag";
-    private static final String CHANNEL_ID = "network_notification_channel";
+    public static final String NOTIFICATION_TAG = null;
+    private static final String CHANNEL_ID = "com.pepperonas.m104.notification.network";
     private static final String GROUP = "net";
 
     private Context mCtx;
@@ -77,7 +77,7 @@ public class NotificationNetwork {
         this.mCtx = context;
 
         try {
-            mBuilder = new NotificationCompat.Builder(context)
+            mBuilder = new NotificationCompat.Builder(context, CHANNEL_ID)
                     .setContentTitle(context.getString(R.string.notification_title_network))
                     .setSmallIcon(R.drawable.ic_launcher)
                     .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
@@ -97,6 +97,7 @@ public class NotificationNetwork {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     NotificationChannel channel = new NotificationChannel(CHANNEL_ID, context.getString(R.string.notification_title_network),
                             NotificationManager.IMPORTANCE_HIGH);
+                    channel.setShowBadge(false);
                     mNotificationManager.createNotificationChannel(channel);
                 }
                 mNotificationManager.notify(NOTIFICATION_TAG, Const.NOTIFICATION_NETWORK, mBuilder.build());

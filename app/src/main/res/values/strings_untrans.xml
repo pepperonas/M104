@@ -26,10 +26,12 @@
 
     <string name="web_presentation_info" translatable="false">
     <![CDATA[
-    Developed by <b>pepperonas</b>.
+    Developed by <b>Martin Pfeffer</b>
+    <br>
+    &#169; 2015 - 2018.
     <br><br>
-    <font color="#009688"><a href="https://www.pepperonas.com">Website</a></font>&nbsp;&nbsp;
-    <font color="#009688"><a href="https://play.google.com/store/apps/developer?id=pepperonas">Google Play</a></font>&nbsp;&nbsp;
+    <font color="#009688"><a href="https://celox.io">Website</a></font>&nbsp;&nbsp;
+    <font color="#009688"><a href="https://play.google.com/store/apps/dev?id=8486269375445922130">Google Play</a></font>&nbsp;&nbsp;
     <br><br>
     <font color="#009688"><a href="https://plus.google.com/communities/100642582416636996643">Google+</a></font>&nbsp;&nbsp;
     <font color="#009688"><a href="https://github.com/pepperonas">GitHub</a></font>&nbsp;&nbsp;

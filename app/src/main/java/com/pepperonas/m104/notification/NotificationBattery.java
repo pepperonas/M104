@@ -43,8 +43,8 @@ public class NotificationBattery {
     private static final String TAG = "NotificationBattery";
 
     public static final String EXTRA_START_BATTERY = "bty";
-    public static final String NOTIFICATION_TAG = "nb_tag";
-    private static final String CHANNEL_ID = "battery_notification_channel";
+    public static final String NOTIFICATION_TAG = null;
+    private static final String CHANNEL_ID = "com.pepperonas.m104.notification.battery";
     private static final String GROUP = "bat";
 
     private Context mCtx;
@@ -64,7 +64,7 @@ public class NotificationBattery {
 
         CharSequence name = context.getString(R.string.notification_title_battery);
 
-        mBuilder = new NotificationCompat.Builder(context)
+        mBuilder = new NotificationCompat.Builder(context, CHANNEL_ID)
                 .setContentTitle(context.getString(R.string.notification_title_battery))
                 .setSmallIcon(R.drawable.ic_launcher)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
@@ -85,6 +85,7 @@ public class NotificationBattery {
         if (AesPrefs.getBooleanRes(R.string.SHOW_BATTERY_NOTIFICATION, true)) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, NotificationManager.IMPORTANCE_HIGH);
+                channel.setShowBadge(false);
                 mNotificationManager.createNotificationChannel(channel);
             }
         } else {

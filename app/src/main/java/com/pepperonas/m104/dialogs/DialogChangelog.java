@@ -45,6 +45,11 @@ public class DialogChangelog {
     private List<Changelog> getChangelogs() {
         List<Changelog> changes = new ArrayList<>();
 
+        changes.add(new Changelog("0.3.4", "2018-02-06", new ReleaseInfo(
+                "Improved notifications",
+                "Fixed permissions",
+                "Added dialogs")));
+
         changes.add(new Changelog("0.3.3-beta", "2018-02-05", new ReleaseInfo(
                 "Android-O support",
                 "Removable clipboard encryption",

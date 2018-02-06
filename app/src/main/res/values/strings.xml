@@ -208,5 +208,9 @@
     <string name="tab7" translatable="false">Tab 7</string>
     <string name="tab8" translatable="false">Tab 8</string>
     <string name="encryption_disabled">Encryption disabled</string>
+    <string name="dialog_set_permission_title">Set permission</string>
+    <string name="set_permission_read_phone_state_info">Set permission \'Read phone state\' to get information about your apps\' network usage.</string>
+    <string name="dialog_set_permission_access_usage_settings">Allow \'M104\' to read usage settings.</string>
+    <string name="android_version_incompatible">Incompatible Android version</string>
 
 </resources>

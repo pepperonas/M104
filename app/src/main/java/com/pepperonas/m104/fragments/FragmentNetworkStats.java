@@ -18,20 +18,15 @@ package com.pepperonas.m104.fragments;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.AppOpsManager;
 import android.app.usage.NetworkStats;
 import android.app.usage.NetworkStatsManager;
 import android.content.Context;
-import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Process;
 import android.os.RemoteException;
-import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -93,22 +88,6 @@ public class FragmentNetworkStats extends Fragment {
         View v = inflater.inflate(R.layout.fragment_network_stats, container, false);
         if (getActivity() != null) {
             (getActivity()).setTitle(getString(R.string.menu_network_stats));
-
-            int mode = 0;
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                AppOpsManager appOps = (AppOpsManager) getActivity().getSystemService(Context.APP_OPS_SERVICE);
-                if (appOps != null) {
-                    mode = appOps.checkOpNoThrow(AppOpsManager.OPSTR_GET_USAGE_STATS,
-                            Process.myUid(), getActivity().getPackageName());
-                }
-                if (mode == AppOpsManager.MODE_ALLOWED) {
-                    Log.i(TAG, "onCreateView: permission set");
-                } else {
-                    // TODO: 05.02.18 03:15 show dialog to inform user to set permission
-                    Intent intent = new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS);
-                    startActivity(intent);
-                }
-            }
         }
 
         return v;
