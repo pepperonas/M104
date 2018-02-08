@@ -16,6 +16,7 @@
 
 package com.pepperonas.m104.notification;
 
+import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -46,8 +47,8 @@ public class NotificationClipboard {
 
     public static final String EXTRA_START_CLIPBOARD = "cbd";
     public static final String NOTIFICATION_TAG = null;
-    private static final String CHANNEL_ID = "com.pepperonas.m104.notification.clipboard";
-    private static final String GROUP = "clip";
+    private static final String CHANNEL_ID = "com.pepperonas.m104.notification";
+    private static final String GROUP = "g";
 
     private Context mCtx;
 
@@ -92,13 +93,13 @@ public class NotificationClipboard {
 
         if (AesPrefs.getBoolean(mCtx.getString(R.string.SHOW_CLIPBOARD_NOTIFICATION), true)) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, NotificationManager.IMPORTANCE_HIGH);
+                NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, NotificationManager.IMPORTANCE_DEFAULT);
                 channel.setShowBadge(false);
                 mNotificationManager.createNotificationChannel(channel);
             }
-            mNotificationManager.notify(NOTIFICATION_TAG, Const.NOTIFICATION_CLIPBOARD, mBuilder.build());
+            mNotificationManager.notify(Const.NOTIFICATION_CLIPBOARD, mBuilder.build());
         } else {
-            mNotificationManager.cancel(NOTIFICATION_TAG, Const.NOTIFICATION_CLIPBOARD);
+            mNotificationManager.cancel(Const.NOTIFICATION_CLIPBOARD);
         }
     }
 
@@ -155,9 +156,9 @@ public class NotificationClipboard {
 
         if (AesPrefs.getBooleanRes(R.string.SHOW_CLIPBOARD_NOTIFICATION, true)) {
             Log.i(TAG, "---UPDATE---");
-            mNotificationManager.notify(NOTIFICATION_TAG, Const.NOTIFICATION_CLIPBOARD, mBuilder.build());
+            mNotificationManager.notify(Const.NOTIFICATION_CLIPBOARD, mBuilder.build());
         } else {
-            mNotificationManager.cancel(NOTIFICATION_TAG, Const.NOTIFICATION_CLIPBOARD);
+            mNotificationManager.cancel(Const.NOTIFICATION_CLIPBOARD);
         }
     }
 
@@ -171,7 +172,7 @@ public class NotificationClipboard {
             mNotificationManager = (NotificationManager) AndBasx.getContext().getSystemService(Context.NOTIFICATION_SERVICE);
         }
         if (mNotificationManager != null) {
-            mNotificationManager.cancel(NOTIFICATION_TAG, Const.NOTIFICATION_CLIPBOARD);
+            mNotificationManager.cancel( Const.NOTIFICATION_CLIPBOARD);
         }
 
         if (mBuilder != null) {
@@ -182,10 +183,14 @@ public class NotificationClipboard {
 
         if (AesPrefs.getBooleanRes(R.string.SHOW_CLIPBOARD_NOTIFICATION, true)) {
             Log.i(TAG, "---UPDATE---");
-            mNotificationManager.notify(NOTIFICATION_TAG, Const.NOTIFICATION_CLIPBOARD, mBuilder.build());
+            mNotificationManager.notify(Const.NOTIFICATION_CLIPBOARD, mBuilder.build());
         } else {
-            mNotificationManager.cancel(NOTIFICATION_TAG, Const.NOTIFICATION_CLIPBOARD);
+            mNotificationManager.cancel(Const.NOTIFICATION_CLIPBOARD);
         }
+    }
+
+    public Notification getNotification() {
+        return mBuilder.build();
     }
 
 }

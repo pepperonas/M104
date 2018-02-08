@@ -16,6 +16,7 @@
 
 package com.pepperonas.m104.notification;
 
+import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -55,8 +56,8 @@ public class NotificationNetwork {
 
     public static final String EXTRA_START_NETWORK = "nwk";
     public static final String NOTIFICATION_TAG = null;
-    private static final String CHANNEL_ID = "com.pepperonas.m104.notification.network";
-    private static final String GROUP = "net";
+    private static final String CHANNEL_ID = "com.pepperonas.m104.notification";
+    private static final String GROUP = "g";
 
     private Context mCtx;
 
@@ -96,13 +97,13 @@ public class NotificationNetwork {
             if (AesPrefs.getBooleanRes(R.string.SHOW_NETWORK_NOTIFICATION, true)) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     NotificationChannel channel = new NotificationChannel(CHANNEL_ID, context.getString(R.string.notification_title_network),
-                            NotificationManager.IMPORTANCE_HIGH);
+                            NotificationManager.IMPORTANCE_DEFAULT);
                     channel.setShowBadge(false);
                     mNotificationManager.createNotificationChannel(channel);
                 }
-                mNotificationManager.notify(NOTIFICATION_TAG, Const.NOTIFICATION_NETWORK, mBuilder.build());
+                mNotificationManager.notify(Const.NOTIFICATION_NETWORK, mBuilder.build());
             } else {
-                mNotificationManager.cancel(NOTIFICATION_TAG, Const.NOTIFICATION_NETWORK);
+                mNotificationManager.cancel(Const.NOTIFICATION_NETWORK);
             }
 
         } catch (Exception e) {
@@ -186,7 +187,7 @@ public class NotificationNetwork {
             }
             if (mValueNotChangedCounter >= 10) {
                 mValueNotChangedCounter = 0;
-                mNotificationManager.cancel(NOTIFICATION_TAG, Const.NOTIFICATION_NETWORK);
+                mNotificationManager.cancel(Const.NOTIFICATION_NETWORK);
             }
         } else {
             mValueNotChangedCounter = 0;
@@ -221,9 +222,9 @@ public class NotificationNetwork {
 
             if (AesPrefs.getBooleanRes(R.string.SHOW_NETWORK_NOTIFICATION, true)) {
                 Log.i(TAG, "---UPDATE---");
-                mNotificationManager.notify(NOTIFICATION_TAG, Const.NOTIFICATION_NETWORK, mBuilder.build());
+                mNotificationManager.notify(Const.NOTIFICATION_NETWORK, mBuilder.build());
             } else {
-                mNotificationManager.cancel(NOTIFICATION_TAG, Const.NOTIFICATION_NETWORK);
+                mNotificationManager.cancel(Const.NOTIFICATION_NETWORK);
             }
         } catch (Exception e) {
             Log.e(TAG, "NotificationNetwork: Error while setting up network notification.");
@@ -427,7 +428,7 @@ public class NotificationNetwork {
             mNotificationManager = (NotificationManager) AndBasx.getContext().getSystemService(Context.NOTIFICATION_SERVICE);
         }
         if (mNotificationManager != null) {
-            mNotificationManager.cancel(NOTIFICATION_TAG, Const.NOTIFICATION_NETWORK);
+            mNotificationManager.cancel(Const.NOTIFICATION_NETWORK);
         }
 
         if (mBuilder != null) {
@@ -442,10 +443,14 @@ public class NotificationNetwork {
                         NotificationManager.IMPORTANCE_HIGH);
                 mNotificationManager.createNotificationChannel(channel);
             }
-            mNotificationManager.notify(NOTIFICATION_TAG, Const.NOTIFICATION_NETWORK, mBuilder.build());
+            mNotificationManager.notify(Const.NOTIFICATION_NETWORK, mBuilder.build());
         } else {
-            mNotificationManager.cancel(NOTIFICATION_TAG, Const.NOTIFICATION_NETWORK);
+            mNotificationManager.cancel(Const.NOTIFICATION_NETWORK);
         }
+    }
+
+    public Notification getNotification() {
+        return mBuilder.build();
     }
 
 }

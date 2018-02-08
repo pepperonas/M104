@@ -345,7 +345,7 @@ public class FragmentSettings extends com.github.machinarius.preferencefragment.
                         if (isChecked) {
                             NotificationBattery.updateSetWhen();
                         } else {
-                            manager.cancel(NotificationBattery.NOTIFICATION_TAG, Const.NOTIFICATION_BATTERY);
+                            manager.cancel( Const.NOTIFICATION_BATTERY);
                         }
                         break;
                     }
@@ -355,7 +355,7 @@ public class FragmentSettings extends com.github.machinarius.preferencefragment.
                                 NotificationNetwork.updateSetWhen(getContext());
                             }
                         } else {
-                            manager.cancel(NotificationNetwork.NOTIFICATION_TAG, Const.NOTIFICATION_NETWORK);
+                            manager.cancel(Const.NOTIFICATION_NETWORK);
                         }
                         break;
                     }
@@ -363,7 +363,7 @@ public class FragmentSettings extends com.github.machinarius.preferencefragment.
                         if (isChecked) {
                             NotificationClipboard.updateSetWhen();
                         } else {
-                            manager.cancel(NotificationClipboard.NOTIFICATION_TAG, Const.NOTIFICATION_CLIPBOARD);
+                            manager.cancel( Const.NOTIFICATION_CLIPBOARD);
                         }
                         break;
                     }

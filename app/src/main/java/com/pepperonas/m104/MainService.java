@@ -325,7 +325,6 @@ public class MainService extends Service {
         AesPrefs.putLongRes(R.string.GLOBAL_SCREEN_OFF_VALUE, AesPrefs.getLongResNoLog(R.string.GLOBAL_SCREEN_OFF_VALUE, 0) + screenOff);
 
         AesPrefs.putLongRes(R.string.SCREEN_TRACKER_ON, System.currentTimeMillis());
-
     }
 
     /**
@@ -456,14 +455,17 @@ public class MainService extends Service {
         }
 
         mNotificationBattery = new NotificationBattery(getApplicationContext());
-
         mNotificationNetwork = new NotificationNetwork(getApplicationContext());
-
         mNotificationClipboard = new NotificationClipboard(getApplicationContext(), mDb.getClipDataCount());
 
         registerReceiver();
 
         startRepeatingTask();
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            startForeground(Const.NOTIFICATION_BATTERY, mNotificationBattery.getNotification());
+            startForeground(Const.NOTIFICATION_CLIPBOARD, mNotificationClipboard.getNotification());
+            startForeground(Const.NOTIFICATION_NETWORK, mNotificationNetwork.getNotification());
+        }
     }
 
     @Override

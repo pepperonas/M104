@@ -19,6 +19,8 @@ package com.pepperonas.m104.receiver;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
+import android.support.v4.content.ContextCompat;
 
 import com.pepperonas.aespreferences.AesPrefs;
 import com.pepperonas.jbasx.log.Log;
@@ -41,7 +43,11 @@ public class BootReceiver extends BroadcastReceiver {
             if (AesPrefs.getBoolean(ctx.getString(R.string.IS_AUTO_START), true)) {
                 Log.d(TAG, "onReceive " + "--- AUTO START ---");
                 Intent serviceIntent = new Intent(ctx, MainService.class);
-                ctx.startService(serviceIntent);
+                if (Build.VERSION.SDK_INT > Build.VERSION_CODES.N_MR1) {
+                    ContextCompat.startForegroundService(ctx, serviceIntent);
+                } else {
+                    ctx.startService(serviceIntent);
+                }
             }
         }
     }

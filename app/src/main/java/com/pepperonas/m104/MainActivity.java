@@ -31,6 +31,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.NavigationView.OnNavigationItemSelectedListener;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -152,7 +153,11 @@ public class MainActivity extends AppCompatActivity {
         initNavDrawer();
 
         mMainServiceIntent = new Intent(this, MainService.class);
-        startService(mMainServiceIntent);
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.N_MR1) {
+            ContextCompat.startForegroundService(this, mMainServiceIntent);
+        } else {
+            startService(mMainServiceIntent);
+        }
         sendBroadcastRequestBatteryInfo();
 
         final String androidId = SystemUtils.getAndroidId();
@@ -264,7 +269,11 @@ public class MainActivity extends AppCompatActivity {
 
         if (!SystemUtils.isServiceRunning(this, MainService.class)) {
             mMainServiceIntent = new Intent((MainActivity.this), MainService.class);
-            startService(mMainServiceIntent);
+            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.N_MR1) {
+                ContextCompat.startForegroundService(this, mMainServiceIntent);
+            } else {
+                startService(mMainServiceIntent);
+            }
         }
 
         registerReceiver(mMainServiceReceiver, new IntentFilter(MainService.BROADCAST_BATTERY_INFO));

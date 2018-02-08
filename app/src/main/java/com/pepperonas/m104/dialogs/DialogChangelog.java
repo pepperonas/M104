@@ -45,6 +45,10 @@ public class DialogChangelog {
     private List<Changelog> getChangelogs() {
         List<Changelog> changes = new ArrayList<>();
 
+        changes.add(new Changelog("0.3.5-beta", "2018-02-08", new ReleaseInfo(
+                "Fixed notifications (Android O)",
+                "Fixed automatic startup")));
+
         changes.add(new Changelog("0.3.4", "2018-02-06", new ReleaseInfo(
                 "Improved notifications",
                 "Fixed permissions",
