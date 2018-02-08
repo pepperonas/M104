@@ -55,7 +55,6 @@ public class NotificationNetwork {
     private static final String TAG = "NotificationNetwork";
 
     public static final String EXTRA_START_NETWORK = "nwk";
-    public static final String NOTIFICATION_TAG = null;
     private static final String CHANNEL_ID = "com.pepperonas.m104.notification";
     private static final String GROUP = "g";
 
@@ -85,6 +84,8 @@ public class NotificationNetwork {
                     .setChannelId(CHANNEL_ID)
                     .setOnlyAlertOnce(true)
                     .setPriority(NotificationCompat.PRIORITY_MAX)
+                    //                    .setShowWhen(true)
+                    .setWhen(System.currentTimeMillis() + 1000)
                     .setGroup(GROUP)
                     .setOngoing(true);
 
@@ -99,9 +100,9 @@ public class NotificationNetwork {
                     NotificationChannel channel = new NotificationChannel(CHANNEL_ID, context.getString(R.string.notification_title_network),
                             NotificationManager.IMPORTANCE_DEFAULT);
                     channel.setShowBadge(false);
+                    channel.setSound(null, null);
                     mNotificationManager.createNotificationChannel(channel);
                 }
-                mNotificationManager.notify(Const.NOTIFICATION_NETWORK, mBuilder.build());
             } else {
                 mNotificationManager.cancel(Const.NOTIFICATION_NETWORK);
             }
@@ -136,10 +137,10 @@ public class NotificationNetwork {
 
         chartIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
-        /**
-         * Set {@link PendingIntent#FLAG_CANCEL_CURRENT} to receive
-         * the {@link android.os.Bundle} object's extra in {@link NetworkDialogActivity}.
-         * */
+        /*
+          Set {@link PendingIntent#FLAG_CANCEL_CURRENT} to receive
+          the {@link android.os.Bundle} object's extra in {@link NetworkDialogActivity}.
+          */
         PendingIntent pendingIntent = PendingIntent.getActivity(mCtx, 0, chartIntent, PendingIntent.FLAG_CANCEL_CURRENT);
 
         mRemoteViews.setOnClickPendingIntent(R.id.notification_container, pendingIntent);
@@ -150,9 +151,9 @@ public class NotificationNetwork {
 
         launch.putExtra("start_fragment", EXTRA_START_NETWORK);
 
-        /**
-         * Important: set {@link PendingIntent.FLAG_UPDATE_CURRENT}
-         * */
+        /*
+          Important: set {@link PendingIntent.FLAG_UPDATE_CURRENT}
+          */
         PendingIntent btnLaunch = PendingIntent.getActivity(mCtx, Const.NOTIFICATION_NETWORK, launch, PendingIntent.FLAG_UPDATE_CURRENT);
         mRemoteViews.setOnClickPendingIntent(R.id.iv_notification_circle_left, btnLaunch);
     }
@@ -385,7 +386,6 @@ public class NotificationNetwork {
         if (absTraffic > Binary.GIGA) {
             unit = mCtx.getString(R.string._unit_gigabytes);
             return nf.format(absTraffic / Binary.GIGA) + " " + unit;
-
         }
         if (absTraffic > Binary.MEGA) {
             unit = mCtx.getString(R.string._unit_megabytes);
@@ -418,31 +418,11 @@ public class NotificationNetwork {
         return networkName;
     }
 
-    /**
-     * Update set when, so the notifications will be forced to be shown in the correct order.
-     */
-    public static void updateSetWhen(@NonNull Context context) {
-        Log.i(TAG, "---UPDATE (set when)---");
-
+    public static void removeIfCanceled() {
         if (mNotificationManager == null) {
             mNotificationManager = (NotificationManager) AndBasx.getContext().getSystemService(Context.NOTIFICATION_SERVICE);
         }
-        if (mNotificationManager != null) {
-            mNotificationManager.cancel(Const.NOTIFICATION_NETWORK);
-        }
-
-        if (mBuilder != null) {
-            mBuilder.setWhen(System.currentTimeMillis());
-        } else {
-            Log.w(TAG, "updateSetWhen " + "Error refreshing notification");
-        }
-
         if (AesPrefs.getBooleanRes(R.string.SHOW_NETWORK_NOTIFICATION, true)) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                NotificationChannel channel = new NotificationChannel(CHANNEL_ID, context.getString(R.string.notification_title_network),
-                        NotificationManager.IMPORTANCE_HIGH);
-                mNotificationManager.createNotificationChannel(channel);
-            }
             mNotificationManager.notify(Const.NOTIFICATION_NETWORK, mBuilder.build());
         } else {
             mNotificationManager.cancel(Const.NOTIFICATION_NETWORK);

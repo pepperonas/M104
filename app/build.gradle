@@ -55,8 +55,8 @@ android {
         applicationId "com.pepperonas.m104"
         minSdkVersion 16
         targetSdkVersion 27
-        versionCode 35
-        versionName "0.3.5-beta"
+        versionCode 36
+        versionName "0.3.6-beta"
         setProperty("archivesBaseName", "m104-$versionName")
     }
     buildTypes {

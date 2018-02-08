@@ -292,7 +292,7 @@ public class SwipeableRecyclerViewTouchListener implements RecyclerView.OnItemTo
                         mSwipeListener.onDismissedBySwipeLeft(mRecyclerView, dismissPositions);
                     }
 
-                    // Reset mDownPosition to avoid MotionEvent.ACTION_UP trying to updateSetWhen a dismiss
+                    // Reset mDownPosition to avoid MotionEvent.ACTION_UP trying to removeIfCanceled a dismiss
                     // animation with a stale position
                     mDownPosition = ListView.INVALID_POSITION;
 

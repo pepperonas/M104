@@ -325,34 +325,33 @@ public class FragmentSettings extends com.github.machinarius.preferencefragment.
         new DialogDeleteDatabase(getActivity());
     }
 
-    /**
-     * Apply notification state.
-     *
-     * @param which     the which
-     * @param isChecked the is checked
-     */
+    //    /**
+    //     * Apply notification state.
+    //     *
+    //     * @param which     the which
+    //     * @param isChecked the is checked
+    //     */
     private void applyNotificationState(int which, boolean isChecked) {
         MainActivity mainActivity = (MainActivity) getActivity();
         if (mainActivity != null) {
             if (isChecked) {
                 ((MainActivity) getActivity()).sendBroadcastRequestBatteryInfo();
             }
-
             NotificationManager manager = (NotificationManager) mainActivity.getSystemService(Context.NOTIFICATION_SERVICE);
             if (manager != null) {
                 switch (which) {
                     case R.string.SHOW_BATTERY_NOTIFICATION: {
                         if (isChecked) {
-                            NotificationBattery.updateSetWhen();
+                            NotificationBattery.removeIfCanceled();
                         } else {
-                            manager.cancel( Const.NOTIFICATION_BATTERY);
+                            manager.cancel(Const.NOTIFICATION_BATTERY);
                         }
                         break;
                     }
                     case R.string.SHOW_NETWORK_NOTIFICATION: {
                         if (isChecked) {
                             if (getContext() != null) {
-                                NotificationNetwork.updateSetWhen(getContext());
+                                NotificationNetwork.removeIfCanceled();
                             }
                         } else {
                             manager.cancel(Const.NOTIFICATION_NETWORK);
@@ -361,9 +360,9 @@ public class FragmentSettings extends com.github.machinarius.preferencefragment.
                     }
                     case R.string.SHOW_CLIPBOARD_NOTIFICATION: {
                         if (isChecked) {
-                            NotificationClipboard.updateSetWhen();
+                            NotificationClipboard.removeIfCanceled();
                         } else {
-                            manager.cancel( Const.NOTIFICATION_CLIPBOARD);
+                            manager.cancel(Const.NOTIFICATION_CLIPBOARD);
                         }
                         break;
                     }

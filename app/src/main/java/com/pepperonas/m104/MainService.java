@@ -25,6 +25,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.TrafficStats;
 import android.os.BatteryManager;
+import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
@@ -39,7 +40,6 @@ import com.pepperonas.m104.model.BatteryStat;
 import com.pepperonas.m104.model.ChargeMode;
 import com.pepperonas.m104.model.ClipDataAdvanced;
 import com.pepperonas.m104.model.Database;
-import com.pepperonas.m104.notification.NetworkDialogActivity;
 import com.pepperonas.m104.notification.NotificationBattery;
 import com.pepperonas.m104.notification.NotificationClipboard;
 import com.pepperonas.m104.notification.NotificationNetwork;
@@ -116,8 +116,6 @@ public class MainService extends Service {
             mHealth = intent.getIntExtra(BatteryManager.EXTRA_HEALTH, Const.VALUE_UNSET);
             mVoltage = intent.getIntExtra(BatteryManager.EXTRA_VOLTAGE, Const.VALUE_UNSET);
 
-            //            mNotificationBattery.update(mLevel, mTemperature, mIsCharging);
-
             mIsCharging = mStatus == BatteryManager.BATTERY_STATUS_CHARGING;
             ChargeMode cm = ChargeMode.getInstance(mPlugged);
 
@@ -137,9 +135,9 @@ public class MainService extends Service {
 
             ensurePercentResolvable();
 
-            /**
-             * On state changed.
-             * */
+            /*
+              On state changed.
+              */
             if (AesPrefs.getBooleanResNoLog(R.string.IS_CHARGING, false) != mIsCharging) {
                 // state changed, store it...
                 AesPrefs.putBooleanRes(R.string.IS_CHARGING, mIsCharging);
@@ -412,15 +410,20 @@ public class MainService extends Service {
                     TrafficStats.getMobileRxBytes(), TrafficStats.getMobileTxBytes(), rx_ivl,
                     tx_ivl, SystemUtils.getNetworkType());
 
-            /**
-             * Required for {@link NetworkDialogActivity#loadHistoryChart} - currently not
-             * processed.
-             * */
+            /*
+              Required for {@link NetworkDialogActivity#loadHistoryChart} - currently not
+              processed.
+              */
             try {
-                mDb.addNetworkStat(System.currentTimeMillis(), rx_ivl, tx_ivl, rxm_ivl, txm_ivl,
-                        "x");
+                mDb.addNetworkStat(System.currentTimeMillis(), rx_ivl, tx_ivl, rxm_ivl, txm_ivl, "x");
             } catch (Exception e) {
                 Log.e(TAG, "Writing in database failed.");
+            }
+
+            if (!AesPrefs.getBooleanRes(R.string.SHOW_NETWORK_NOTIFICATION, true)) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    stopForeground(true);
+                }
             }
 
             mHandler.postDelayed(mRunnableNetworkCheck, (long) (uprateInSeconds * 1000));
@@ -520,7 +523,7 @@ public class MainService extends Service {
      * Start repeating task.
      */
     private void startRepeatingTask() {
-        // don't updateSetWhen repeating task if notification is disabled
+        // don't removeIfCanceled repeating task if notification is disabled
         if (!AesPrefs.getBoolean(getString(R.string.SHOW_NETWORK_NOTIFICATION), true)) {
             Log.w(TAG, "startRepeatingTask ISSUE?!");
             return;

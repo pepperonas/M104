@@ -46,7 +46,6 @@ public class NotificationClipboard {
     private static final String TAG = "NotificationClipboard";
 
     public static final String EXTRA_START_CLIPBOARD = "cbd";
-    public static final String NOTIFICATION_TAG = null;
     private static final String CHANNEL_ID = "com.pepperonas.m104.notification";
     private static final String GROUP = "g";
 
@@ -66,8 +65,6 @@ public class NotificationClipboard {
     public NotificationClipboard(Context context, int clipDataCount) {
         this.mCtx = context;
 
-        CharSequence name = context.getString(R.string.notification_title_battery);
-
         mBuilder = new NotificationCompat.Builder(context, CHANNEL_ID)
                 .setContentTitle(context.getString(R.string.notification_title_battery))
                 .setSmallIcon(R.drawable.ic_attachment_white_24dp)
@@ -75,6 +72,8 @@ public class NotificationClipboard {
                 .setChannelId(CHANNEL_ID)
                 .setOnlyAlertOnce(true)
                 .setPriority(NotificationCompat.PRIORITY_MAX)
+                //                .setShowWhen(true)
+                .setWhen(System.currentTimeMillis())
                 .setGroup(GROUP)
                 .setOngoing(true);
 
@@ -93,11 +92,12 @@ public class NotificationClipboard {
 
         if (AesPrefs.getBoolean(mCtx.getString(R.string.SHOW_CLIPBOARD_NOTIFICATION), true)) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, NotificationManager.IMPORTANCE_DEFAULT);
+                NotificationChannel channel = new NotificationChannel(CHANNEL_ID, context.getString(R.string.notification_title_battery),
+                        NotificationManager.IMPORTANCE_DEFAULT);
                 channel.setShowBadge(false);
+                channel.setSound(null, null);
                 mNotificationManager.createNotificationChannel(channel);
             }
-            mNotificationManager.notify(Const.NOTIFICATION_CLIPBOARD, mBuilder.build());
         } else {
             mNotificationManager.cancel(Const.NOTIFICATION_CLIPBOARD);
         }
@@ -138,9 +138,9 @@ public class NotificationClipboard {
 
         launch.putExtra("start_fragment", EXTRA_START_CLIPBOARD);
 
-        /**
-         * Important: set {@link PendingIntent.FLAG_UPDATE_CURRENT}
-         * */
+        /*
+          Important: set {@link PendingIntent.FLAG_UPDATE_CURRENT}
+          */
         PendingIntent btnLaunch = PendingIntent.getActivity(mCtx, Const.NOTIFICATION_CLIPBOARD, launch, PendingIntent.FLAG_UPDATE_CURRENT);
         mRemoteViews.setOnClickPendingIntent(R.id.iv_notification_circle_left, btnLaunch);
     }
@@ -162,27 +162,11 @@ public class NotificationClipboard {
         }
     }
 
-    /**
-     * Update set when, so the notifications will be forced to be shown in the correct order.
-     */
-    public static void updateSetWhen() {
-        Log.i(TAG, "---UPDATE (set when)---");
-
+    public static void removeIfCanceled() {
         if (mNotificationManager == null) {
             mNotificationManager = (NotificationManager) AndBasx.getContext().getSystemService(Context.NOTIFICATION_SERVICE);
         }
-        if (mNotificationManager != null) {
-            mNotificationManager.cancel( Const.NOTIFICATION_CLIPBOARD);
-        }
-
-        if (mBuilder != null) {
-            mBuilder.setWhen(System.currentTimeMillis());
-        } else {
-            Log.w(TAG, "updateSetWhen " + "Error refreshing notification");
-        }
-
         if (AesPrefs.getBooleanRes(R.string.SHOW_CLIPBOARD_NOTIFICATION, true)) {
-            Log.i(TAG, "---UPDATE---");
             mNotificationManager.notify(Const.NOTIFICATION_CLIPBOARD, mBuilder.build());
         } else {
             mNotificationManager.cancel(Const.NOTIFICATION_CLIPBOARD);
