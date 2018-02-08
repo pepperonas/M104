@@ -441,8 +441,7 @@ public class MainService extends Service {
     public void onCreate() {
         super.onCreate();
 
-        if (!AesPrefs.getBooleanRes(R.string.IS_PREMIUM, false) && AesPrefs
-                .getBooleanRes(R.string.TEST_PHASE_EXPIRED, false)) {
+        if (!AesPrefs.getBooleanRes(R.string.IS_PREMIUM, false) && AesPrefs.getBooleanRes(R.string.TEST_PHASE_EXPIRED, false)) {
             stopSelf();
             return;
         }

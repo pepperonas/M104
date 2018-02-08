@@ -60,8 +60,6 @@ public class FragmentSettings extends com.github.machinarius.preferencefragment.
     @SuppressWarnings("unused")
     private static final String TAG = "FragmentSettings";
 
-    //    private Tracker mTracker;
-
     /**
      * New instance fragment settings.
      *
@@ -86,7 +84,7 @@ public class FragmentSettings extends com.github.machinarius.preferencefragment.
         AesPrefs.setClickListenersOnPreferences(this,
                 findPreference(getString(R.string.IS_AUTO_START)),
                 findPreference(getString(R.string.SHOW_BATTERY_NOTIFICATION)),
-                findPreference(getString(R.string.SHOW_NETWORK_NOTIFICATION)),
+                //                findPreference(getString(R.string.SHOW_NETWORK_NOTIFICATION)),
                 findPreference(getString(R.string.SHOW_CLIPBOARD_NOTIFICATION)),
                 findPreference(getString(R.string.ENCRYPT_CLIPBOARD)),
                 findPreference(getString(R.string.DELETE_CLIPBOARD_DATABASE)),
@@ -199,7 +197,8 @@ public class FragmentSettings extends com.github.machinarius.preferencefragment.
                             public void onClick(View v, int position, long id) {
                                 super.onClick(v, position, id);
                                 AesPrefs.putBooleanRes(R.string.UNITS_CELSIUS, position == 0);
-                                findPreference(getString(R.string.UNITS_CELSIUS)).setSummary(getString(AesPrefs.getBooleanRes(R.string.UNITS_CELSIUS, true) ? R.string._unit_celsius : R.string._unit_fahrenheit));
+                                findPreference(getString(R.string.UNITS_CELSIUS))
+                                        .setSummary(getString(AesPrefs.getBooleanRes(R.string.UNITS_CELSIUS, true) ? R.string._unit_celsius : R.string._unit_fahrenheit));
                             }
                         }).show();
             }
@@ -258,8 +257,8 @@ public class FragmentSettings extends com.github.machinarius.preferencefragment.
         CheckBoxPreference chbP = (CheckBoxPreference) findPreference(getString(R.string.SHOW_BATTERY_NOTIFICATION));
         chbP.setChecked(AesPrefs.getBooleanRes(R.string.SHOW_BATTERY_NOTIFICATION, true));
 
-        chbP = (CheckBoxPreference) findPreference(getString(R.string.SHOW_NETWORK_NOTIFICATION));
-        chbP.setChecked(AesPrefs.getBooleanRes(R.string.SHOW_NETWORK_NOTIFICATION, true));
+        //        chbP = (CheckBoxPreference) findPreference(getString(R.string.SHOW_NETWORK_NOTIFICATION));
+        //        chbP.setChecked(AesPrefs.getBooleanRes(R.string.SHOW_NETWORK_NOTIFICATION, true));
 
         chbP = (CheckBoxPreference) findPreference(getString(R.string.SHOW_CLIPBOARD_NOTIFICATION));
         chbP.setChecked(AesPrefs.getBooleanRes(R.string.SHOW_CLIPBOARD_NOTIFICATION, true));

@@ -45,6 +45,9 @@ public class DialogChangelog {
     private List<Changelog> getChangelogs() {
         List<Changelog> changes = new ArrayList<>();
 
+        changes.add(new Changelog("0.3.7-beta", "2018-02-09", new ReleaseInfo(
+                "Network notification is always up")));
+
         changes.add(new Changelog("0.3.6-beta", "2018-02-08", new ReleaseInfo(
                 "Improved notifications (Android O)",
                 "Removed notification sounds")));

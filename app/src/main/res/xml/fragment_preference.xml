@@ -38,10 +38,10 @@
             android:title="@string/pref_title_show_battery_notification"
             android:summary="@string/pref_sum_show_battery_notification" />
 
-        <CheckBoxPreference
-            android:key="@string/SHOW_NETWORK_NOTIFICATION"
-            android:title="@string/pref_title_show_network_notification"
-            android:summary="@string/pref_sum_show_network_notification" />
+        <!--<CheckBoxPreference-->
+            <!--android:key="@string/SHOW_NETWORK_NOTIFICATION"-->
+            <!--android:title="@string/pref_title_show_network_notification"-->
+            <!--android:summary="@string/pref_sum_show_network_notification" />-->
 
         <CheckBoxPreference
             android:key="@string/SHOW_CLIPBOARD_NOTIFICATION"
