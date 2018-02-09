@@ -22,11 +22,14 @@ import android.preference.CheckBoxPreference;
 import android.support.annotation.NonNull;
 import android.widget.EditText;
 
+import com.mikepenz.community_material_typeface_library.CommunityMaterial;
+import com.mikepenz.iconics.IconicsDrawable;
 import com.pepperonas.aespreferences.AesPrefs;
 import com.pepperonas.andbasx.base.ToastUtils;
 import com.pepperonas.jbasx.base.TextUtils;
 import com.pepperonas.m104.MainService;
 import com.pepperonas.m104.R;
+import com.pepperonas.m104.config.Const;
 import com.pepperonas.m104.model.Database;
 import com.pepperonas.materialdialog.MaterialDialog;
 
@@ -40,9 +43,13 @@ public class DialogDecryptDatabase {
     private static final String TAG = "DialogDecryptDatabase";
 
     public DialogDecryptDatabase(@NonNull final Activity activity, final CheckBoxPreference cbxEncrypt, final Database db) {
-        new MaterialDialog.Builder(activity).customView(R.layout.dialog_set_password)
+        new MaterialDialog.Builder(activity)
+                .customView(R.layout.dialog_set_password)
                 .title(activity.getString(R.string.dialog_enter_password_title))
                 .message(activity.getString(R.string.dialog_enter_password_to_decrypt_msg))
+                .icon(new IconicsDrawable(activity, CommunityMaterial.Icon.cmd_lock_open_outline)
+                        .colorRes(R.color.dialog_icon)
+                        .sizeDp(Const.NAV_DRAWER_ICON_SIZE))
                 .positiveText(activity.getString(R.string.ok))
                 .neutralText(R.string.reset)
                 .negativeText(activity.getString(R.string.cancel))
@@ -87,7 +94,8 @@ public class DialogDecryptDatabase {
 
                         activity.sendBroadcast(new Intent(MainService.BROADCAST_CLIP_DELETED));
                     }
-                }).show();
+                })
+                .show();
     }
 
 }

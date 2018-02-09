@@ -95,6 +95,7 @@
     <string name="copy">Kopieren</string>
     <string name="entries">Einträge</string>
     <string name="clipboard">Clipboard</string>
+    <string name="pref_cat_notifications">Benachrichtigungen</string>
     <string name="copied_to_clipboard">In Zwischenablage eingefügt</string>
     <string name="entry">Eintrag</string>
 
@@ -130,8 +131,8 @@
     <string name="pref_cat_others">Sonstiges</string>
     <string name="seekbar_prompt_password_expiration_time">Merken für</string>
     <string name="chart_legend_current_mAh">Energie (mAh)</string>
+    <string name="dialog_delete_database_title">Clipboard säubern</string>
     <string name="dialog_delete_database_msg">Alle Clipboard-Einträge werden gelöscht.</string>
-    <string name="dialog_delete_database_title">Sicher?</string>
     <string name="to_clipboard_wiped">Clipboard gesäubert</string>
     <string name="pref_title_license">Open Source Lizenzen</string>
     <string name="dialog_license_title">Lizenzen</string>
@@ -153,8 +154,8 @@
     <string name="wrong_password">Passwort falsch</string>
     <string name="dialog_enter_password_to_decrypt_msg">Zum Entschlüsseln der Datenbank wird das Passwort benötigt.</string>
     <string name="clipboard_decrypted">Datenbank verschlüsselt</string>
-    <string name="dialog_test_phase_expired_msg">Da diese App komplett auf Werbung verzichtet, würde es mich freuen, wenn du die Pro-Version kaufst.</string>
-    <string name="dialog_test_phase_expired_title">Testphase abgelaufen</string>
+    <string name="dialog_get_pro_title">Funktion gesperrt</string>
+    <string name="dialog_get_pro_msg">Diese Funktion schaltest du frei, indem du die Vollversion erwirbst.</string>
     <string name="share_app_intro_text">Hey, schau\' dir diese App an</string>
     <string name="dialog_promo_success_msg">Your app is unlocked now. Have a nice day!</string>
     <string name="pref_title_rate_app">App bewerten</string>

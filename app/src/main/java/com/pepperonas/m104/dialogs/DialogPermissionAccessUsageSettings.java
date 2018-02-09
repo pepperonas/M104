@@ -16,12 +16,15 @@
 
 package com.pepperonas.m104.dialogs;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.provider.Settings;
 
+import com.mikepenz.community_material_typeface_library.CommunityMaterial;
+import com.mikepenz.iconics.IconicsDrawable;
 import com.pepperonas.andbasx.base.ToastUtils;
+import com.pepperonas.m104.MainActivity;
 import com.pepperonas.m104.R;
+import com.pepperonas.m104.config.Const;
 import com.pepperonas.materialdialog.MaterialDialog;
 
 /**
@@ -33,10 +36,12 @@ public class DialogPermissionAccessUsageSettings {
     @SuppressWarnings("unused")
     private static final String TAG = "DialogPermissionAccessUsageSettings";
 
-    public DialogPermissionAccessUsageSettings(final Activity activity) {
-        new MaterialDialog.Builder(activity)
-                .icon(R.drawable.ic_launcher)
-                .title(activity.getString(R.string.dialog_set_permission_title))
+    public DialogPermissionAccessUsageSettings(final MainActivity mainActivity) {
+        new MaterialDialog.Builder(mainActivity)
+                .icon(new IconicsDrawable(mainActivity, CommunityMaterial.Icon.cmd_lock)
+                        .colorRes(R.color.dialog_icon)
+                        .sizeDp(Const.NAV_DRAWER_ICON_SIZE))
+                .title(mainActivity.getString(R.string.dialog_set_permission_title))
                 .message(R.string.dialog_set_permission_access_usage_settings)
                 .positiveText(R.string.ok)
                 .negativeText(R.string.cancel)
@@ -46,8 +51,10 @@ public class DialogPermissionAccessUsageSettings {
                         super.onPositive(dialog);
                         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
                             Intent intent = new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS);
-                            activity.startActivity(intent);
+                            mainActivity.startActivity(intent);
+                            mainActivity.setResumeWithNetworkFragment(true);
                         } else {
+                            mainActivity.setResumeWithNetworkFragment(true);
                             ToastUtils.toastLong(R.string.android_version_incompatible);
                         }
                     }

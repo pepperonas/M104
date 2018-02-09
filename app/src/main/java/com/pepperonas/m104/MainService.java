@@ -25,7 +25,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.TrafficStats;
 import android.os.BatteryManager;
-import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
@@ -406,27 +405,28 @@ public class MainService extends Service {
             mTmpLastRxMobile = TrafficStats.getMobileRxBytes();
             mTmpLastTxMobile = TrafficStats.getMobileTxBytes();
 
-            mNotificationNetwork.update(TrafficStats.getTotalRxBytes(), TrafficStats.getTotalTxBytes(),
-                    TrafficStats.getMobileRxBytes(), TrafficStats.getMobileTxBytes(), rx_ivl,
-                    tx_ivl, SystemUtils.getNetworkType());
 
             /*
               Required for {@link NetworkDialogActivity#loadHistoryChart} - currently not
               processed.
               */
             try {
+                mNotificationNetwork.update(TrafficStats.getTotalRxBytes(), TrafficStats.getTotalTxBytes(),
+                        TrafficStats.getMobileRxBytes(), TrafficStats.getMobileTxBytes(), rx_ivl,
+                        tx_ivl, SystemUtils.getNetworkType());
+
                 mDb.addNetworkStat(System.currentTimeMillis(), rx_ivl, tx_ivl, rxm_ivl, txm_ivl, "x");
+
+                //                if (!AesPrefs.getBooleanRes(R.string.SHOW_NETWORK_NOTIFICATION, true)) {
+                //                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                //                        stopForeground(true);
+                //                    }
+                //                }
             } catch (Exception e) {
                 Log.e(TAG, "Writing in database failed.");
+            } finally {
+                mHandler.postDelayed(mRunnableNetworkCheck, (long) (uprateInSeconds * 1000));
             }
-
-            if (!AesPrefs.getBooleanRes(R.string.SHOW_NETWORK_NOTIFICATION, true)) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                    stopForeground(true);
-                }
-            }
-
-            mHandler.postDelayed(mRunnableNetworkCheck, (long) (uprateInSeconds * 1000));
         }
     };
 
@@ -440,11 +440,6 @@ public class MainService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-
-        if (!AesPrefs.getBooleanRes(R.string.IS_PREMIUM, false) && AesPrefs.getBooleanRes(R.string.TEST_PHASE_EXPIRED, false)) {
-            stopSelf();
-            return;
-        }
 
         Log.d(TAG, "onCreate " + "");
 
@@ -467,6 +462,9 @@ public class MainService extends Service {
             startForeground(Const.NOTIFICATION_BATTERY, mNotificationBattery.getNotification());
             startForeground(Const.NOTIFICATION_CLIPBOARD, mNotificationClipboard.getNotification());
             startForeground(Const.NOTIFICATION_NETWORK, mNotificationNetwork.getNotification());
+        }
+        if (mNotificationClipboard != null) {
+            mNotificationClipboard.update(mDb.getClipDataCount());
         }
     }
 

@@ -22,6 +22,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.Preference;
+import android.preference.PreferenceCategory;
 import android.preference.PreferenceGroup;
 import android.view.View;
 
@@ -40,7 +41,8 @@ import com.pepperonas.m104.config.Const;
 import com.pepperonas.m104.dialogs.DialogAnalyticsInfo;
 import com.pepperonas.m104.dialogs.DialogChangelog;
 import com.pepperonas.m104.dialogs.DialogDecryptDatabase;
-import com.pepperonas.m104.dialogs.DialogDeleteDatabase;
+import com.pepperonas.m104.dialogs.DialogDeleteClipboardData;
+import com.pepperonas.m104.dialogs.DialogGetPro;
 import com.pepperonas.m104.dialogs.DialogLicense;
 import com.pepperonas.m104.dialogs.DialogSetPassword;
 import com.pepperonas.m104.notification.NotificationBattery;
@@ -113,6 +115,39 @@ public class FragmentSettings extends com.github.machinarius.preferencefragment.
         //        initAnalytics();
 
         updateSummaries();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        lockIfNotPremium();
+    }
+
+    private void lockIfNotPremium() {
+        if (!AesPrefs.getBooleanRes(R.string.IS_PREMIUM, false)) {
+            final PreferenceCategory prefCatNotifications = (PreferenceCategory) findPreference(getString(R.string.PREF_CAT_NOTIFICATIONS));
+            prefCatNotifications.setTitle(getString(R.string.pref_cat_notifications) + " " + getString(R.string.pro_feature));
+
+            final PreferenceCategory prefCatClipboard = (PreferenceCategory) findPreference(getString(R.string.PREF_CAT_CLIPBOARD));
+            prefCatClipboard.setTitle(getString(R.string.pref_cat_clipboard) + " " + getString(R.string.pro_feature));
+
+            Preference.OnPreferenceClickListener onPreferenceClickListenerGetPro = new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    new DialogGetPro((MainActivity) getActivity());
+                    ((CheckBoxPreference) prefCatNotifications.getPreference(0)).setChecked(false);
+                    ((CheckBoxPreference) prefCatNotifications.getPreference(1)).setChecked(false);
+                    ((CheckBoxPreference) prefCatClipboard.getPreference(0)).setChecked(false);
+                    return false;
+                }
+            };
+
+            prefCatNotifications.getPreference(0).setOnPreferenceClickListener(onPreferenceClickListenerGetPro);
+            prefCatNotifications.getPreference(1).setOnPreferenceClickListener(onPreferenceClickListenerGetPro);
+            prefCatClipboard.getPreference(0).setOnPreferenceClickListener(onPreferenceClickListenerGetPro);
+            prefCatClipboard.getPreference(1).setOnPreferenceClickListener(onPreferenceClickListenerGetPro);
+        }
     }
 
     @Override
@@ -321,7 +356,7 @@ public class FragmentSettings extends com.github.machinarius.preferencefragment.
      * On click delete clipboard database.
      */
     private void onClickDeleteClipboardDatabase() {
-        new DialogDeleteDatabase(getActivity());
+        new DialogDeleteClipboardData(getActivity());
     }
 
     //    /**

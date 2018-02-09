@@ -45,24 +45,18 @@ import android.view.MenuItem;
 import android.view.MenuItem.OnMenuItemClickListener;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
 import com.pepperonas.aespreferences.AesPrefs;
 import com.pepperonas.andbasx.base.Loader;
 import com.pepperonas.andbasx.base.ToastUtils;
-import com.pepperonas.andbasx.concurrency.ThreadUtils;
 import com.pepperonas.andbasx.system.SystemUtils;
-import com.pepperonas.appregistry.AppRegistry;
-import com.pepperonas.appregistry.OnRegisterResultListener;
 import com.pepperonas.jbasx.log.Log;
 import com.pepperonas.m104.config.Const;
 import com.pepperonas.m104.dialogs.DialogAbout;
 import com.pepperonas.m104.dialogs.DialogPermissionAccessUsageSettings;
 import com.pepperonas.m104.dialogs.DialogPermissionReadPhoneState;
-import com.pepperonas.m104.dialogs.DialogPremiumSuccess;
-import com.pepperonas.m104.dialogs.DialogTestPhaseExpired;
 import com.pepperonas.m104.fragments.FragmentBatteryStats;
 import com.pepperonas.m104.fragments.FragmentNetworkStats;
 import com.pepperonas.m104.fragments.FragmentRoot;
@@ -73,8 +67,6 @@ import com.pepperonas.m104.notification.NotificationBattery;
 import com.pepperonas.m104.notification.NotificationClipboard;
 import com.pepperonas.m104.notification.NotificationNetwork;
 import com.pepperonas.m104.utils.StringFactory;
-
-import java.util.concurrent.Callable;
 
 import static com.pepperonas.andbasx.AndBasx.getContext;
 
@@ -108,6 +100,9 @@ public class MainActivity extends AppCompatActivity {
 
     @SuppressWarnings("FieldCanBeLocal")
     private int mBtyPlugged, mBtyStatus;
+
+    private MenuItem mItemNetwork;
+    private boolean mResumeWithNetworkFragment = false;
 
     //    private Tracker mTracker;
 
@@ -148,6 +143,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         checkForKey();
+        applyPremiumState();
         initToolbar();
         initNavView(savedInstanceState == null);
         initNavDrawer();
@@ -164,61 +160,13 @@ public class MainActivity extends AppCompatActivity {
 
         Log.d(TAG, "onCreate " + "androidId: " + androidId);
 
-        new AppRegistry.Builder(this, "pepperonas", getPackageName(), androidId)
-                .setOnRegisterUserListener(new OnRegisterResultListener() {
-                    @Override
-                    public void onUserRegistered(@NonNull String s) {
-                        Log.d(TAG, "onUserRegistered " + s);
-                    }
-
-                    @Override
-                    public void onUserExists(@NonNull String s, Long regDate, String extraString, final Integer extraInt) {
-                        Log.d(TAG, "onUserExists: registered since: "
-                                + (System.currentTimeMillis() - regDate) / (1000 * 60) + " min.");
-                        if ((System.currentTimeMillis() > (regDate + (1000 * 60 * 60 * 24
-                                * Const.TEST_PERIOD_IN_DAYS))) && regDate != 0) {
-                            Log.d(TAG, "onUserExists test phase (" + Const.TEST_PERIOD_IN_DAYS + " days) expired.");
-
-                            AesPrefs.putBooleanRes(R.string.TEST_PHASE_EXPIRED, true);
-
-                            if (extraInt == 111) {
-                                if (!AesPrefs.getBooleanRes(R.string.IS_PREMIUM, false)) {
-                                    AesPrefs.putBooleanRes(R.string.IS_PREMIUM, true);
-                                    ThreadUtils.runFromBackground(new Callable<Void>() {
-                                        @Override
-                                        public Void call() {
-                                            if (AesPrefs.getBooleanRes(R.string.SHOW_DIALOG_SUCCESS, true)) {
-                                                new DialogPremiumSuccess(MainActivity.this);
-                                            }
-                                            return null;
-                                        }
-                                    });
-                                    return;
-                                }
-                            }
-                            if (!AesPrefs.getBooleanRes(R.string.IS_PREMIUM, false)
-                                    && AesPrefs.getBooleanRes(R.string.TEST_PHASE_EXPIRED, false)) {
-                                ThreadUtils.runFromBackground(new Callable<Void>() {
-                                    @Override
-                                    public Void call() {
-                                        new DialogTestPhaseExpired(MainActivity.this);
-                                        return null;
-                                    }
-                                });
-                            }
-                        } else {
-                            Log.d(TAG, "onUserExists test phase will expire in " +
-                                    (float) (regDate + (1000 * 60 * 60 * 24 * Const.TEST_PERIOD_IN_DAYS)
-                                            - (System.currentTimeMillis())) / (float) (1000 * 60 * 60 * 24) + " days.");
-                        }
-                    }
-
-                    @Override
-                    public void onFailed(@NonNull AppRegistry.StatusCode statusCode, int i, String s) {
-                        Log.d(TAG, "onFailed " + statusCode.name() + ", " + i + ", " + s);
-                    }
-                }).send();
-
+        if (getIntent() != null && getIntent().getStringExtra("start_fragment") != null) {
+            String startFragment = getIntent().getStringExtra("start_fragment");
+            getIntent().removeExtra("start_fragment");
+            if (startFragment.equals(NotificationNetwork.EXTRA_START_NETWORK)) {
+                selectNavViewItem(mItemNetwork);
+            }
+        }
         //        initAnalytics();
     }
 
@@ -227,9 +175,9 @@ public class MainActivity extends AppCompatActivity {
         switch (requestCode) {
             case REQUEST_PERMISSION_PHONE_STATE:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Toast.makeText(MainActivity.this, "Permission Granted!", Toast.LENGTH_SHORT).show();
+                    Log.i(TAG, "onRequestPermissionsResult: Permission Granted!");
                 } else {
-                    Toast.makeText(MainActivity.this, "Permission Denied!", Toast.LENGTH_SHORT).show();
+                    Log.i(TAG, "onRequestPermissionsResult: Permission Denied!");
                 }
         }
     }
@@ -248,7 +196,7 @@ public class MainActivity extends AppCompatActivity {
                 makeFragmentTransaction(FragmentBatteryStats.newInstance(0));
             }
             if (startFragment.equals(NotificationNetwork.EXTRA_START_NETWORK)) {
-                makeFragmentTransaction(FragmentNetworkStats.newInstance(1));
+                selectNavViewItem(mItemNetwork);
             }
             if (startFragment.equals(NotificationClipboard.EXTRA_START_CLIPBOARD)) {
                 makeFragmentTransaction(FragmentBatteryStats.newInstance(0));
@@ -277,6 +225,14 @@ public class MainActivity extends AppCompatActivity {
         }
 
         registerReceiver(mMainServiceReceiver, new IntentFilter(MainService.BROADCAST_BATTERY_INFO));
+
+        ensureResumeNetworkFragment();
+    }
+
+    private void ensureResumeNetworkFragment() {
+        if (mResumeWithNetworkFragment) {
+            selectNavViewItem(mItemNetwork);
+        }
     }
 
     @Override
@@ -318,13 +274,18 @@ public class MainActivity extends AppCompatActivity {
      */
     private void checkForKey() {
         Log.i(TAG, "Checking key...");
-        //        if (AesPrefs.getBooleanRes(R.string.IS_PREMIUM, false)) return;
-
         PackageManager manager = getPackageManager();
         if (manager.checkSignatures("com.pepperonas.m104", "com.pepperonas.m104.key") == PackageManager.SIGNATURE_MATCH) {
             AesPrefs.putBooleanRes(R.string.IS_PREMIUM, true);
         } else {
             AesPrefs.putBooleanRes(R.string.IS_PREMIUM, false);
+        }
+    }
+
+    private void applyPremiumState() {
+        if (!AesPrefs.getBooleanRes(R.string.IS_PREMIUM, false)) {
+            AesPrefs.putBooleanRes(R.string.SHOW_BATTERY_NOTIFICATION, false);
+            AesPrefs.putBooleanRes(R.string.SHOW_CLIPBOARD_NOTIFICATION, false);
         }
     }
 
@@ -369,10 +330,10 @@ public class MainActivity extends AppCompatActivity {
     private void initNavDrawerIcons() {
         // first sub menu
         MenuItem itemBattery = mNavView.getMenu().getItem(0).getSubMenu().getItem(0);
-        MenuItem itemNetwork = mNavView.getMenu().getItem(0).getSubMenu().getItem(1);
+        mItemNetwork = mNavView.getMenu().getItem(0).getSubMenu().getItem(1);
         itemBattery.setIcon(new IconicsDrawable(this, GoogleMaterial.Icon.gmd_battery_std).colorRes(R.color.sa_teal)
                 .sizeDp(Const.NAV_DRAWER_ICON_SIZE));
-        itemNetwork.setIcon(new IconicsDrawable(this, GoogleMaterial.Icon.gmd_network_wifi)
+        mItemNetwork.setIcon(new IconicsDrawable(this, GoogleMaterial.Icon.gmd_network_wifi)
                 .colorRes(R.color.sa_teal).sizeDp(Const.NAV_DRAWER_ICON_SIZE));
 
         // second sub menu
@@ -409,7 +370,7 @@ public class MainActivity extends AppCompatActivity {
             }
         };
 
-        mDrawerLayout.setDrawerListener(actionBarDrawerToggle);
+        mDrawerLayout.addDrawerListener(actionBarDrawerToggle);
 
         // updating Drawer's state
         actionBarDrawerToggle.syncState();
@@ -452,11 +413,9 @@ public class MainActivity extends AppCompatActivity {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                         AppOpsManager appOps = (AppOpsManager) this.getSystemService(Context.APP_OPS_SERVICE);
                         if (appOps != null) {
-                            mode = appOps.checkOpNoThrow(AppOpsManager.OPSTR_GET_USAGE_STATS,
-                                    Process.myUid(), getPackageName());
+                            mode = appOps.checkOpNoThrow(AppOpsManager.OPSTR_GET_USAGE_STATS, Process.myUid(), getPackageName());
                         }
                         if (mode == AppOpsManager.MODE_ALLOWED) {
-                            //                            Log.i(TAG, "onCreateView: permission set");
                             makeFragmentTransaction(FragmentNetworkStats.newInstance(1));
                         } else {
                             new DialogPermissionAccessUsageSettings(this);
@@ -619,4 +578,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public void setResumeWithNetworkFragment(boolean resumeWithNetworkFragment) {
+        mResumeWithNetworkFragment = resumeWithNetworkFragment;
+    }
 }

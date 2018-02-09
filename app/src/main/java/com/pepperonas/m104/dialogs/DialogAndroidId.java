@@ -23,8 +23,11 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
 
+import com.mikepenz.community_material_typeface_library.CommunityMaterial;
+import com.mikepenz.iconics.IconicsDrawable;
 import com.pepperonas.andbasx.system.SystemUtils;
 import com.pepperonas.m104.R;
+import com.pepperonas.m104.config.Const;
 import com.pepperonas.materialdialog.MaterialDialog;
 
 /**
@@ -37,28 +40,35 @@ class DialogAndroidId {
         new MaterialDialog.Builder(context)
                 .title(context.getString(R.string.dialog_android_id_title))
                 .message(context.getString(R.string.dialog_android_id_msg))
-                .customView(R.layout.dialog_android_id).showListener(new MaterialDialog.ShowListener() {
-            @Override
-            public void onShow(final AlertDialog dialog) {
-                super.onShow(dialog);
-                TextView tvAndroidId = dialog
-                        .findViewById(R.id.tv_dialog_android_id_id_info);
-                tvAndroidId.setText(SystemUtils.getAndroidId());
-                tvAndroidId.setClickable(true);
-                tvAndroidId.setOnClickListener(new OnClickListener() {
+                .icon(new IconicsDrawable(context, CommunityMaterial.Icon.cmd_information)
+                        .colorRes(R.color.dialog_icon)
+                        .sizeDp(Const.NAV_DRAWER_ICON_SIZE))
+                .customView(R.layout.dialog_android_id)
+                .showListener(new MaterialDialog.ShowListener() {
                     @Override
-                    public void onClick(View v) {
-                        sendKey(context, SystemUtils.getAndroidId());
-                        dialog.dismiss();
+                    public void onShow(final AlertDialog dialog) {
+                        super.onShow(dialog);
+                        TextView tvAndroidId = dialog
+                                .findViewById(R.id.tv_dialog_android_id_id_info);
+                        tvAndroidId.setText(SystemUtils.getAndroidId());
+                        tvAndroidId.setClickable(true);
+                        tvAndroidId.setOnClickListener(new OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                sendKey(context, SystemUtils.getAndroidId());
+                                dialog.dismiss();
+                            }
+                        });
                     }
-                });
-            }
-        }).dismissListener(new MaterialDialog.DismissListener() {
-            @Override
-            public void onDismiss() {
-                super.onDismiss();
-            }
-        }).canceledOnTouchOutside(false).show();
+                })
+                .dismissListener(new MaterialDialog.DismissListener() {
+                    @Override
+                    public void onDismiss() {
+                        super.onDismiss();
+                    }
+                })
+                .canceledOnTouchOutside(false)
+                .show();
     }
 
     private void sendKey(Context ctx, String key) {

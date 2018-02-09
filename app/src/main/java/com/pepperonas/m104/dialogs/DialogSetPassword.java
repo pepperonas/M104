@@ -20,10 +20,13 @@ import android.content.Context;
 import android.preference.CheckBoxPreference;
 import android.widget.EditText;
 
+import com.mikepenz.community_material_typeface_library.CommunityMaterial;
+import com.mikepenz.iconics.IconicsDrawable;
 import com.pepperonas.aespreferences.AesPrefs;
 import com.pepperonas.andbasx.base.ToastUtils;
 import com.pepperonas.jbasx.base.TextUtils;
 import com.pepperonas.m104.R;
+import com.pepperonas.m104.config.Const;
 import com.pepperonas.m104.model.Database;
 import com.pepperonas.materialdialog.MaterialDialog;
 
@@ -40,6 +43,9 @@ public class DialogSetPassword {
         new MaterialDialog.Builder(ctx).customView(R.layout.dialog_set_password)
                 .title(ctx.getString(R.string.dialog_set_password_title))
                 .message(ctx.getString(R.string.dialog_set_password_msg))
+                .icon(new IconicsDrawable(ctx, CommunityMaterial.Icon.cmd_key_variant)
+                        .colorRes(R.color.dialog_icon)
+                        .sizeDp(Const.NAV_DRAWER_ICON_SIZE))
                 .positiveText(ctx.getString(R.string.ok)).negativeText(ctx.getString(R.string.cancel))
                 .buttonCallback(new MaterialDialog.ButtonCallback() {
                     @Override
@@ -65,7 +71,8 @@ public class DialogSetPassword {
                         cbxEncrypt.setChecked(false);
                         AesPrefs.putBooleanRes(R.string.ENCRYPT_CLIPBOARD, false);
                     }
-                }).show();
+                })
+                .show();
     }
 
 }

@@ -23,11 +23,13 @@ import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.mikepenz.community_material_typeface_library.CommunityMaterial;
+import com.mikepenz.iconics.IconicsDrawable;
 import com.pepperonas.aespreferences.AesPrefs;
 import com.pepperonas.andbasx.base.ToastUtils;
 import com.pepperonas.jbasx.base.TextUtils;
 import com.pepperonas.m104.R;
-import com.pepperonas.m104.model.Database;
+import com.pepperonas.m104.config.Const;
 import com.pepperonas.m104.notification.ClipboardDialogActivity;
 import com.pepperonas.materialdialog.MaterialDialog;
 
@@ -39,12 +41,16 @@ import java.text.MessageFormat;
  */
 public class DialogEnterPassword {
 
-    public DialogEnterPassword(final ClipboardDialogActivity cda, final Database db) {
+    public DialogEnterPassword(final ClipboardDialogActivity cda) {
         new MaterialDialog.Builder(cda, R.style.AppTheme_Dialog_EnterPassword)
-                .customView(R.layout.dialog_enter_password)
                 .title(cda.getString(R.string.dialog_enter_password_title))
                 .message(cda.getString(R.string.dialog_enter_password_msg))
-                .positiveText(cda.getString(R.string.ok)).negativeText(cda.getString(R.string.cancel))
+                .icon(new IconicsDrawable(cda, CommunityMaterial.Icon.cmd_key_variant)
+                        .colorRes(R.color.dialog_icon)
+                        .sizeDp(Const.NAV_DRAWER_ICON_SIZE))
+                .customView(R.layout.dialog_enter_password)
+                .positiveText(cda.getString(R.string.ok))
+                .negativeText(cda.getString(R.string.cancel))
                 .buttonCallback(new MaterialDialog.ButtonCallback() {
                     @Override
                     public void onPositive(MaterialDialog dialog) {
@@ -80,72 +86,74 @@ public class DialogEnterPassword {
                         super.onNegative(dialog);
 
                     }
-                }).showListener(new MaterialDialog.ShowListener() {
-            @Override
-            public void onShow(AlertDialog dialog) {
-                super.onShow(dialog);
-
-                final String[] items = new String[]{"1 " + cda.getString(R.string.minute),
-                        "5 " + cda.getString(R.string.minutes), "15 " + cda.getString(R.string.minutes),
-                        "30 " + cda.getString(R.string.minutes),
-                        "60 " + cda.getString(R.string.minutes)};
-
-                final TextView tvInfo = dialog.findViewById(R.id.tv_password_expiration_time);
-                final SeekBar sb = dialog.findViewById(R.id.seekBar);
-                sb.setEnabled(false);
-                sb.setProgress(AesPrefs.getIntRes(R.string.LAST_PROGRESS_LOCK_TIME, 85));
-
-                tvInfo.setEnabled(false);
-                tvInfo.setText("");
-
-                sb.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                })
+                .showListener(new MaterialDialog.ShowListener() {
                     @Override
-                    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                        int pos = getPos(progress);
-                        tvInfo.setText(MessageFormat.format("{0} {1}",
-                                cda.getString(R.string.seekbar_prompt_password_expiration_time),
-                                items[pos]));
+                    public void onShow(AlertDialog dialog) {
+                        super.onShow(dialog);
+
+                        final String[] items = new String[]{"1 " + cda.getString(R.string.minute),
+                                "5 " + cda.getString(R.string.minutes), "15 " + cda.getString(R.string.minutes),
+                                "30 " + cda.getString(R.string.minutes),
+                                "60 " + cda.getString(R.string.minutes)};
+
+                        final TextView tvInfo = dialog.findViewById(R.id.tv_password_expiration_time);
+                        final SeekBar sb = dialog.findViewById(R.id.seekBar);
+                        sb.setEnabled(false);
+                        sb.setProgress(AesPrefs.getIntRes(R.string.LAST_PROGRESS_LOCK_TIME, 85));
+
+                        tvInfo.setEnabled(false);
+                        tvInfo.setText("");
+
+                        sb.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                            @Override
+                            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                                int pos = getPos(progress);
+                                tvInfo.setText(MessageFormat.format("{0} {1}",
+                                        cda.getString(R.string.seekbar_prompt_password_expiration_time),
+                                        items[pos]));
+                            }
+
+                            @Override
+                            public void onStartTrackingTouch(SeekBar seekBar) {
+
+                            }
+
+                            @Override
+                            public void onStopTrackingTouch(SeekBar seekBar) {
+
+                            }
+                        });
+
+                        ((EditText) dialog.findViewById(R.id.et_enter_password)).addTextChangedListener(new TextWatcher() {
+                            @Override
+                            public void onTextChanged(CharSequence s, int start, int before,
+                                                      int count) {
+                                sb.setEnabled(count != 0);
+                                String text;
+                                if (count != 0) {
+                                    text = MessageFormat.format("{0} {1}",
+                                            cda.getString(R.string.seekbar_prompt_password_expiration_time),
+                                            items[getPos(sb.getProgress())]);
+                                } else {
+                                    text = "";
+                                }
+                                tvInfo.setText(text);
+                            }
+
+                            @Override
+                            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                            }
+
+                            @Override
+                            public void afterTextChanged(Editable s) {
+
+                            }
+
+                        });
                     }
-
-                    @Override
-                    public void onStartTrackingTouch(SeekBar seekBar) {
-
-                    }
-
-                    @Override
-                    public void onStopTrackingTouch(SeekBar seekBar) {
-
-                    }
-                });
-
-                ((EditText) dialog.findViewById(R.id.et_enter_password)).addTextChangedListener(new TextWatcher() {
-                    @Override
-                    public void onTextChanged(CharSequence s, int start, int before,
-                                              int count) {
-                        sb.setEnabled(count != 0);
-                        String text;
-                        if (count != 0) {
-                            text = MessageFormat.format("{0} {1}",
-                                    cda.getString(R.string.seekbar_prompt_password_expiration_time),
-                                    items[getPos(sb.getProgress())]);
-                        } else {
-                            text = "";
-                        }
-                        tvInfo.setText(text);
-                    }
-
-                    @Override
-                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                    }
-
-                    @Override
-                    public void afterTextChanged(Editable s) {
-
-                    }
-
-                });
-            }
-        }).show();
+                })
+                .show();
     }
 
     private int getPos(int progress) {

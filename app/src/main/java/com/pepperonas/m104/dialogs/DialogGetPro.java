@@ -16,13 +16,16 @@
 
 package com.pepperonas.m104.dialogs;
 
-import android.Manifest;
 import android.app.Activity;
-import android.support.v4.app.ActivityCompat;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
+import android.view.View;
+import android.view.View.OnLongClickListener;
 
 import com.mikepenz.community_material_typeface_library.CommunityMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
-import com.pepperonas.m104.MainActivity;
 import com.pepperonas.m104.R;
 import com.pepperonas.m104.config.Const;
 import com.pepperonas.materialdialog.MaterialDialog;
@@ -31,26 +34,36 @@ import com.pepperonas.materialdialog.MaterialDialog;
  * @author Martin Pfeffer (celox.io)
  * @see <a href="mailto:martin.pfeffer@celox.io">martin.pfeffer@celox.io</a>
  */
-public class DialogPermissionReadPhoneState {
+public class DialogGetPro {
 
-    @SuppressWarnings("unused")
-    private static final String TAG = "DialogPermissionReadPhoneState";
-
-    public DialogPermissionReadPhoneState(final Activity activity) {
+    public DialogGetPro(final Activity activity) {
         new MaterialDialog.Builder(activity)
-                .icon(R.drawable.ic_launcher)
-                .title(activity.getString(R.string.dialog_set_permission_title))
-                .message(R.string.set_permission_read_phone_state_info)
-                .icon(new IconicsDrawable(activity, CommunityMaterial.Icon.cmd_access_point)
+                .title(activity.getString(R.string.dialog_get_pro_title))
+                .message(activity.getString(R.string.dialog_get_pro_msg))
+                .icon(new IconicsDrawable(activity, CommunityMaterial.Icon.cmd_coin)
                         .colorRes(R.color.dialog_icon)
                         .sizeDp(Const.NAV_DRAWER_ICON_SIZE))
-                .positiveText(R.string.ok)
-                .negativeText(R.string.cancel)
+                .positiveText(activity.getString(R.string.ok))
+                .negativeText(activity.getString(R.string.cancel))
+                .showListener(new MaterialDialog.ShowListener() {
+                    @Override
+                    public void onShow(AlertDialog dialog) {
+                        super.onShow(dialog);
+                        dialog.getButton(DialogInterface.BUTTON_NEGATIVE).setOnLongClickListener(new OnLongClickListener() {
+                            @Override
+                            public boolean onLongClick(View v) {
+                                new DialogAndroidId(activity);
+                                return false;
+                            }
+                        });
+                    }
+                })
                 .buttonCallback(new MaterialDialog.ButtonCallback() {
                     @Override
                     public void onPositive(MaterialDialog dialog) {
                         super.onPositive(dialog);
-                        ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.READ_PHONE_STATE}, MainActivity.REQUEST_PERMISSION_PHONE_STATE);
+                        activity.startActivity(new Intent("android.intent.action.VIEW",
+                                Uri.parse("http://play.google" + ".com/store/apps/details?id=com.pepperonas.m104.key")));
                     }
                 })
                 .show();

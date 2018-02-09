@@ -60,4 +60,6 @@
     <color name="primary_text_default_material_dark">#ffffff</color>
     <color name="chart_background">@color/white</color>
 
+    <color name="dialog_icon">@color/grey_900</color>
+
 </resources>

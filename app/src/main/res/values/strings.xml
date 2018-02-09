@@ -141,6 +141,7 @@
     <string name="since_boot">Since boot</string>
     <string name="since_installation">Since installation</string>
     <string name="clipboard">Clipboard</string>
+    <string name="pref_cat_notifications">Notifications</string>
     <string name="pref_cat_clipboard">Clipboard</string>
     <string name="pref_cat_others">Others</string>
     <string name="dialog_set_password_title">Set password</string>
@@ -156,10 +157,10 @@
     <string name="chart_desc_level">Level</string>
     <string name="unplugged_since">Unplugged since</string>
     <string name="entry">entry</string>
-    <string name="dialog_delete_database_title">Are you sure?</string>
-    <string name="dialog_delete_database_msg">Wiping the clipboard will delete all entries.</string>
+    <string name="dialog_delete_database_title">Wipe clipboard</string>
+    <string name="dialog_delete_database_msg">This will delete your clipboard history.</string>
     <string name="to_clipboard_wiped">Clipboard wiped</string>
-    <string name="dialog_license_title">License</string>
+    <string name="dialog_license_title">Licenses</string>
     <string name="changelog">Changelog</string>
 
     <string name="discharging_message">%1$s last</string>
@@ -167,8 +168,8 @@
     <string name="health_format">Health: %1$s</string>
     <string name="clipboard_decrypted">Clipboard decrypted</string>
     <string name="wrong_password">Wrong password</string>
-    <string name="dialog_test_phase_expired_title">Test phase expired</string>
-    <string name="dialog_test_phase_expired_msg">This app doesn\'t show ads, please consider to upgrade to Pro.</string>
+    <string name="dialog_get_pro_title">Feature is locked</string>
+    <string name="dialog_get_pro_msg">Please consider to upgrade and get the pro version.</string>
     <string name="dialog_android_id_title">Unlock request</string>
     <string name="dialog_promo_success_title">SUCCESS</string>
     <string name="dialog_promo_success_msg">Your app is unlocked now. Have a nice day!</string>
@@ -212,5 +213,6 @@
     <string name="set_permission_read_phone_state_info">Set permission \'Read phone state\' to get information about your apps\' network usage.</string>
     <string name="dialog_set_permission_access_usage_settings">Allow \'M104\' to read usage settings.</string>
     <string name="android_version_incompatible">Incompatible Android version</string>
+    <string name="pro_feature">(PRO)</string>
 
 </resources>

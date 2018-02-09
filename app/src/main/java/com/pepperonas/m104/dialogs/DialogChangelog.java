@@ -18,7 +18,10 @@ package com.pepperonas.m104.dialogs;
 
 import android.content.Context;
 
+import com.mikepenz.community_material_typeface_library.CommunityMaterial;
+import com.mikepenz.iconics.IconicsDrawable;
 import com.pepperonas.m104.R;
+import com.pepperonas.m104.config.Const;
 import com.pepperonas.materialdialog.MaterialDialog;
 import com.pepperonas.materialdialog.model.Changelog;
 import com.pepperonas.materialdialog.model.ReleaseInfo;
@@ -36,7 +39,11 @@ public class DialogChangelog {
     private static final String TAG = "DialogChangelog";
 
     public DialogChangelog(Context context) {
-        new MaterialDialog.Builder(context).title("Changelog")
+        new MaterialDialog.Builder(context)
+                .title("Changelog")
+                .icon(new IconicsDrawable(context, CommunityMaterial.Icon.cmd_file_document)
+                        .colorRes(R.color.dialog_icon)
+                        .sizeDp(Const.NAV_DRAWER_ICON_SIZE))
                 .changelogDialog(getChangelogs(), context.getString(R.string.bullet_release_info))
                 .positiveText(R.string.ok)
                 .show();
@@ -46,7 +53,13 @@ public class DialogChangelog {
         List<Changelog> changes = new ArrayList<>();
 
         changes.add(new Changelog("0.3.7-beta", "2018-02-09", new ReleaseInfo(
-                "Network notification is always up")));
+                "Network notification is always shown",
+                "Battery and clipboard manager are locked in free version",
+                "Reorganized preference layout",
+                "Added icons in dialogs",
+                "Fixed notification",
+                "Corrected spelling",
+                "Removed online key validation")));
 
         changes.add(new Changelog("0.3.6-beta", "2018-02-08", new ReleaseInfo(
                 "Improved notifications (Android O)",

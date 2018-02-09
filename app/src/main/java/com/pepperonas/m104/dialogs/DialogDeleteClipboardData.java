@@ -18,21 +18,27 @@ package com.pepperonas.m104.dialogs;
 
 import android.app.Activity;
 
+import com.mikepenz.community_material_typeface_library.CommunityMaterial;
+import com.mikepenz.iconics.IconicsDrawable;
 import com.pepperonas.andbasx.base.ToastUtils;
 import com.pepperonas.m104.MainActivity;
 import com.pepperonas.m104.R;
+import com.pepperonas.m104.config.Const;
 import com.pepperonas.materialdialog.MaterialDialog;
 
 /**
  * @author Martin Pfeffer (celox.io)
  * @see <a href="mailto:martin.pfeffer@celox.io">martin.pfeffer@celox.io</a>
  */
-public class DialogDeleteDatabase {
+public class DialogDeleteClipboardData {
 
-    public DialogDeleteDatabase(final Activity activity) {
+    public DialogDeleteClipboardData(final Activity activity) {
         new MaterialDialog.Builder(activity)
                 .title(activity.getString(R.string.dialog_delete_database_title))
                 .message(activity.getString(R.string.dialog_delete_database_msg))
+                .icon(new IconicsDrawable(activity, CommunityMaterial.Icon.cmd_lock_reset)
+                        .colorRes(R.color.dialog_icon)
+                        .sizeDp(Const.NAV_DRAWER_ICON_SIZE))
                 .positiveText(activity.getString(R.string.ok))
                 .negativeText(activity.getString(R.string.cancel))
                 .buttonCallback(new MaterialDialog.ButtonCallback() {
@@ -42,11 +48,7 @@ public class DialogDeleteDatabase {
                         ((MainActivity) activity).getDatabase().deleteAllClips();
                         ToastUtils.toastShort(activity.getString(R.string.to_clipboard_wiped));
                     }
-
-                    @Override
-                    public void onNegative(MaterialDialog dialog) {
-                        super.onNegative(dialog);
-                    }
-                }).show();
+                })
+                .show();
     }
 }

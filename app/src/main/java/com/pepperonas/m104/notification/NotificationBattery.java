@@ -69,7 +69,6 @@ public class NotificationBattery {
                 .setChannelId(CHANNEL_ID)
                 .setOnlyAlertOnce(true)
                 .setPriority(NotificationCompat.PRIORITY_MAX)
-                //                .setShowWhen(true)
                 .setWhen(System.currentTimeMillis() + 500)
                 .setGroup(GROUP)
                 .setOngoing(true);

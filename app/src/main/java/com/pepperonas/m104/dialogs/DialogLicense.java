@@ -19,7 +19,10 @@ package com.pepperonas.m104.dialogs;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
+import com.mikepenz.community_material_typeface_library.CommunityMaterial;
+import com.mikepenz.iconics.IconicsDrawable;
 import com.pepperonas.m104.R;
+import com.pepperonas.m104.config.Const;
 import com.pepperonas.materialdialog.MaterialDialog;
 import com.pepperonas.materialdialog.model.LicenseInfo;
 
@@ -35,8 +38,14 @@ public class DialogLicense {
     public DialogLicense(Context context) {
         List<LicenseInfo> licenseInfos = getLicenseInfos();
 
-        new MaterialDialog.Builder(context).title(R.string.dialog_license_title)
-                .licenseDialog(licenseInfos).positiveText(R.string.ok).show();
+        new MaterialDialog.Builder(context)
+                .icon(new IconicsDrawable(context, CommunityMaterial.Icon.cmd_git)
+                        .colorRes(R.color.dialog_icon)
+                        .sizeDp(Const.NAV_DRAWER_ICON_SIZE))
+                .title(R.string.dialog_license_title)
+                .licenseDialog(licenseInfos)
+                .positiveText(R.string.ok)
+                .show();
     }
 
     @NonNull

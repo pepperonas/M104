@@ -195,7 +195,7 @@ public class ClipboardDialogActivity extends AppCompatActivity {
                 ibtnLock.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        new DialogEnterPassword(ClipboardDialogActivity.this, mDb);
+                        new DialogEnterPassword(ClipboardDialogActivity.this);
                     }
                 });
 
