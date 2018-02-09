@@ -18,6 +18,11 @@
 
 -keep class com.github.mikephil.charting.** { *; }
 
+-keep class .R
+-keep class **.R$* {
+    <fields>;
+}
+
 -keep class com.pepperonas.jbasx.** { *; }
 -dontwarn com.pepperonas.jbasx.**
 -keep class com.pepperonas.andbasx.** { *; }

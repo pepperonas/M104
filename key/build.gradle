@@ -61,14 +61,6 @@ android {
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.android.support:appcompat-v7:27.0.2'
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'com.android.support:appcompat-v7:27.0.2'
 }
-
-//def props = new Properties()
-//
-//props.load(new FileInputStream(rootProject.file("release.properties")))
-//android.signingConfigs.release.storeFile rootProject.file(props.keyStore)
-//android.signingConfigs.release.storePassword props.keyStorePassword
-//android.signingConfigs.release.keyAlias props.keyAlias
-//android.signingConfigs.release.keyPassword props.keyAliasPassword

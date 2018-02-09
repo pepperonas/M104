@@ -181,5 +181,6 @@
     <string name="set_permission_read_phone_state_info">Gewähre die Berechtigung \'Read phone state\', damit die Netzwerknutzung von installierten Apps angezeigt wird.</string>
     <string name="dialog_set_permission_access_usage_settings">Erlaube \'M104\' Nutzungsdaten zu lesen.</string>
     <string name="android_version_incompatible">Deine Android Version ist inkomptabiel.</string>
+    <string name="pro_feature">(PRO)</string>
 
 </resources>
