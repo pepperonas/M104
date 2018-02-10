@@ -16,6 +16,7 @@
 
 package com.pepperonas.m104;
 
+import android.app.NotificationManager;
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.ClipData;
@@ -380,6 +381,9 @@ public class MainService extends Service {
     };
 
     private final Runnable mRunnableNetworkCheck = new Runnable() {
+        private long mLastClearedNetworkNotification = System.currentTimeMillis();
+        private static final long RENEW_NETWORK_NOTIFICATION = 1000 * 60 * 10;
+
         @Override
         public void run() {
             int uprateInSeconds = AesPrefs.getIntResNoLog(R.string.CONNECTION_MEASUREMENT_INTERVAL, Const.DEFAULT_NWK_RECORD_INTERVAL);
@@ -417,11 +421,17 @@ public class MainService extends Service {
 
                 mDb.addNetworkStat(System.currentTimeMillis(), rx_ivl, tx_ivl, rxm_ivl, txm_ivl, "x");
 
-                //                if (!AesPrefs.getBooleanRes(R.string.SHOW_NETWORK_NOTIFICATION, true)) {
-                //                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                //                        stopForeground(true);
-                //                    }
-                //                }
+                if ((mLastClearedNetworkNotification + RENEW_NETWORK_NOTIFICATION) <= System.currentTimeMillis()) {
+                    Log.i(TAG, "Renew network notification...");
+
+                    mLastClearedNetworkNotification = System.currentTimeMillis();
+                    NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                    if (notificationManager != null) {
+                        notificationManager.cancel(Const.NOTIFICATION_NETWORK);
+                        stopForeground(true);
+                        startForeground(Const.NOTIFICATION_NETWORK, mNotificationNetwork.getNotification());
+                    }
+                }
             } catch (Exception e) {
                 Log.e(TAG, "Writing in database failed.");
             } finally {
@@ -451,9 +461,9 @@ public class MainService extends Service {
             clipboardManager.addPrimaryClipChangedListener(new ClipboardListener());
         }
 
-        mNotificationBattery = new NotificationBattery(getApplicationContext());
-        mNotificationNetwork = new NotificationNetwork(getApplicationContext());
-        mNotificationClipboard = new NotificationClipboard(getApplicationContext(), mDb.getClipDataCount());
+        mNotificationBattery = new NotificationBattery(this);
+        mNotificationNetwork = new NotificationNetwork(this);
+        mNotificationClipboard = new NotificationClipboard(this, mDb.getClipDataCount());
 
         registerReceiver();
 
