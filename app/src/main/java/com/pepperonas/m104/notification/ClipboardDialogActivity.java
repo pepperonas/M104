@@ -72,9 +72,9 @@ public class ClipboardDialogActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        /**
-         *  init dialog
-         * */
+        /*
+          init dialog
+         */
         DisplayMetrics metrics = getResources().getDisplayMetrics();
         int screenWidth = (int) (metrics.widthPixels * Const.RELATIVE_DIALOG_WIDTH);
 

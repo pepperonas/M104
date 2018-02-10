@@ -228,7 +228,7 @@ public class NotificationNetwork {
                 mNotificationManager.cancel(Const.NOTIFICATION_NETWORK);
             }
         } catch (Exception e) {
-            Log.e(TAG, "NotificationNetwork: Error while setting up network notification.");
+            Log.e(TAG, "NotificationNetwork: Error while setting up network notification.", e);
         }
 
     }

@@ -64,9 +64,9 @@ public class BatteryDialogActivity extends AppCompatActivity {
 
         try {
 
-            /**
-             *  init dialog
-             * */
+            /*
+               init dialog
+              */
             DisplayMetrics metrics = getResources().getDisplayMetrics();
             int screenWidth = (int) (metrics.widthPixels * Const.RELATIVE_DIALOG_WIDTH);
 
@@ -107,23 +107,23 @@ public class BatteryDialogActivity extends AppCompatActivity {
     }
 
     private void loadChart() {
-        /**
-         *  load battery stats from database
-         * */
+        /*
+           load battery stats from database
+          */
         final List<BatteryStat> btyStats = mDb.getBatteryStatsByDate(Calculations.getHours(
                 AesPrefs.getIntRes(R.string.DIALOG_CHART_HISTORY_HOURS, Const.DEFAULT_RANGE_IN_HOURS)));
 
-        /**
-         *  calculate time variables
-         * */
+        /*
+           calculate time variables
+          */
         long min = btyStats.get(0).getStamp();
         long max = btyStats.get(btyStats.size() - 1).getStamp();
         long diff = max - min;
         int old_pDiff = 0;
 
-        /**
-         *  set up {@link TextView}
-         * */
+        /*
+           set up {@link TextView}
+          */
         TextView tvHeader = findViewById(R.id.tv_header);
         int hours;
         if (diff < (AesPrefs.getIntRes(R.string.DIALOG_CHART_HISTORY_HOURS, Const.DEFAULT_RANGE_IN_HOURS) * 1000 * 60 * 60)) {
@@ -141,9 +141,9 @@ public class BatteryDialogActivity extends AppCompatActivity {
         List<Entry> valuesTemperature = new ArrayList<>();
         List<Entry> valuesScreenState = new ArrayList<>();
 
-        /**
-         *  store battery stats in list
-         * */
+        /*
+           store battery stats in list
+          */
         ArrayList<String> xVals = new ArrayList<>();
         for (int i = 0; i < btyStats.size(); i++) {
             double f = ((btyStats.get(i).getStamp() - (double) min) / (double) diff) * 100d;
@@ -164,9 +164,9 @@ public class BatteryDialogActivity extends AppCompatActivity {
             xVals.add(TimeFormatUtilsLocalized.formatTime(btyStats.get(i).getStamp(), TimeFormatUtils.DEFAULT_FORMAT_MD_HM));
         }
 
-        /**
-         *  Level
-         * */
+        /*
+           Level
+          */
         LineDataSet lineDataSetLvl = new LineDataSet(valuesLvl, getString(R.string.chart_legend_level));
         lineDataSetLvl.setAxisDependency(YAxis.AxisDependency.LEFT);
         lineDataSetLvl.setLineWidth(2f);
@@ -174,9 +174,9 @@ public class BatteryDialogActivity extends AppCompatActivity {
         lineDataSetLvl.setDrawValues(false);
         lineDataSetLvl.setColor(getResources().getColor(R.color.green_500));
 
-        /**
-         *  Screen state
-         * */
+        /*
+           Screen state
+          */
         LineDataSet lineDataSetScreenState = new LineDataSet(valuesScreenState, getString(R.string.chart_legend_screen_state));
         lineDataSetScreenState.setAxisDependency(YAxis.AxisDependency.LEFT);
         lineDataSetScreenState.setLineWidth(0f);
@@ -186,9 +186,9 @@ public class BatteryDialogActivity extends AppCompatActivity {
         lineDataSetScreenState.setColor(getResources().getColor(R.color.amber_200));
         lineDataSetScreenState.setFillColor(getResources().getColor(R.color.amber_200));
 
-        /**
-         * Temperature
-         * */
+        /*
+          Temperature
+          */
         LineDataSet lineDataSetTemperature = new LineDataSet(valuesTemperature, getString(R.string.chart_legend_temperature));
         lineDataSetTemperature.setAxisDependency(YAxis.AxisDependency.RIGHT);
         lineDataSetTemperature.setLineWidth(2f);
@@ -196,9 +196,9 @@ public class BatteryDialogActivity extends AppCompatActivity {
         lineDataSetTemperature.setDrawValues(false);
         lineDataSetTemperature.setColor(getResources().getColor(R.color.deep_orange_500));
 
-        /**
-         *  set data to {@link LineDataSet}
-         * */
+        /*
+           set data to {@link LineDataSet}
+          */
         ArrayList<LineDataSet> lineDataSets = new ArrayList<>();
         lineDataSets.add(lineDataSetScreenState);
         lineDataSets.add(lineDataSetLvl);
@@ -206,30 +206,30 @@ public class BatteryDialogActivity extends AppCompatActivity {
 
         LineChart chart = findViewById(R.id.chart);
 
-        /**
-         * X-Axis
-         * */
+        /*
+          X-Axis
+          */
         XAxis xAxis = chart.getXAxis();
 
-        /**
-         * Y-Axis (left)
-         * */
+        /*
+          Y-Axis (left)
+          */
         YAxis yAxisLeft = chart.getAxisLeft();
         yAxisLeft.setValueFormatter(new PercentFormatter(new DecimalFormat("0.#")));
         yAxisLeft.setAxisMinValue(0f);
         yAxisLeft.setAxisMaxValue(100f);
 
-        /**
-         * Y-Axis (right)
-         * */
+        /*
+          Y-Axis (right)
+          */
         YAxis yAxisRight = chart.getAxisRight();
         yAxisRight.setAxisMinValue(0f);
         yAxisRight.setAxisMaxValue(60f);
         yAxisRight.setValueFormatter(new LargeValueFormatter(" °C"));
 
-        /**
-         * init chart
-         * */
+        /*
+          init chart
+          */
         LineData data = new LineData(xVals, lineDataSets);
         chart.setData(data);
         chart.setDescription(getString(R.string.chart_description_battery));

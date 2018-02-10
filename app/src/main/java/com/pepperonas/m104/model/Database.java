@@ -117,9 +117,9 @@ public class Database extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
 
-        /**
-         * battery stats table
-         * */
+        /*
+          battery stats table
+          */
         db.execSQL("CREATE TABLE " + TBL_BATTERY_STATS + " (" + ID + " INTEGER PRIMARY KEY, " + BTY_TS + " INTEGER, " +
                 BTY_IS_CHARGING + " INTEGER, " + BTY_CHARGE_MODE + " INTEGER, " + BTY_IS_CHARGED + " INTEGER, " +
                 BTY_LEVEL + " INTEGER, " + BTY_TEMPERATURE + " INTEGER, " + BTY_VOLTAGE + " INTEGER, " +
@@ -128,28 +128,28 @@ public class Database extends SQLiteOpenHelper {
                 BTY_IS_GPS_NETWORK_ENABLED + " INTEGER, " + BTY_IS_GPS_PASSIVE_ENABLED + " INTEGER, " +
                 BTY_IS_SYNC_ENABLED + " INTEGER, " + BTY_IS_AIRPLANE_MODE_ENABLED + " INTEGER, " + BTY_CURRENT_MAH + " INTEGER);");
 
-        /**
-         * charge states table
-         * */
+        /*
+          charge states table
+          */
         db.execSQL("CREATE TABLE " + TBL_CHARGE_STATES + " (" + ID + " INTEGER PRIMARY KEY, " + CHARGE_TS + " INTEGER, " +
                 CHG_FK_BTY_TS + " INTEGER, " + CHG_CHARGING + " INTEGER);");
 
-        /**
-         * screen states table
-         * */
+        /*
+          screen states table
+          */
         db.execSQL("CREATE TABLE " + TBL_SCREEN_STATES + " (" + ID + " INTEGER PRIMARY KEY, " + SCREEN_TS + " INTEGER, " +
                 SCN_FK_BTY_TS + " INTEGER, " + SCN_SCREEN_ON + " INTEGER);");
 
-        /**
-         * network stats table
-         * */
+        /*
+          network stats table
+          */
         db.execSQL("CREATE TABLE " + TBL_NETWORK_STATS + " (" + ID + " INTEGER PRIMARY KEY, " + NETWORK_TS + " INTEGER, " +
                 NWK_RX + " INTEGER, " + NWK_TX + " INTEGER, " + NWK_MOBILE_RX + " INTEGER, " + NWK_MOBILE_TX + " INTEGER, " +
                 NWK_PKG_NAME + " text);");
 
-        /**
-         * clip-data table
-         * */
+        /*
+          clip-data table
+          */
         db.execSQL("CREATE TABLE " + TBL_CLIP_DATA + " (" + ID + " INTEGER PRIMARY KEY, " + CD_TS + " INTEGER, " +
                 CD_CONTENT + " INTEGER, " + CD_TEXT + " text unique, " + CD_IV + " INTEGER UNIQUE);");
     }

@@ -80,10 +80,10 @@ public class SwipeableRecyclerViewTouchListener implements RecyclerView.OnItemTo
         mRecyclerView = recyclerView;
         mSwipeListener = listener;
 
-        /**
-         * This will ensure that this SwipeableRecyclerViewTouchListener is paused during list view scrolling.
-         * If a scroll listener is already assigned, the caller should still pass scroll changes through
-         * to this listener.
+        /*
+          This will ensure that this SwipeableRecyclerViewTouchListener is paused during list view scrolling.
+          If a scroll listener is already assigned, the caller should still pass scroll changes through
+          to this listener.
          */
         mRecyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
