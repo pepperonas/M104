@@ -52,6 +52,9 @@ public class DialogChangelog {
     private List<Changelog> getChangelogs() {
         List<Changelog> changes = new ArrayList<>();
 
+        changes.add(new Changelog("0.3.8-beta-u", "2018-02-10", new ReleaseInfo(
+                "Renew network notification")));
+
         changes.add(new Changelog("0.3.7-beta", "2018-02-09", new ReleaseInfo(
                 "Network notification is always shown",
                 "Battery and clipboard manager are locked in free version",
