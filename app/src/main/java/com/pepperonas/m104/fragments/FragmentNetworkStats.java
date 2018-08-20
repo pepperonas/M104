@@ -26,7 +26,6 @@ import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.RemoteException;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -106,13 +105,13 @@ public class FragmentNetworkStats extends Fragment {
         }
 
         try {
-            ThreadUtils.runDelayed(300, new Callable<Void>() {
+            ThreadUtils.runDelayed(new Callable<Void>() {
                 @Override
                 public Void call() {
                     (getActivity().findViewById(R.id.progressBar)).setVisibility(View.VISIBLE);
                     return null;
                 }
-            });
+            }, 300);
 
             mRecyclerView = view.findViewById(R.id.recycler_view_network_stats);
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
@@ -140,19 +139,15 @@ public class FragmentNetworkStats extends Fragment {
 
                     NetworkStats networkStatsWifi = null;
                     NetworkStats networkStatsMobile = null;
-                    try {
-                        if (networkStatsManager != null) {
-                            networkStatsWifi = networkStatsManager.queryDetailsForUid(
-                                    ConnectivityManager.TYPE_WIFI, "",
-                                    0, System.currentTimeMillis(), ai.uid);
+                    if (networkStatsManager != null) {
+                        networkStatsWifi = networkStatsManager.queryDetailsForUid(
+                                ConnectivityManager.TYPE_WIFI, "",
+                                0, System.currentTimeMillis(), ai.uid);
 
-                            networkStatsMobile = networkStatsManager.queryDetailsForUid(
-                                    ConnectivityManager.TYPE_MOBILE,
-                                    getSubscriberId(getContext(), ConnectivityManager.TYPE_MOBILE),
-                                    0, System.currentTimeMillis(), ai.uid);
-                        }
-                    } catch (RemoteException e) {
-                        Log.e(TAG, "getInstalledApps: ", e);
+                        networkStatsMobile = networkStatsManager.queryDetailsForUid(
+                                ConnectivityManager.TYPE_MOBILE,
+                                getSubscriberId(getContext(), ConnectivityManager.TYPE_MOBILE),
+                                0, System.currentTimeMillis(), ai.uid);
                     }
                     if (networkStatsWifi != null) {
                         networkStatsWifi.getNextBucket(bucketWifi);

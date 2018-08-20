@@ -146,13 +146,13 @@ public class ClipboardDialogActivity extends AppCompatActivity {
                         FadeAnimation anim = new FadeAnimation(mIvEasterEgg, 1.0f, 0.0f, 600, 0);
                         anim.fadeIn();
 
-                        ThreadUtils.runDelayed(1500, new Callable<Void>() {
+                        ThreadUtils.runDelayed(new Callable<Void>() {
                             @Override
                             public Void call() {
                                 finish();
                                 return null;
                             }
-                        });
+                        }, 1500);
                     }
                 }
             }
