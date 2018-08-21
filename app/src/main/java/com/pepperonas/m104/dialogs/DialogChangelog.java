@@ -52,6 +52,18 @@ public class DialogChangelog {
     private List<Changelog> getChangelogs() {
         List<Changelog> changes = new ArrayList<>();
 
+        changes.add(new Changelog("0.4.1", "2018-08-21", new ReleaseInfo(
+                "Minor Fixes")));
+
+        changes.add(new Changelog("0.4.0-beta-u", "2018-08-20", new ReleaseInfo(
+                "Android Pie support",
+                "Updated SDK tools (27.1.1)",
+                "Updated support libraries (27.1.1)",
+                "Updated Play Services (15.0.1)")));
+
+        changes.add(new Changelog("0.3.9-beta-u", "2018-05-05", new ReleaseInfo(
+                "Fixed issues in Android Oreo")));
+
         changes.add(new Changelog("0.3.8-beta-u", "2018-02-10", new ReleaseInfo(
                 "Renew network notification")));
 
