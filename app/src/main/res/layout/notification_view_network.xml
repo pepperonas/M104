@@ -27,7 +27,9 @@
         android:orientation="horizontal"
         android:layout_marginStart="0dp"
         android:clickable="true"
-        android:foreground="?android:selectableItemBackground">
+        android:foreground="?android:selectableItemBackground"
+        android:layout_marginLeft="0dp"
+        android:focusable="true">
 
         <ImageView
             android:id="@+id/iv_notification_circle_left"
@@ -41,7 +43,8 @@
             android:layout_marginLeft="12dp"
             android:clickable="true"
             android:foreground="?android:selectableItemBackground"
-            android:contentDescription="@string/empty" />
+            android:contentDescription="@string/empty"
+            android:focusable="true" />
 
         <LinearLayout
             android:orientation="vertical"
@@ -67,7 +70,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="KB/s"
+                android:text="@string/_unit_kilobytes_per_second"
                 android:textColor="@color/primary_text_default_material_dark_failsafe"
                 android:textSize="8sp"
                 android:gravity="center"
@@ -114,7 +117,8 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:layout_marginEnd="4dp">
+            android:layout_marginEnd="4dp"
+            android:layout_marginRight="4dp">
 
             <TextView
                 android:id="@+id/tv_s_notification_right_top"
@@ -145,7 +149,8 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="0"
-            android:layout_marginRight="8dp">
+            android:layout_marginRight="8dp"
+            android:layout_marginEnd="8dp">
 
             <ImageView
                 android:layout_width="12dp"

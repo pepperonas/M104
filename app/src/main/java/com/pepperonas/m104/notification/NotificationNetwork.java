@@ -65,8 +65,8 @@ public class NotificationNetwork {
 
     private RemoteViews mRemoteViews;
 
-    private long mCurrentTrafficPerSecond = 0L;
-    private int mValueNotChangedCounter = 0;
+    //    private long mCurrentTrafficPerSecond = 0L;
+    //    private int mValueNotChangedCounter = 0;
 
     /**
      * Instantiates a new Notification panel.
@@ -177,22 +177,22 @@ public class NotificationNetwork {
         long mobileTotalTraffic = mobileTotalRx + mobileTotalTx;
         long currentTrafficPerSecond = currentRx + currentTx;
 
-        // If network notification shows value > 0, check if value is changing while running. If
-        // it is not changing, recreate the notification to prevent freezing.
-        if (currentTrafficPerSecond != 0) {
-            if (mCurrentTrafficPerSecond != currentTrafficPerSecond) {
-                mCurrentTrafficPerSecond = currentTrafficPerSecond;
-                mValueNotChangedCounter = 0;
-            } else {
-                mValueNotChangedCounter++;
-            }
-            if (mValueNotChangedCounter >= 10) {
-                mValueNotChangedCounter = 0;
-                mNotificationManager.cancel(Const.NOTIFICATION_NETWORK);
-            }
-        } else {
-            mValueNotChangedCounter = 0;
-        }
+        //        // If network notification shows value > 0, check if value is changing while running. If
+        //        // it is not changing, recreate the notification to prevent freezing.
+        //        if (currentTrafficPerSecond != 0) {
+        //            if (mCurrentTrafficPerSecond != currentTrafficPerSecond) {
+        //                mCurrentTrafficPerSecond = currentTrafficPerSecond;
+        //                mValueNotChangedCounter = 0;
+        //            } else {
+        //                mValueNotChangedCounter++;
+        //            }
+        //            if (mValueNotChangedCounter >= 10) {
+        //                mValueNotChangedCounter = 0;
+        //                mNotificationManager.cancel(Const.NOTIFICATION_NETWORK);
+        //            }
+        //        } else {
+        //            mValueNotChangedCounter = 0;
+        //        }
 
         int imageResourceId;
         if (currentTrafficPerSecond > Si.MEGA) {
@@ -426,6 +426,16 @@ public class NotificationNetwork {
             mNotificationManager.notify(Const.NOTIFICATION_NETWORK, mBuilder.build());
         } else {
             mNotificationManager.cancel(Const.NOTIFICATION_NETWORK);
+        }
+    }
+
+    public static void renew() {
+        if (mNotificationManager == null) {
+            mNotificationManager = (NotificationManager) AndBasx.getContext().getSystemService(Context.NOTIFICATION_SERVICE);
+        }
+        if (AesPrefs.getBooleanRes(R.string.SHOW_NETWORK_NOTIFICATION, true)) {
+            mNotificationManager.cancel(Const.NOTIFICATION_NETWORK);
+            mNotificationManager.notify(Const.NOTIFICATION_NETWORK, mBuilder.build());
         }
     }
 

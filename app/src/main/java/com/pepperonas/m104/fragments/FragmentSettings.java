@@ -163,22 +163,22 @@ public class FragmentSettings extends com.github.machinarius.preferencefragment.
         if (preference.getKey().equals(getString(R.string.IS_ROOT_MODE))) {
             SystemUtils.runAsRoot(new String[]{""});
             ThreadUtils.runDelayed(new Callable<Void>() {
-                            @Override
-                            public Void call() {
-                                CheckBoxPreference cbxP = ((CheckBoxPreference) findPreference(getString(R.string.IS_ROOT_MODE)));
-                                AesPrefs.putBooleanRes(R.string.IS_ROOT_MODE, cbxP.isChecked());
-                                ensureRootMode();
-                                MainActivity mainActivity = (MainActivity) getActivity();
-                                if (mainActivity != null) {
-                                    if (cbxP.isChecked()) {
-                                        mainActivity.addItemRoot();
-                                    } else {
-                                        mainActivity.removeItemRoot();
-                                    }
-                                }
-                                return null;
-                            }
-                        }, 3000);
+                @Override
+                public Void call() {
+                    CheckBoxPreference cbxP = ((CheckBoxPreference) findPreference(getString(R.string.IS_ROOT_MODE)));
+                    AesPrefs.putBooleanRes(R.string.IS_ROOT_MODE, cbxP.isChecked());
+                    ensureRootMode();
+                    MainActivity mainActivity = (MainActivity) getActivity();
+                    if (mainActivity != null) {
+                        if (cbxP.isChecked()) {
+                            mainActivity.addItemRoot();
+                        } else {
+                            mainActivity.removeItemRoot();
+                        }
+                    }
+                    return null;
+                }
+            }, 3000);
         } else if (preference.getKey().equals(getString(R.string.IS_AUTO_START))) {
             cbxP = (CheckBoxPreference) findPreference(getString(R.string.IS_AUTO_START));
             AesPrefs.putBooleanRes(R.string.IS_AUTO_START, cbxP.isChecked());
@@ -359,12 +359,12 @@ public class FragmentSettings extends com.github.machinarius.preferencefragment.
         new DialogDeleteClipboardData(getActivity());
     }
 
-    //    /**
-    //     * Apply notification state.
-    //     *
-    //     * @param which     the which
-    //     * @param isChecked the is checked
-    //     */
+    /**
+     * Apply notification state.
+     *
+     * @param which     the which
+     * @param isChecked the is checked
+     */
     private void applyNotificationState(int which, boolean isChecked) {
         MainActivity mainActivity = (MainActivity) getActivity();
         if (mainActivity != null) {

@@ -214,5 +214,6 @@
     <string name="dialog_set_permission_access_usage_settings">Allow \'M104\' to read usage settings.</string>
     <string name="android_version_incompatible">Incompatible Android version</string>
     <string name="pro_feature">(PRO)</string>
+    <string name="profile">Profile</string>
 
 </resources>

@@ -17,7 +17,9 @@
 package com.pepperonas.m104;
 
 import android.Manifest;
+import android.app.AlarmManager;
 import android.app.AppOpsManager;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -66,6 +68,7 @@ import com.pepperonas.m104.model.Database;
 import com.pepperonas.m104.notification.NotificationBattery;
 import com.pepperonas.m104.notification.NotificationClipboard;
 import com.pepperonas.m104.notification.NotificationNetwork;
+import com.pepperonas.m104.receiver.AlarmReceiver;
 import com.pepperonas.m104.utils.StringFactory;
 
 import static com.pepperonas.andbasx.AndBasx.getContext;
@@ -103,6 +106,9 @@ public class MainActivity extends AppCompatActivity {
 
     private MenuItem mItemNetwork;
     private boolean mResumeWithNetworkFragment = false;
+
+    private PendingIntent mPendingIntentAlarm;
+    private AlarmManager mAlarmManager;
 
     //    private Tracker mTracker;
 
@@ -167,7 +173,18 @@ public class MainActivity extends AppCompatActivity {
                 selectNavViewItem(mItemNetwork);
             }
         }
+
+        Intent alarmIntent = new Intent(this, AlarmReceiver.class);
+        mPendingIntentAlarm = PendingIntent.getBroadcast(this, 0, alarmIntent, 0);
+
         //        initAnalytics();
+    }
+
+    public void startAlarm(View view) {
+        mAlarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        int interval = 1000 * 60 * 60 * 2; // 1h
+
+        mAlarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), interval, mPendingIntentAlarm);
     }
 
     @Override

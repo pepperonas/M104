@@ -28,8 +28,7 @@
     <uses-permission
         android:name="android.permission.PACKAGE_USAGE_STATS"
         tools:ignore="ProtectedPermissions" />
-    <uses-permission
-        android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <!--<uses-permission android:name="android.permission.READ_SYNC_SETTINGS" />-->
     <!--<uses-permission android:name="android.permission.READ_PRIVILEGED_PHONE_STATE" />-->
 
@@ -49,23 +48,20 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-            <!--<intent-filter><action android:name="android.intent.action.VIEW" />-->
+            <intent-filter android:label="celox.io - M104 Toolbox">
+                <action android:name="android.intent.action.VIEW" />
 
-            <!--<category android:name="android.intent.category.DEFAULT" />-->
-            <!--<category android:name="android.intent.category.BROWSABLE" />-->
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
 
-            <!--<action android:name="android.intent.action.VIEW" />-->
-
-            <!--<category android:name="android.intent.category.DEFAULT" />-->
-            <!--<category android:name="android.intent.category.BROWSABLE" />-->
-            <!--<data-->
-            <!--android:host="https://celox.io"-->
-            <!--android:pathPrefix="/"-->
-            <!--android:scheme="https" />-->
-            <!--<data-->
-            <!--android:host="m104"-->
-            <!--android:scheme="celox" />-->
-            <!--</intent-filter>-->
+                <data
+                    android:host="www.celox.io"
+                    android:pathPrefix="/"
+                    android:scheme="https" />
+                <data
+                    android:host="celox"
+                    android:scheme="m104" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".notification.BatteryDialogActivity"
@@ -102,6 +98,8 @@
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
+
+        <receiver android:name="receiver.AlarmReceiver" />
 
         <activity
             android:name=".AppIntroActivity"
