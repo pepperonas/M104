@@ -32,6 +32,7 @@ import android.os.Process;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.NavigationView.OnNavigationItemSelectedListener;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
@@ -54,7 +55,6 @@ import com.pepperonas.aespreferences.AesPrefs;
 import com.pepperonas.andbasx.base.Loader;
 import com.pepperonas.andbasx.base.ToastUtils;
 import com.pepperonas.andbasx.system.SystemUtils;
-import com.pepperonas.jbasx.log.Log;
 import com.pepperonas.m104.config.Const;
 import com.pepperonas.m104.dialogs.DialogAbout;
 import com.pepperonas.m104.dialogs.DialogPermissionAccessUsageSettings;
@@ -69,6 +69,7 @@ import com.pepperonas.m104.notification.NotificationBattery;
 import com.pepperonas.m104.notification.NotificationClipboard;
 import com.pepperonas.m104.notification.NotificationNetwork;
 import com.pepperonas.m104.receiver.AlarmReceiver;
+import com.pepperonas.m104.utils.Log;
 import com.pepperonas.m104.utils.StringFactory;
 
 import static com.pepperonas.andbasx.AndBasx.getContext;
@@ -83,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
 
     public static final int MENU_ITEM_ROOT = 3;
     public static final int REQUEST_PERMISSION_PHONE_STATE = 1;
+    public static final int REQUEST_PERMISSION_WRITE_EXTERNAL_STORAGE = 2;
 
     /* Fragment communication */
     public IBatteryInformer mBatteryInformer;
@@ -179,11 +181,16 @@ public class MainActivity extends AppCompatActivity {
 
         //        initAnalytics();
         startAlarm();
+
+        if (!checkPermissionReadPhoneState(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    MainActivity.REQUEST_PERMISSION_WRITE_EXTERNAL_STORAGE);
+        }
     }
 
     public void startAlarm() {
         mAlarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-//        int interval = 1000 * 60 * 60 * 2; // 1h
+        //        int interval = 1000 * 60 * 60 * 2; // 1h
         int interval = 60000;
         mAlarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), interval, mPendingIntentAlarm);
     }

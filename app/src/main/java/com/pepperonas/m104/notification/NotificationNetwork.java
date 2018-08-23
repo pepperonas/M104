@@ -28,7 +28,6 @@ import android.os.Build;
 import android.support.annotation.ColorRes;
 import android.support.annotation.NonNull;
 import android.support.v4.app.NotificationCompat;
-import android.util.Log;
 import android.widget.RemoteViews;
 
 import com.mikepenz.iconics.IconicsDrawable;
@@ -43,6 +42,7 @@ import com.pepperonas.jbasx.base.Si;
 import com.pepperonas.m104.MainActivity;
 import com.pepperonas.m104.R;
 import com.pepperonas.m104.config.Const;
+import com.pepperonas.m104.utils.Log;
 
 import java.text.NumberFormat;
 

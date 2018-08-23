@@ -57,6 +57,7 @@ android {
         versionCode 41
         versionName "0.4.1"
         setProperty("archivesBaseName", "m104-$versionName")
+        buildConfigField "long", "APP_CREATED", "1500000000000" + "L"
     }
     buildTypes {
         release {

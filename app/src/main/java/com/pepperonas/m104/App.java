@@ -22,7 +22,9 @@ import android.support.multidex.MultiDex;
 
 import com.pepperonas.aespreferences.AesPrefs;
 import com.pepperonas.andbasx.AndBasx;
+import com.pepperonas.m104.utils.AesConst;
 import com.pepperonas.m104.utils.BatteryUtils;
+import com.pepperonas.m104.utils.Log;
 
 /**
  * @author Martin Pfeffer (celox.io)
@@ -46,10 +48,11 @@ public class App extends Application {
         super.onCreate();
 
         AndBasx.init(this);
-        AesPrefs.init(this, "aes_config", "the_apps_password", null);
+        AesPrefs.init(this, AesConst.AES_PREFS_FILE_NAME, "the_apps_password", null);
         initStartConfig();
         AesPrefs.putIntRes(R.string.BATTERY_CAPACITY, (int) BatteryUtils.getBatteryCapacity());
 
+        Log.init(getApplicationContext());
     }
 
     private void initStartConfig() {
