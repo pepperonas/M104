@@ -103,12 +103,7 @@
             </intent-filter>
         </receiver>
 
-        <receiver android:name="com.pepperonas.m104.receiver.AlarmReceiver">
-            <!--<intent-filter>-->
-            <!--<action android:name="com.pepperonas.m104.START_ALARM" >-->
-            <!--</action>-->
-            <!--</intent-filter>-->
-        </receiver>
+        <receiver android:name="com.pepperonas.m104.receiver.AlarmReceiver" />
 
         <activity
             android:name=".AppIntroActivity"

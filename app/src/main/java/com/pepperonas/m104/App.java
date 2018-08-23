@@ -52,7 +52,9 @@ public class App extends Application {
         initStartConfig();
         AesPrefs.putIntRes(R.string.BATTERY_CAPACITY, (int) BatteryUtils.getBatteryCapacity());
 
-        Log.init(getApplicationContext());
+        if (BuildConfig.is_dev) {
+            Log.init(getApplicationContext());
+        }
     }
 
     private void initStartConfig() {

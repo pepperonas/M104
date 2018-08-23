@@ -66,6 +66,27 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
         }
+        flavorDimensions "default"
+        productFlavors {
+            /**
+             * let app data depend on the flavor,
+             * see also res-folders 'dev' and 'pro'
+             * */
+            dev {
+                dimension "default"
+                // used by the developer
+                resValue "string", "theString", "unused 1"
+                buildConfigField "boolean", "is_dev", "true"
+                buildConfigField "long", "APP_CREATED", "1500000000000" + "L"
+            }
+            pro {
+                dimension "default"
+                // used for production
+                resValue "string", "theString", "unused 2"
+                buildConfigField "boolean", "is_dev", "false"
+                buildConfigField "long", "APP_CREATED", System.currentTimeMillis() + "L"
+            }
+        }
     }
     dexOptions {
         javaMaxHeapSize "4g"

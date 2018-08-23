@@ -185,7 +185,6 @@ public class MainActivity extends AppCompatActivity {
 
     public void startAlarm() {
         Intent alarmIntent = new Intent(this, AlarmReceiver.class);
-        //        Intent alarmIntent = new Intent("com.pepperonas.m104.START_ALARM");
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, 0);
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         int interval = 1000 * 60 * 60 * 2; // 1h
@@ -200,9 +199,17 @@ public class MainActivity extends AppCompatActivity {
         switch (requestCode) {
             case REQUEST_PERMISSION_PHONE_STATE:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Log.i(TAG, "onRequestPermissionsResult: Permission Granted!");
+                    if (BuildConfig.is_dev) {
+                        com.pepperonas.m104.utils.Log.i(TAG, "onRequestPermissionsResult: Permission Granted!");
+                    } else {
+                        android.util.Log.i(TAG, "onRequestPermissionsResult: Permission Granted!");
+                    }
                 } else {
-                    Log.i(TAG, "onRequestPermissionsResult: Permission Denied!");
+                    if (BuildConfig.is_dev) {
+                        com.pepperonas.m104.utils.Log.i(TAG, "onRequestPermissionsResult: Permission Denied!");
+                    } else {
+                        android.util.Log.i(TAG, "onRequestPermissionsResult: Permission Denied!");
+                    }
                 }
         }
     }
