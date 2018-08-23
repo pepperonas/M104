@@ -183,8 +183,8 @@ public class MainActivity extends AppCompatActivity {
 
     public void startAlarm() {
         mAlarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        int interval = 1000 * 60 * 60 * 2; // 1h
-
+//        int interval = 1000 * 60 * 60 * 2; // 1h
+        int interval = 60000;
         mAlarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), interval, mPendingIntentAlarm);
     }
 
