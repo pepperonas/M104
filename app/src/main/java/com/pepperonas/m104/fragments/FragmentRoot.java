@@ -177,12 +177,6 @@ public class FragmentRoot extends Fragment implements IInstalledBasicsCommunicat
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-
-    }
-
-    @Override
     public void onDetach() {
         super.onDetach();
 

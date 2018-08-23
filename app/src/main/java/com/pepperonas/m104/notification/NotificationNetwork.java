@@ -39,10 +39,10 @@ import com.pepperonas.andbasx.system.DeviceUtils;
 import com.pepperonas.andbasx.system.SystemUtils;
 import com.pepperonas.jbasx.base.Binary;
 import com.pepperonas.jbasx.base.Si;
+import com.pepperonas.m104.BuildConfig;
 import com.pepperonas.m104.MainActivity;
 import com.pepperonas.m104.R;
 import com.pepperonas.m104.config.Const;
-import com.pepperonas.m104.utils.Log;
 
 import java.text.NumberFormat;
 
@@ -108,7 +108,11 @@ public class NotificationNetwork {
             }
 
         } catch (Exception e) {
-            Log.e(TAG, "NotificationNetwork: Error while setting up network notification. ", e);
+            if (BuildConfig.is_dev) {
+                com.pepperonas.m104.utils.Log.e(TAG, "NotificationNetwork: Error while setting up network notification. ", e);
+            } else {
+                android.util.Log.e(TAG, "NotificationNetwork: Error while setting up network notification. ", e);
+            }
         }
 
         initIcons();
@@ -207,7 +211,11 @@ public class NotificationNetwork {
 
         try {
             if (imageResourceId == -1) {
-                Log.e(TAG, "update: imageResourceId invalid.");
+                if (BuildConfig.is_dev) {
+                    com.pepperonas.m104.utils.Log.e(TAG, "update: imageResourceId invalid.");
+                } else {
+                    android.util.Log.e(TAG, "update: imageResourceId invalid.");
+                }
                 imageResourceId = resolveDrawableId("kbytes_" + 0);
             }
 
@@ -222,13 +230,21 @@ public class NotificationNetwork {
             makeCenterBottom(totalTraffic, mobileTotalTraffic);
 
             if (AesPrefs.getBooleanRes(R.string.SHOW_NETWORK_NOTIFICATION, true)) {
-                Log.i(TAG, "---UPDATE---");
+                if (BuildConfig.is_dev) {
+                    com.pepperonas.m104.utils.Log.i(TAG, "---UPDATE---");
+                } else {
+                    android.util.Log.i(TAG, "---UPDATE---");
+                }
                 mNotificationManager.notify(Const.NOTIFICATION_NETWORK, mBuilder.build());
             } else {
                 mNotificationManager.cancel(Const.NOTIFICATION_NETWORK);
             }
         } catch (Exception e) {
-            Log.e(TAG, "NotificationNetwork: Error while setting up network notification.", e);
+            if (BuildConfig.is_dev) {
+                com.pepperonas.m104.utils.Log.e(TAG, "NotificationNetwork: Error while setting up network notification.", e);
+            } else {
+                android.util.Log.e(TAG, "NotificationNetwork: Error while setting up network notification.", e);
+            }
         }
 
     }
