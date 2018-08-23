@@ -31,6 +31,7 @@
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <!--<uses-permission android:name="android.permission.READ_SYNC_SETTINGS" />-->
     <!--<uses-permission android:name="android.permission.READ_PRIVILEGED_PHONE_STATE" />-->
@@ -102,7 +103,12 @@
             </intent-filter>
         </receiver>
 
-        <receiver android:name="receiver.AlarmReceiver" />
+        <receiver android:name="com.pepperonas.m104.receiver.AlarmReceiver">
+            <!--<intent-filter>-->
+            <!--<action android:name="com.pepperonas.m104.START_ALARM" >-->
+            <!--</action>-->
+            <!--</intent-filter>-->
+        </receiver>
 
         <activity
             android:name=".AppIntroActivity"

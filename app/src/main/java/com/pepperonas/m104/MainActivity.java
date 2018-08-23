@@ -109,9 +109,6 @@ public class MainActivity extends AppCompatActivity {
     private MenuItem mItemNetwork;
     private boolean mResumeWithNetworkFragment = false;
 
-    private PendingIntent mPendingIntentAlarm;
-    private AlarmManager mAlarmManager;
-
     //    private Tracker mTracker;
 
     private BroadcastReceiver mMainServiceReceiver = new BroadcastReceiver() {
@@ -176,9 +173,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        Intent alarmIntent = new Intent(this, AlarmReceiver.class);
-        mPendingIntentAlarm = PendingIntent.getBroadcast(this, 0, alarmIntent, 0);
-
         //        initAnalytics();
         startAlarm();
 
@@ -189,10 +183,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void startAlarm() {
-        mAlarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        Intent alarmIntent = new Intent(this, AlarmReceiver.class);
+        //        Intent alarmIntent = new Intent("com.pepperonas.m104.START_ALARM");
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, 0);
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         //        int interval = 1000 * 60 * 60 * 2; // 1h
         int interval = 60000;
-        mAlarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), interval, mPendingIntentAlarm);
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), interval, pendingIntent);
     }
 
     @Override
