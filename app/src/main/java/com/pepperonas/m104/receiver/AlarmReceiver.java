@@ -4,7 +4,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
-import com.pepperonas.andbasx.base.ToastUtils;
 import com.pepperonas.m104.notification.NotificationNetwork;
 import com.pepperonas.m104.utils.Log;
 
@@ -19,9 +18,8 @@ public class AlarmReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context arg0, Intent arg1) {
-        NotificationNetwork.renew();
-        ToastUtils.toastLong("Renewing Network-Notification");
         Log.w(TAG, "onReceive: Renewing Network-Notification...");
+        NotificationNetwork.renew();
     }
 
 }

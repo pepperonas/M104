@@ -174,6 +174,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         //        initAnalytics();
+
         startAlarm();
 
         if (!checkPermissionReadPhoneState(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
@@ -187,9 +188,11 @@ public class MainActivity extends AppCompatActivity {
         //        Intent alarmIntent = new Intent("com.pepperonas.m104.START_ALARM");
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, 0);
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        //        int interval = 1000 * 60 * 60 * 2; // 1h
-        int interval = 60000;
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), interval, pendingIntent);
+        int interval = 1000 * 60 * 60 * 2; // 1h
+        if (alarmManager != null) {
+            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,
+                    System.currentTimeMillis(), interval, pendingIntent);
+        }
     }
 
     @Override
