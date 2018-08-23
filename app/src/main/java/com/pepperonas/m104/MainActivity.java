@@ -178,9 +178,10 @@ public class MainActivity extends AppCompatActivity {
         mPendingIntentAlarm = PendingIntent.getBroadcast(this, 0, alarmIntent, 0);
 
         //        initAnalytics();
+        startAlarm();
     }
 
-    public void startAlarm(View view) {
+    public void startAlarm() {
         mAlarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         int interval = 1000 * 60 * 60 * 2; // 1h
 
