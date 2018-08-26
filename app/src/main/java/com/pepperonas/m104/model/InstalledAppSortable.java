@@ -20,13 +20,13 @@ import android.content.pm.ApplicationInfo;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.pepperonas.andbasx.AndBasx;
 import com.pepperonas.andbasx.base.Loader;
 import com.pepperonas.andbasx.system.DeviceUtils;
 import com.pepperonas.jbasx.base.Binary;
 import com.pepperonas.m104.R;
+import com.pepperonas.m104.utils.Log;
 
 import java.text.NumberFormat;
 import java.util.Comparator;

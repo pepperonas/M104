@@ -32,7 +32,6 @@ import android.widget.TextView;
 
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
@@ -43,13 +42,13 @@ import com.pepperonas.andbasx.base.Loader;
 import com.pepperonas.andbasx.format.TimeFormatUtilsLocalized;
 import com.pepperonas.jbasx.base.Binary;
 import com.pepperonas.jbasx.format.TimeFormatUtils;
-import com.pepperonas.jbasx.log.Log;
 import com.pepperonas.m104.MainService;
 import com.pepperonas.m104.R;
 import com.pepperonas.m104.config.Const;
 import com.pepperonas.m104.fragments.FragmentSettings;
 import com.pepperonas.m104.model.Database;
 import com.pepperonas.m104.model.NetworkHistory;
+import com.pepperonas.m104.utils.Log;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -93,9 +92,7 @@ public class NetworkDialogActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        /*
-           init dialog
-          */
+        // init dialog
         DisplayMetrics metrics = getResources().getDisplayMetrics();
         int screenWidth = (int) (metrics.widthPixels * Const.RELATIVE_DIALOG_WIDTH);
 
@@ -168,9 +165,7 @@ public class NetworkDialogActivity extends AppCompatActivity {
 
         TextView tvHeader = findViewById(R.id.tv_header);
 
-        /*
-           load network stats from database
-          */
+        // load network stats from database
         mDb = new Database(this);
         List<NetworkHistory> nwkStats = mDb.getNetworkHistory((System.currentTimeMillis()
                 - (Const.DIALOG_NETWORK_HISTORY_IN_MINUTES * 1000 * 60)) - OFFSET_TIME_10_SEC);
@@ -180,9 +175,7 @@ public class NetworkDialogActivity extends AppCompatActivity {
             return;
         }
 
-        /*
-           calculate time variables
-          */
+        // calculate time variables
         long min = nwkStats.get(0).getStamp();
         long max = System.currentTimeMillis();
         long diff = max - min;
@@ -192,9 +185,6 @@ public class NetworkDialogActivity extends AppCompatActivity {
 
         String unit = calculateUnitByGivenMax(maxTraffic);
 
-        /*
-           set up {@link TextView}
-          */
         tvHeader = findViewById(R.id.tv_header);
         int minutes;
         if (diff < (AesPrefs.getIntResNoLog(R.string.DIALOG_NETWORK_CHART_HISTORY_IN_MINUTES, Const.DIALOG_NETWORK_HISTORY_IN_MINUTES) * 1000 * 60)) {
@@ -213,9 +203,7 @@ public class NetworkDialogActivity extends AppCompatActivity {
         List<Entry> valuesRxMobile = new ArrayList<>();
         List<Entry> valuesTxMobile = new ArrayList<>();
 
-        /*
-           store battery stats in list
-          */
+        // store battery stats in list
         ArrayList<String> xVals = new ArrayList<>();
         for (int i = 0; i < nwkStats.size(); i++) {
             double f = ((nwkStats.get(i).getStamp() - (double) min) / (double) diff) * 100d;
@@ -237,9 +225,7 @@ public class NetworkDialogActivity extends AppCompatActivity {
             xVals.add(TimeFormatUtilsLocalized.formatTime(nwkStats.get(i).getStamp(), TimeFormatUtils.DEFAULT_FORMAT_MD_HM));
         }
 
-        /*
-           Rx
-          */
+        // Rx
         LineDataSet lineDataSetRx = new LineDataSet(valuesRx, getString(R.string.rx_wlan));
         lineDataSetRx.setAxisDependency(YAxis.AxisDependency.LEFT);
         lineDataSetRx.setLineWidth(2f);
@@ -247,9 +233,7 @@ public class NetworkDialogActivity extends AppCompatActivity {
         lineDataSetRx.setDrawValues(false);
         lineDataSetRx.setColor(getResources().getColor(R.color.green_700));
 
-        /*
-           Tx
-          */
+        // Tx
         LineDataSet lineDataSetTx = new LineDataSet(valuesTx, getString(R.string.tx_wlan));
         lineDataSetTx.setAxisDependency(YAxis.AxisDependency.LEFT);
         lineDataSetTx.setLineWidth(2f);
@@ -257,9 +241,7 @@ public class NetworkDialogActivity extends AppCompatActivity {
         lineDataSetTx.setDrawValues(false);
         lineDataSetTx.setColor(getResources().getColor(R.color.blue_700));
 
-        /*
-          Rx mobile
-          */
+        // Rx mobile
         LineDataSet lineDataSetRxMobile = new LineDataSet(valuesRxMobile, getString(R.string.rx_mobile));
         lineDataSetRxMobile.setAxisDependency(YAxis.AxisDependency.LEFT);
         lineDataSetRxMobile.setLineWidth(2f);
@@ -267,9 +249,7 @@ public class NetworkDialogActivity extends AppCompatActivity {
         lineDataSetRxMobile.setDrawValues(false);
         lineDataSetRxMobile.setColor(getResources().getColor(R.color.green_300));
 
-        /*
-          Tx mobile
-          */
+        // Tx mobile
         LineDataSet lineDataSetTxMobile = new LineDataSet(valuesTxMobile, getString(R.string.tx_mobile));
         lineDataSetTxMobile.setAxisDependency(YAxis.AxisDependency.LEFT);
         lineDataSetTxMobile.setLineWidth(2f);
@@ -277,37 +257,24 @@ public class NetworkDialogActivity extends AppCompatActivity {
         lineDataSetTxMobile.setDrawValues(false);
         lineDataSetTxMobile.setColor(getResources().getColor(R.color.blue_300));
 
-        /*
-           set data to {@link LineDataSet}
-          */
+        // set data to LineDataSet
         ArrayList<LineDataSet> lineDataSets = new ArrayList<>();
         lineDataSets.add(lineDataSetRx);
         lineDataSets.add(lineDataSetTx);
         lineDataSets.add(lineDataSetRxMobile);
         lineDataSets.add(lineDataSetTxMobile);
 
-        /*
-          X-Axis
-          */
-        XAxis xAxis = mChart.getXAxis();
-
-        /*
-          Y-Axis (left)
-          */
+        // Y-Axis (left)
         YAxis yAxisLeft = mChart.getAxisLeft();
         yAxisLeft.setAxisMinValue(0f);
         yAxisLeft.setAxisMaxValue(((maxTraffic * 1.2f) / mUnitDivider));
         yAxisLeft.setValueFormatter(new LargeValueFormatter(" " + unit));
 
-        /*
-          Y-Axis (right)
-          */
+        // Y-Axis (right)
         YAxis yAxisRight = mChart.getAxisRight();
         yAxisRight.setEnabled(false);
 
-        /*
-          init chart
-          */
+        // init chart
         LineData data = new LineData(xVals, lineDataSets);
         mChart.setData(data);
         if (mDoAnimate) {

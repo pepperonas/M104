@@ -40,7 +40,6 @@ import com.pepperonas.andbasx.AndBasx;
 import com.pepperonas.andbasx.base.ToastUtils;
 import com.pepperonas.andbasx.concurrency.ThreadUtils;
 import com.pepperonas.andbasx.system.SystemUtils;
-import com.pepperonas.jbasx.log.Log;
 import com.pepperonas.m104.MainActivity;
 import com.pepperonas.m104.R;
 import com.pepperonas.m104.adapter.InstalledAppAdapter;
@@ -48,6 +47,7 @@ import com.pepperonas.m104.custom.CustomRecyclerView;
 import com.pepperonas.m104.model.InstalledAppM104;
 import com.pepperonas.m104.model.InstalledAppSortable;
 import com.pepperonas.m104.utils.Filter;
+import com.pepperonas.m104.utils.Log;
 
 import java.util.ArrayList;
 import java.util.Collections;

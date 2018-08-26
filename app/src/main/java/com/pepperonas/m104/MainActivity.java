@@ -69,6 +69,7 @@ import com.pepperonas.m104.notification.NotificationBattery;
 import com.pepperonas.m104.notification.NotificationClipboard;
 import com.pepperonas.m104.notification.NotificationNetwork;
 import com.pepperonas.m104.receiver.AlarmReceiver;
+import com.pepperonas.m104.utils.Log;
 import com.pepperonas.m104.utils.StringFactory;
 
 import static com.pepperonas.andbasx.AndBasx.getContext;
@@ -127,11 +128,7 @@ public class MainActivity extends AppCompatActivity {
                         MainActivity.this, mBtyIsCharging, mBtyLevel, temperature,
                         voltage, mBtyPlugged, health, mBtyStatus);
             } else {
-                if (BuildConfig.is_dev) {
-                    com.pepperonas.m104.utils.Log.w(TAG, "onReceive: Can't update battery info.");
-                } else {
-                    android.util.Log.w(TAG, "onReceive: Can't update battery info.");
-                }
+                Log.w(TAG, "onReceive: Can't update battery info.");
             }
         }
     };
@@ -166,11 +163,7 @@ public class MainActivity extends AppCompatActivity {
 
         final String androidId = SystemUtils.getAndroidId();
 
-        if (BuildConfig.is_dev) {
-            com.pepperonas.m104.utils.Log.d(TAG, "onCreate " + "androidId: " + androidId);
-        } else {
-            android.util.Log.d(TAG, "onCreate " + "androidId: " + androidId);
-        }
+        Log.d(TAG, "onCreate " + "androidId: " + androidId);
 
         if (getIntent() != null && getIntent().getStringExtra("start_fragment") != null) {
             String startFragment = getIntent().getStringExtra("start_fragment");
@@ -184,7 +177,7 @@ public class MainActivity extends AppCompatActivity {
 
         startAlarm();
 
-        if (!checkPermissionReadPhoneState(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+        if (missingPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
                     MainActivity.REQUEST_PERMISSION_WRITE_EXTERNAL_STORAGE);
         }
@@ -206,17 +199,9 @@ public class MainActivity extends AppCompatActivity {
         switch (requestCode) {
             case REQUEST_PERMISSION_PHONE_STATE:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    if (BuildConfig.is_dev) {
-                        com.pepperonas.m104.utils.Log.i(TAG, "onRequestPermissionsResult: Permission Granted!");
-                    } else {
-                        android.util.Log.i(TAG, "onRequestPermissionsResult: Permission Granted!");
-                    }
+                    Log.i(TAG, "onRequestPermissionsResult: Permission Granted!");
                 } else {
-                    if (BuildConfig.is_dev) {
-                        com.pepperonas.m104.utils.Log.i(TAG, "onRequestPermissionsResult: Permission Denied!");
-                    } else {
-                        android.util.Log.i(TAG, "onRequestPermissionsResult: Permission Denied!");
-                    }
+                    Log.i(TAG, "onRequestPermissionsResult: Permission Denied!");
                 }
         }
     }
@@ -230,11 +215,8 @@ public class MainActivity extends AppCompatActivity {
 
             getIntent().removeExtra("start_fragment");
 
-            if (BuildConfig.is_dev) {
-                com.pepperonas.m104.utils.Log.d(TAG, "onNewIntent " + "startFragment=" + startFragment);
-            } else {
-                android.util.Log.d(TAG, "onNewIntent " + "startFragment=" + startFragment);
-            }
+            Log.d(TAG, "onNewIntent " + "startFragment=" + startFragment);
+
             if (startFragment.equals(NotificationBattery.EXTRA_START_BATTERY)) {
                 makeFragmentTransaction(FragmentBatteryStats.newInstance(0));
             }
@@ -246,11 +228,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
         } else {
-            if (BuildConfig.is_dev) {
-                com.pepperonas.m104.utils.Log.w(TAG, "onCreate intent can't be resolved...");
-            } else {
-                android.util.Log.w(TAG, "onCreate intent can't be resolved...");
-            }
+            Log.w(TAG, "onCreate intent can't be resolved...");
         }
     }
 
@@ -287,11 +265,7 @@ public class MainActivity extends AppCompatActivity {
         try {
             unregisterReceiver(mMainServiceReceiver);
         } catch (Exception e) {
-            if (BuildConfig.is_dev) {
-                com.pepperonas.m104.utils.Log.e(TAG, "onPause failed when unregister receiver");
-            } else {
-                android.util.Log.e(TAG, "onPause failed when unregister receiver");
-            }
+            Log.e(TAG, "onPause failed when unregister receiver");
         }
 
         super.onPause();
@@ -324,11 +298,8 @@ public class MainActivity extends AppCompatActivity {
      * Check for key.
      */
     private void checkForKey() {
-        if (BuildConfig.is_dev) {
-            com.pepperonas.m104.utils.Log.i(TAG, "Checking key...");
-        } else {
-            android.util.Log.i(TAG, "Checking key...");
-        }
+        Log.i(TAG, "Checking key...");
+
         PackageManager manager = getPackageManager();
         if (manager.checkSignatures("com.pepperonas.m104", "com.pepperonas.m104.key") == PackageManager.SIGNATURE_MATCH) {
             AesPrefs.putBooleanRes(R.string.IS_PREMIUM, true);
@@ -458,7 +429,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
             case R.id.nav_item_network_stats: {
-                if (!checkPermissionReadPhoneState(Manifest.permission.READ_PHONE_STATE)) {
+                if (missingPermission(Manifest.permission.READ_PHONE_STATE)) {
                     new DialogPermissionReadPhoneState(this);
                 } else {
                     if (mFragment instanceof FragmentNetworkStats) {
@@ -504,9 +475,9 @@ public class MainActivity extends AppCompatActivity {
         return false;
     }
 
-    private boolean checkPermissionReadPhoneState(String permission) {
+    private boolean missingPermission(String permission) {
         int res = getContext().checkCallingOrSelfPermission(permission);
-        return (res == PackageManager.PERMISSION_GRANTED);
+        return (res != PackageManager.PERMISSION_GRANTED);
     }
 
     /**
@@ -629,11 +600,7 @@ public class MainActivity extends AppCompatActivity {
         try {
             mNavView.getMenu().getItem(0).getSubMenu().removeItem(MENU_ITEM_ROOT);
         } catch (Exception e) {
-            if (BuildConfig.is_dev) {
-                com.pepperonas.m104.utils.Log.e(TAG, "removeItemRoot " + e.getMessage());
-            } else {
-                android.util.Log.e(TAG, "removeItemRoot " + e.getMessage());
-            }
+            Log.e(TAG, "removeItemRoot " + e.getMessage());
         }
     }
 

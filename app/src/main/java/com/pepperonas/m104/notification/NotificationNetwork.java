@@ -43,6 +43,7 @@ import com.pepperonas.m104.BuildConfig;
 import com.pepperonas.m104.MainActivity;
 import com.pepperonas.m104.R;
 import com.pepperonas.m104.config.Const;
+import com.pepperonas.m104.utils.Log;
 
 import java.text.NumberFormat;
 
@@ -60,8 +61,8 @@ public class NotificationNetwork {
 
     private Context mCtx;
 
-    private static NotificationManager mNotificationManager;
-    private static NotificationCompat.Builder mBuilder;
+    private NotificationManager mNotificationManager;
+    private NotificationCompat.Builder mBuilder;
 
     private RemoteViews mRemoteViews;
 
@@ -240,11 +241,7 @@ public class NotificationNetwork {
                 mNotificationManager.cancel(Const.NOTIFICATION_NETWORK);
             }
         } catch (Exception e) {
-            if (BuildConfig.is_dev) {
-                com.pepperonas.m104.utils.Log.e(TAG, "NotificationNetwork: Error while setting up network notification.", e);
-            } else {
-                android.util.Log.e(TAG, "NotificationNetwork: Error while setting up network notification.", e);
-            }
+            Log.e(TAG, "NotificationNetwork: Error while setting up network notification.", e);
         }
 
     }
@@ -434,7 +431,7 @@ public class NotificationNetwork {
         return networkName;
     }
 
-    public static void removeIfCanceled() {
+    public void removeIfCanceled() {
         if (mNotificationManager == null) {
             mNotificationManager = (NotificationManager) AndBasx.getContext().getSystemService(Context.NOTIFICATION_SERVICE);
         }
@@ -445,7 +442,7 @@ public class NotificationNetwork {
         }
     }
 
-    public static void renew() {
+    public void renew() {
         if (mNotificationManager == null) {
             mNotificationManager = (NotificationManager) AndBasx.getContext().getSystemService(Context.NOTIFICATION_SERVICE);
         }

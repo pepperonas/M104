@@ -22,6 +22,7 @@ import android.content.pm.PackageManager;
 import android.os.Environment;
 import android.support.v4.content.ContextCompat;
 
+import com.pepperonas.m104.BuildConfig;
 import com.pepperonas.m104.R;
 
 import java.io.File;
@@ -94,6 +95,10 @@ public class Log {
             if (sContext.getResources().getBoolean(R.bool.disable_log_writer)) {
                 return res;
             }
+        }
+
+        if (!BuildConfig.is_dev) {
+            return res;
         }
 
         if (printWriter == null) {

@@ -292,9 +292,6 @@ public class FragmentSettings extends com.github.machinarius.preferencefragment.
         CheckBoxPreference chbP = (CheckBoxPreference) findPreference(getString(R.string.SHOW_BATTERY_NOTIFICATION));
         chbP.setChecked(AesPrefs.getBooleanRes(R.string.SHOW_BATTERY_NOTIFICATION, true));
 
-        //        chbP = (CheckBoxPreference) findPreference(getString(R.string.SHOW_NETWORK_NOTIFICATION));
-        //        chbP.setChecked(AesPrefs.getBooleanRes(R.string.SHOW_NETWORK_NOTIFICATION, true));
-
         chbP = (CheckBoxPreference) findPreference(getString(R.string.SHOW_CLIPBOARD_NOTIFICATION));
         chbP.setChecked(AesPrefs.getBooleanRes(R.string.SHOW_CLIPBOARD_NOTIFICATION, true));
 
@@ -376,7 +373,8 @@ public class FragmentSettings extends com.github.machinarius.preferencefragment.
                 switch (which) {
                     case R.string.SHOW_BATTERY_NOTIFICATION: {
                         if (isChecked) {
-                            NotificationBattery.removeIfCanceled();
+                            NotificationBattery notificationBattery = new NotificationBattery(getContext());
+                            notificationBattery.removeIfCanceled();
                         } else {
                             manager.cancel(Const.NOTIFICATION_BATTERY);
                         }
@@ -385,7 +383,8 @@ public class FragmentSettings extends com.github.machinarius.preferencefragment.
                     case R.string.SHOW_NETWORK_NOTIFICATION: {
                         if (isChecked) {
                             if (getContext() != null) {
-                                NotificationNetwork.removeIfCanceled();
+                                NotificationNetwork notificationNetwork = new NotificationNetwork(getContext());
+                                notificationNetwork.removeIfCanceled();
                             }
                         } else {
                             manager.cancel(Const.NOTIFICATION_NETWORK);
@@ -394,7 +393,9 @@ public class FragmentSettings extends com.github.machinarius.preferencefragment.
                     }
                     case R.string.SHOW_CLIPBOARD_NOTIFICATION: {
                         if (isChecked) {
-                            NotificationClipboard.removeIfCanceled();
+                            NotificationClipboard notificationClipboard = new NotificationClipboard(getContext(),
+                                    mainActivity.getDatabase().getClipDataCount());
+                            notificationClipboard.removeIfCanceled();
                         } else {
                             manager.cancel(Const.NOTIFICATION_CLIPBOARD);
                         }

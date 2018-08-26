@@ -24,7 +24,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
-import android.util.Log;
 import android.widget.RemoteViews;
 
 import com.pepperonas.aespreferences.AesPrefs;
@@ -33,6 +32,7 @@ import com.pepperonas.m104.MainActivity;
 import com.pepperonas.m104.R;
 import com.pepperonas.m104.config.Const;
 import com.pepperonas.m104.utils.BatteryUtils;
+import com.pepperonas.m104.utils.Log;
 import com.pepperonas.m104.utils.StringFactory;
 
 /**
@@ -49,8 +49,8 @@ public class NotificationBattery {
 
     private Context mCtx;
 
-    private static NotificationManager mNotificationManager;
-    private static NotificationCompat.Builder mBuilder;
+    private NotificationManager mNotificationManager;
+    private NotificationCompat.Builder mBuilder;
 
     private final RemoteViews mRemoteViews;
 
@@ -111,9 +111,7 @@ public class NotificationBattery {
 
         launch.putExtra("start_fragment", EXTRA_START_BATTERY);
 
-        /*
-          Important: set {@link PendingIntent.FLAG_UPDATE_CURRENT}
-          */
+        // Important: set PendingIntent.FLAG_UPDATE_CURRENT
         PendingIntent btnLaunch = PendingIntent.getActivity(mCtx, Const.NOTIFICATION_BATTERY, launch, PendingIntent.FLAG_UPDATE_CURRENT);
         mRemoteViews.setOnClickPendingIntent(R.id.iv_notification_circle_left, btnLaunch);
     }
@@ -151,7 +149,7 @@ public class NotificationBattery {
         }
     }
 
-    public static void removeIfCanceled() {
+    public void removeIfCanceled() {
         if (mNotificationManager == null) {
             mNotificationManager = (NotificationManager) AndBasx.getContext().getSystemService(Context.NOTIFICATION_SERVICE);
         }

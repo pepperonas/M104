@@ -4,8 +4,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
-import com.pepperonas.m104.BuildConfig;
 import com.pepperonas.m104.notification.NotificationNetwork;
+import com.pepperonas.m104.utils.Log;
 
 /**
  * @author Martin Pfeffer
@@ -18,12 +18,10 @@ public class AlarmReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context arg0, Intent arg1) {
-        if (BuildConfig.is_dev) {
-            com.pepperonas.m104.utils.Log.w(TAG, "onReceive: Renewing Network-Notification...");
-        } else {
-            android.util.Log.w(TAG, "onReceive: Renewing Network-Notification...");
-        }
-        NotificationNetwork.renew();
+        Log.w(TAG, "onReceive: Renewing Network-Notification...");
+
+        NotificationNetwork notificationNetwork = new NotificationNetwork(arg0);
+        notificationNetwork.renew();
     }
 
 }

@@ -33,7 +33,6 @@ import android.support.annotation.Nullable;
 import com.pepperonas.aespreferences.AesPrefs;
 import com.pepperonas.andbasx.system.NetworkUtils;
 import com.pepperonas.andbasx.system.SystemUtils;
-import com.pepperonas.jbasx.log.Log;
 import com.pepperonas.jbasx.math.ConvertUtils;
 import com.pepperonas.m104.config.Const;
 import com.pepperonas.m104.model.BatteryStat;
@@ -44,6 +43,7 @@ import com.pepperonas.m104.notification.NotificationBattery;
 import com.pepperonas.m104.notification.NotificationClipboard;
 import com.pepperonas.m104.notification.NotificationNetwork;
 import com.pepperonas.m104.utils.Calculations;
+import com.pepperonas.m104.utils.Log;
 
 /**
  * @author Martin Pfeffer
@@ -100,7 +100,8 @@ public class MainService extends Service {
 
     //    private Tracker mTracker;
 
-    private boolean mIsScreenOn = true;
+
+
 
     /**
      * Receiver to react when battery changes.
@@ -135,9 +136,7 @@ public class MainService extends Service {
 
             ensurePercentResolvable();
 
-            /*
-              On state changed.
-              */
+            // On state changed
             if (AesPrefs.getBooleanResNoLog(R.string.IS_CHARGING, false) != mIsCharging) {
                 // state changed, store it...
                 AesPrefs.putBooleanRes(R.string.IS_CHARGING, mIsCharging);
@@ -240,7 +239,7 @@ public class MainService extends Service {
         bcI.putExtra("status", mStatus);
         sendBroadcast(bcI);
 
-        // and update battery notification
+        // update battery notification
         mNotificationBattery.update(mLevel, mTemperature, mIsCharging);
     }
 
@@ -260,7 +259,7 @@ public class MainService extends Service {
         bcI.putExtra("txm", txm);
         sendBroadcast(bcI);
 
-        // and update battery notification
+        // update battery notification
         //        mNotificationBattery.update(mLevel, mTemperature, mIsCharging);
     }
 
@@ -303,8 +302,6 @@ public class MainService extends Service {
 
             mDb.addScreenState(System.currentTimeMillis(), AesPrefs.getLongResNoLog(R.string.LAST_BATTERY_STAT, 0), true);
 
-            mIsScreenOn = true;
-
             trackOnScreenOn();
             startRepeatingTask();
         }
@@ -332,8 +329,6 @@ public class MainService extends Service {
         @Override
         public void onReceive(Context ctx, Intent intent) {
             mDb.addScreenState(System.currentTimeMillis(), AesPrefs.getLongResNoLog(R.string.LAST_BATTERY_STAT, 0), false);
-
-            mIsScreenOn = false;
 
             trackOnScreenOff();
             sendBatteryBroadcast();
@@ -409,11 +404,7 @@ public class MainService extends Service {
             mTmpLastRxMobile = TrafficStats.getMobileRxBytes();
             mTmpLastTxMobile = TrafficStats.getMobileTxBytes();
 
-
-            /*
-              Required for {@link NetworkDialogActivity#loadHistoryChart} - currently not
-              processed.
-              */
+            // Required for NetworkDialogActivity#loadHistoryChart - currently not processed.
             try {
                 mNotificationNetwork.update(TrafficStats.getTotalRxBytes(), TrafficStats.getTotalTxBytes(),
                         TrafficStats.getMobileRxBytes(), TrafficStats.getMobileTxBytes(), rx_ivl,

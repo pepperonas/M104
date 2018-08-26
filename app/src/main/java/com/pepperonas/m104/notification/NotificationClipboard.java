@@ -26,7 +26,6 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
-import android.util.Log;
 import android.widget.RemoteViews;
 
 import com.pepperonas.aespreferences.AesPrefs;
@@ -36,6 +35,7 @@ import com.pepperonas.andbasx.base.Loader;
 import com.pepperonas.m104.MainActivity;
 import com.pepperonas.m104.R;
 import com.pepperonas.m104.config.Const;
+import com.pepperonas.m104.utils.Log;
 
 /**
  * @author Martin Pfeffer (celox.io)
@@ -51,8 +51,8 @@ public class NotificationClipboard {
 
     private Context mCtx;
 
-    private static NotificationManager mNotificationManager;
-    private static NotificationCompat.Builder mBuilder;
+    private NotificationManager mNotificationManager;
+    private NotificationCompat.Builder mBuilder;
 
     private final RemoteViews mRemoteViews;
 
@@ -138,9 +138,7 @@ public class NotificationClipboard {
 
         launch.putExtra("start_fragment", EXTRA_START_CLIPBOARD);
 
-        /*
-          Important: set {@link PendingIntent.FLAG_UPDATE_CURRENT}
-          */
+        // Important: set PendingIntent.FLAG_UPDATE_CURRENT
         PendingIntent btnLaunch = PendingIntent.getActivity(mCtx, Const.NOTIFICATION_CLIPBOARD, launch, PendingIntent.FLAG_UPDATE_CURRENT);
         mRemoteViews.setOnClickPendingIntent(R.id.iv_notification_circle_left, btnLaunch);
     }
@@ -162,7 +160,7 @@ public class NotificationClipboard {
         }
     }
 
-    public static void removeIfCanceled() {
+    public void removeIfCanceled() {
         if (mNotificationManager == null) {
             mNotificationManager = (NotificationManager) AndBasx.getContext().getSystemService(Context.NOTIFICATION_SERVICE);
         }

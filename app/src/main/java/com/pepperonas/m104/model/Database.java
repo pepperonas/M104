@@ -21,12 +21,12 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 import com.pepperonas.aespreferences.AesPrefs;
 import com.pepperonas.aespreferences.Crypt;
 import com.pepperonas.m104.R;
 import com.pepperonas.m104.config.Const;
+import com.pepperonas.m104.utils.Log;
 
 import java.util.ArrayList;
 import java.util.List;

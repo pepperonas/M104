@@ -23,9 +23,9 @@ import android.os.Build;
 import android.support.v4.content.ContextCompat;
 
 import com.pepperonas.aespreferences.AesPrefs;
-import com.pepperonas.jbasx.log.Log;
 import com.pepperonas.m104.MainService;
 import com.pepperonas.m104.R;
+import com.pepperonas.m104.utils.Log;
 
 /**
  * @author Martin Pfeffer (celox.io)
