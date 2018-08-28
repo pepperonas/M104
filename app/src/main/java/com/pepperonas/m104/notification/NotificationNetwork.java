@@ -39,7 +39,6 @@ import com.pepperonas.andbasx.system.DeviceUtils;
 import com.pepperonas.andbasx.system.SystemUtils;
 import com.pepperonas.jbasx.base.Binary;
 import com.pepperonas.jbasx.base.Si;
-import com.pepperonas.m104.BuildConfig;
 import com.pepperonas.m104.MainActivity;
 import com.pepperonas.m104.R;
 import com.pepperonas.m104.config.Const;
@@ -65,9 +64,6 @@ public class NotificationNetwork {
     private NotificationCompat.Builder mBuilder;
 
     private RemoteViews mRemoteViews;
-
-    //    private long mCurrentTrafficPerSecond = 0L;
-    //    private int mValueNotChangedCounter = 0;
 
     /**
      * Instantiates a new Notification panel.
@@ -109,11 +105,7 @@ public class NotificationNetwork {
             }
 
         } catch (Exception e) {
-            if (BuildConfig.is_dev) {
-                com.pepperonas.m104.utils.Log.e(TAG, "NotificationNetwork: Error while setting up network notification. ", e);
-            } else {
-                android.util.Log.e(TAG, "NotificationNetwork: Error while setting up network notification. ", e);
-            }
+            Log.e(TAG, "NotificationNetwork: Error while setting up network notification. ", e);
         }
 
         initIcons();
@@ -142,10 +134,8 @@ public class NotificationNetwork {
 
         chartIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
-        /*
-          Set {@link PendingIntent#FLAG_CANCEL_CURRENT} to receive
-          the {@link android.os.Bundle} object's extra in {@link NetworkDialogActivity}.
-          */
+        // Set {@link PendingIntent#FLAG_CANCEL_CURRENT} to receive
+        // the {@link android.os.Bundle} object's extra in {@link NetworkDialogActivity}.
         PendingIntent pendingIntent = PendingIntent.getActivity(mCtx, 0, chartIntent, PendingIntent.FLAG_CANCEL_CURRENT);
 
         mRemoteViews.setOnClickPendingIntent(R.id.notification_container, pendingIntent);
@@ -156,9 +146,7 @@ public class NotificationNetwork {
 
         launch.putExtra("start_fragment", EXTRA_START_NETWORK);
 
-        /*
-          Important: set {@link PendingIntent.FLAG_UPDATE_CURRENT}
-          */
+        // Important: set {@link PendingIntent.FLAG_UPDATE_CURRENT}
         PendingIntent btnLaunch = PendingIntent.getActivity(mCtx, Const.NOTIFICATION_NETWORK, launch, PendingIntent.FLAG_UPDATE_CURRENT);
         mRemoteViews.setOnClickPendingIntent(R.id.iv_notification_circle_left, btnLaunch);
     }
@@ -182,23 +170,6 @@ public class NotificationNetwork {
         long mobileTotalTraffic = mobileTotalRx + mobileTotalTx;
         long currentTrafficPerSecond = currentRx + currentTx;
 
-        //        // If network notification shows value > 0, check if value is changing while running. If
-        //        // it is not changing, recreate the notification to prevent freezing.
-        //        if (currentTrafficPerSecond != 0) {
-        //            if (mCurrentTrafficPerSecond != currentTrafficPerSecond) {
-        //                mCurrentTrafficPerSecond = currentTrafficPerSecond;
-        //                mValueNotChangedCounter = 0;
-        //            } else {
-        //                mValueNotChangedCounter++;
-        //            }
-        //            if (mValueNotChangedCounter >= 10) {
-        //                mValueNotChangedCounter = 0;
-        //                mNotificationManager.cancel(Const.NOTIFICATION_NETWORK);
-        //            }
-        //        } else {
-        //            mValueNotChangedCounter = 0;
-        //        }
-
         int imageResourceId;
         if (currentTrafficPerSecond > Si.MEGA) {
             float f = currentTrafficPerSecond / (float) Si.MEGA;
@@ -212,11 +183,7 @@ public class NotificationNetwork {
 
         try {
             if (imageResourceId == -1) {
-                if (BuildConfig.is_dev) {
-                    com.pepperonas.m104.utils.Log.e(TAG, "update: imageResourceId invalid.");
-                } else {
-                    android.util.Log.e(TAG, "update: imageResourceId invalid.");
-                }
+                Log.e(TAG, "update: imageResourceId invalid.");
                 imageResourceId = resolveDrawableId("kbytes_" + 0);
             }
 
@@ -231,17 +198,13 @@ public class NotificationNetwork {
             makeCenterBottom(totalTraffic, mobileTotalTraffic);
 
             if (AesPrefs.getBooleanRes(R.string.SHOW_NETWORK_NOTIFICATION, true)) {
-                if (BuildConfig.is_dev) {
-                    com.pepperonas.m104.utils.Log.i(TAG, "---UPDATE---");
-                } else {
-                    android.util.Log.i(TAG, "---UPDATE---");
-                }
+                Log.i(TAG, "---UPDATE---");
                 mNotificationManager.notify(Const.NOTIFICATION_NETWORK, mBuilder.build());
             } else {
                 mNotificationManager.cancel(Const.NOTIFICATION_NETWORK);
             }
         } catch (Exception e) {
-            Log.e(TAG, "NotificationNetwork: Error while setting up network notification.", e);
+            Log.e(TAG, "update: Error while setting up network notification.", e);
         }
 
     }
