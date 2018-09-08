@@ -71,9 +71,9 @@ public class NotificationClipboard {
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 .setChannelId(CHANNEL_ID)
                 .setOnlyAlertOnce(true)
-                .setPriority(NotificationCompat.PRIORITY_MAX)
-                //                .setShowWhen(true)
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setWhen(System.currentTimeMillis())
+                .setShowWhen(false)
                 .setGroup(GROUP)
                 .setOngoing(true);
 
@@ -86,7 +86,7 @@ public class NotificationClipboard {
         mRemoteViews.setTextViewText(R.id.tv_s_notification_center_bottom, makeClipDataCountInfo(clipDataCount));
         initClipboardNotificationIntent();
 
-        mBuilder.setContent(mRemoteViews);
+        mBuilder.setCustomContentView(mRemoteViews);
 
         mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 

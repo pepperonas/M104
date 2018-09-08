@@ -81,14 +81,14 @@ public class NotificationNetwork {
                     .setChannelId(CHANNEL_ID)
                     .setOnlyAlertOnce(true)
                     .setPriority(NotificationCompat.PRIORITY_MAX)
-                    //                    .setShowWhen(true)
-                    .setWhen(System.currentTimeMillis() + 1000)
+                    .setWhen(System.currentTimeMillis())
+                    .setShowWhen(false)
                     .setGroup(GROUP)
                     .setOngoing(true);
 
             mRemoteViews = new RemoteViews(context.getPackageName(), R.layout.notification_view_network);
             initNetworkNotificationIntent();
-            mBuilder.setContent(mRemoteViews);
+            mBuilder.setCustomContentView(mRemoteViews);
 
             mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
@@ -182,7 +182,7 @@ public class NotificationNetwork {
         }
 
         try {
-            if (imageResourceId == -1) {
+            if (imageResourceId == 0) {
                 Log.e(TAG, "update: imageResourceId invalid.");
                 imageResourceId = resolveDrawableId("kbytes_" + 0);
             }
@@ -192,9 +192,7 @@ public class NotificationNetwork {
             makeCircle(currentTrafficPerSecond);
             makeRightSide(currentRx, true);
             makeRightSide(currentTx, false);
-
             makeCenterTop(networkType);
-
             makeCenterBottom(totalTraffic, mobileTotalTraffic);
 
             if (AesPrefs.getBooleanRes(R.string.SHOW_NETWORK_NOTIFICATION, true)) {

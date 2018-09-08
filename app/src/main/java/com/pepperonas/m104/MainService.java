@@ -100,9 +100,6 @@ public class MainService extends Service {
 
     //    private Tracker mTracker;
 
-
-
-
     /**
      * Receiver to react when battery changes.
      */
@@ -542,7 +539,7 @@ public class MainService extends Service {
      * Stop repeating task.
      */
     private void stopRepeatingTask() {
-        mNetworkCheckerRunning = false;
+        //        mNetworkCheckerRunning = false;
 
         Log.d(TAG, "stopRepeatingTask");
         mHandler.removeCallbacks(mRunnableNetworkCheck);

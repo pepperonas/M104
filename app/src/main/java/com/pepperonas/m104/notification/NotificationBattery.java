@@ -70,6 +70,7 @@ public class NotificationBattery {
                 .setOnlyAlertOnce(true)
                 .setPriority(NotificationCompat.PRIORITY_MAX)
                 .setWhen(System.currentTimeMillis() + 500)
+                .setShowWhen(false)
                 .setGroup(GROUP)
                 .setOngoing(true);
 
@@ -77,7 +78,7 @@ public class NotificationBattery {
 
         initBatteryNotificationIntent();
 
-        mBuilder.setContent(mRemoteViews);
+        mBuilder.setCustomContentView(mRemoteViews);
 
         mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
