@@ -17,6 +17,7 @@
 <resources>
 
     <string name="notification_title_battery">Battery</string>
+    <string name="notification_title_clipboard">Clipboard</string>
 
     <string name="ns">n.s.</string>
 

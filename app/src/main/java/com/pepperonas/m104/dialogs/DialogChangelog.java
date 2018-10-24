@@ -52,6 +52,12 @@ public class DialogChangelog {
     private List<Changelog> getChangelogs() {
         List<Changelog> changes = new ArrayList<>();
 
+        changes.add(new Changelog("0.4.3", "2018-10-24", new ReleaseInfo(
+                "Fixed network notification",
+                "Updated SDK tools (28.0.3)",
+                "Updated Play Services (17.0.0)"
+        )));
+
         changes.add(new Changelog("0.4.2", "2018-08-26", new ReleaseInfo(
                 "Fixed memory issues",
                 "Performance improvements"

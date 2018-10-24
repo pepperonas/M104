@@ -73,9 +73,15 @@ public class NotificationNetwork {
     public NotificationNetwork(Context context) {
         this.mCtx = context;
 
+        initBuilder();
+
+        initIcons();
+    }
+
+    private void initBuilder() {
         try {
-            mBuilder = new NotificationCompat.Builder(context, CHANNEL_ID)
-                    .setContentTitle(context.getString(R.string.notification_title_network))
+            mBuilder = new NotificationCompat.Builder(mCtx, CHANNEL_ID)
+                    .setContentTitle(mCtx.getString(R.string.notification_title_network))
                     .setSmallIcon(R.drawable.ic_launcher)
                     .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                     .setChannelId(CHANNEL_ID)
@@ -86,15 +92,17 @@ public class NotificationNetwork {
                     .setGroup(GROUP)
                     .setOngoing(true);
 
-            mRemoteViews = new RemoteViews(context.getPackageName(), R.layout.notification_view_network);
+            mRemoteViews = new RemoteViews(mCtx.getPackageName(), R.layout.notification_view_network);
             initNetworkNotificationIntent();
-            mBuilder.setCustomContentView(mRemoteViews);
+            mBuilder.setCustomContentView(mRemoteViews)
+                    .setStyle(new NotificationCompat.DecoratedCustomViewStyle());
 
-            mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+            mNotificationManager = (NotificationManager) mCtx.getSystemService(Context.NOTIFICATION_SERVICE);
 
             if (AesPrefs.getBooleanRes(R.string.SHOW_NETWORK_NOTIFICATION, true)) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    NotificationChannel channel = new NotificationChannel(CHANNEL_ID, context.getString(R.string.notification_title_network),
+                    NotificationChannel channel = new NotificationChannel(CHANNEL_ID,
+                            mCtx.getString(R.string.notification_title_network),
                             NotificationManager.IMPORTANCE_DEFAULT);
                     channel.setShowBadge(false);
                     channel.setSound(null, null);
@@ -107,8 +115,6 @@ public class NotificationNetwork {
         } catch (Exception e) {
             Log.e(TAG, "NotificationNetwork: Error while setting up network notification. ", e);
         }
-
-        initIcons();
     }
 
     /**
@@ -130,13 +136,15 @@ public class NotificationNetwork {
     private void initNetworkNotificationIntent() {
         Intent chartIntent = new Intent(mCtx, NetworkDialogActivity.class);
 
-        chartIntent.putExtra(mCtx.getString(R.string.NETWORK_CHART_LIVE_MODE), AesPrefs.getBooleanResNoLog(R.string.NETWORK_CHART_LIVE_MODE, false));
+        chartIntent.putExtra(mCtx.getString(R.string.NETWORK_CHART_LIVE_MODE),
+                AesPrefs.getBooleanResNoLog(R.string.NETWORK_CHART_LIVE_MODE, false));
 
         chartIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
         // Set {@link PendingIntent#FLAG_CANCEL_CURRENT} to receive
         // the {@link android.os.Bundle} object's extra in {@link NetworkDialogActivity}.
-        PendingIntent pendingIntent = PendingIntent.getActivity(mCtx, 0, chartIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+        PendingIntent pendingIntent = PendingIntent.getActivity(
+                mCtx, 0, chartIntent, PendingIntent.FLAG_CANCEL_CURRENT);
 
         mRemoteViews.setOnClickPendingIntent(R.id.notification_container, pendingIntent);
 
@@ -147,7 +155,8 @@ public class NotificationNetwork {
         launch.putExtra("start_fragment", EXTRA_START_NETWORK);
 
         // Important: set {@link PendingIntent.FLAG_UPDATE_CURRENT}
-        PendingIntent btnLaunch = PendingIntent.getActivity(mCtx, Const.NOTIFICATION_NETWORK, launch, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent btnLaunch = PendingIntent.getActivity(
+                mCtx, Const.NOTIFICATION_NETWORK, launch, PendingIntent.FLAG_UPDATE_CURRENT);
         mRemoteViews.setOnClickPendingIntent(R.id.iv_notification_circle_left, btnLaunch);
     }
 
@@ -174,7 +183,8 @@ public class NotificationNetwork {
         if (currentTrafficPerSecond > Si.MEGA) {
             float f = currentTrafficPerSecond / (float) Si.MEGA;
             String fStr = String.valueOf(f);
-            imageResourceId = resolveDrawableId("mbytes__" + fStr.split("\\.")[0] + "_" + String.valueOf(fStr.split("\\.")[1].charAt(0)));
+            imageResourceId = resolveDrawableId("mbytes__" + fStr.split("\\.")[0] + "_" +
+                    String.valueOf(fStr.split("\\.")[1].charAt(0)));
         } else if (currentTrafficPerSecond != 0) {
             imageResourceId = resolveDrawableId("kbytes_" + currentTrafficPerSecond / (int) Si.KILO);
         } else {
@@ -203,13 +213,20 @@ public class NotificationNetwork {
             }
         } catch (Exception e) {
             Log.e(TAG, "update: Error while setting up network notification.", e);
+
+            initBuilder();
         }
 
     }
 
     private int resolveDrawableId(@NonNull String source) {
-        String uri = "@drawable/" + source;
-        return mCtx.getResources().getIdentifier(uri, null, mCtx.getPackageName());
+        try {
+            String uri = "@drawable/" + source;
+            return mCtx.getResources().getIdentifier(uri, null, mCtx.getPackageName());
+        } catch (Exception e) {
+            Log.e(TAG, "resolveDrawableId: ", e);
+        }
+        return 0;
     }
 
     /**
@@ -225,7 +242,8 @@ public class NotificationNetwork {
             nf.setMaximumFractionDigits(1);
             nf.setMinimumFractionDigits(1);
             unit = mCtx.getString(R.string._unit_gigabytes_per_second);
-            mRemoteViews.setTextViewText(R.id.tv_notification_circle_value, nf.format(currentTrafficPerSecond / Binary.GIGA));
+            mRemoteViews.setTextViewText(R.id.tv_notification_circle_value,
+                    nf.format(currentTrafficPerSecond / Binary.GIGA));
             mRemoteViews.setTextViewText(R.id.tv_notification_circle_values_unit, unit);
             return;
         }
@@ -234,7 +252,8 @@ public class NotificationNetwork {
             nf.setMaximumFractionDigits(1);
             nf.setMinimumFractionDigits(1);
             unit = mCtx.getString(R.string._unit_megabytes_per_second);
-            mRemoteViews.setTextViewText(R.id.tv_notification_circle_value, nf.format(currentTrafficPerSecond / Binary.MEGA));
+            mRemoteViews.setTextViewText(R.id.tv_notification_circle_value,
+                    nf.format(currentTrafficPerSecond / Binary.MEGA));
             mRemoteViews.setTextViewText(R.id.tv_notification_circle_values_unit, unit);
             return;
         }
@@ -245,13 +264,15 @@ public class NotificationNetwork {
 
         if (currentTrafficPerSecond > Binary.KILO) {
             unit = mCtx.getString(R.string._unit_kilobytes_per_second);
-            mRemoteViews.setTextViewText(R.id.tv_notification_circle_value, nf.format(currentTrafficPerSecond / Binary.KILO));
+            mRemoteViews.setTextViewText(R.id.tv_notification_circle_value,
+                    nf.format(currentTrafficPerSecond / Binary.KILO));
             mRemoteViews.setTextViewText(R.id.tv_notification_circle_values_unit, unit);
             return;
         }
 
         unit = mCtx.getString(R.string._unit_bytes_per_second);
-        mRemoteViews.setTextViewText(R.id.tv_notification_circle_value, nf.format(currentTrafficPerSecond));
+        mRemoteViews.setTextViewText(R.id.tv_notification_circle_value,
+                nf.format(currentTrafficPerSecond));
         mRemoteViews.setTextViewText(R.id.tv_notification_circle_values_unit, unit);
     }
 
@@ -270,9 +291,11 @@ public class NotificationNetwork {
             nf.setMinimumFractionDigits(1);
             unit = mCtx.getString(R.string._unit_gigabytes_per_second);
             if (isRx) {
-                mRemoteViews.setTextViewText(R.id.tv_s_notification_right_bottom, nf.format(currentRxTx / Binary.GIGA) + " " + unit);
+                mRemoteViews.setTextViewText(R.id.tv_s_notification_right_bottom,
+                        nf.format(currentRxTx / Binary.GIGA) + " " + unit);
             } else {
-                mRemoteViews.setTextViewText(R.id.tv_s_notification_right_top, nf.format(currentRxTx / Binary.GIGA) + " " + unit);
+                mRemoteViews.setTextViewText(R.id.tv_s_notification_right_top,
+                        nf.format(currentRxTx / Binary.GIGA) + " " + unit);
             }
             return;
         }
@@ -282,9 +305,11 @@ public class NotificationNetwork {
             nf.setMinimumFractionDigits(1);
             unit = mCtx.getString(R.string._unit_megabytes_per_second);
             if (isRx) {
-                mRemoteViews.setTextViewText(R.id.tv_s_notification_right_bottom, nf.format(currentRxTx / Binary.MEGA) + " " + unit);
+                mRemoteViews.setTextViewText(R.id.tv_s_notification_right_bottom,
+                        nf.format(currentRxTx / Binary.MEGA) + " " + unit);
             } else {
-                mRemoteViews.setTextViewText(R.id.tv_s_notification_right_top, nf.format(currentRxTx / Binary.MEGA) + " " + unit);
+                mRemoteViews.setTextViewText(R.id.tv_s_notification_right_top,
+                        nf.format(currentRxTx / Binary.MEGA) + " " + unit);
             }
             return;
         }
@@ -296,18 +321,22 @@ public class NotificationNetwork {
         if (currentRxTx > Binary.KILO) {
             unit = mCtx.getString(R.string._unit_kilobytes_per_second);
             if (isRx) {
-                mRemoteViews.setTextViewText(R.id.tv_s_notification_right_bottom, nf.format(currentRxTx / Binary.KILO) + " " + unit);
+                mRemoteViews.setTextViewText(R.id.tv_s_notification_right_bottom,
+                        nf.format(currentRxTx / Binary.KILO) + " " + unit);
             } else {
-                mRemoteViews.setTextViewText(R.id.tv_s_notification_right_top, nf.format(currentRxTx / Binary.KILO) + " " + unit);
+                mRemoteViews.setTextViewText(R.id.tv_s_notification_right_top,
+                        nf.format(currentRxTx / Binary.KILO) + " " + unit);
             }
             return;
         }
 
         unit = mCtx.getString(R.string._unit_bytes_per_second);
         if (isRx) {
-            mRemoteViews.setTextViewText(R.id.tv_s_notification_right_bottom, nf.format(currentRxTx) + " " + unit);
+            mRemoteViews.setTextViewText(R.id.tv_s_notification_right_bottom,
+                    nf.format(currentRxTx) + " " + unit);
         } else {
-            mRemoteViews.setTextViewText(R.id.tv_s_notification_right_top, nf.format(currentRxTx) + " " + unit);
+            mRemoteViews.setTextViewText(R.id.tv_s_notification_right_top,
+                    nf.format(currentRxTx) + " " + unit);
         }
     }
 
@@ -394,7 +423,8 @@ public class NotificationNetwork {
 
     public void removeIfCanceled() {
         if (mNotificationManager == null) {
-            mNotificationManager = (NotificationManager) AndBasx.getContext().getSystemService(Context.NOTIFICATION_SERVICE);
+            mNotificationManager = (NotificationManager) AndBasx.getContext()
+                    .getSystemService(Context.NOTIFICATION_SERVICE);
         }
         if (AesPrefs.getBooleanRes(R.string.SHOW_NETWORK_NOTIFICATION, true)) {
             mNotificationManager.notify(Const.NOTIFICATION_NETWORK, mBuilder.build());
@@ -405,7 +435,8 @@ public class NotificationNetwork {
 
     public void renew() {
         if (mNotificationManager == null) {
-            mNotificationManager = (NotificationManager) AndBasx.getContext().getSystemService(Context.NOTIFICATION_SERVICE);
+            mNotificationManager = (NotificationManager) AndBasx.getContext()
+                    .getSystemService(Context.NOTIFICATION_SERVICE);
         }
         if (AesPrefs.getBooleanRes(R.string.SHOW_NETWORK_NOTIFICATION, true)) {
             mNotificationManager.cancel(Const.NOTIFICATION_NETWORK);

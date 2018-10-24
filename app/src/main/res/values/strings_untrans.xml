@@ -65,4 +65,8 @@
     <string name="celsius" translatable="false">Celsius</string>
     <string name="fahrenheit" translatable="false">Fahrenheit</string>
 
+    <string name="_2_87_gb" translatable="false">2.87 GB</string>
+    <string name="_4_763_kb" translatable="false">4.763 kB</string>
+    <string name="_2_81_gb" translatable="false">2.81 GB</string>
+
 </resources>

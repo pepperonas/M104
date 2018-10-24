@@ -52,7 +52,7 @@ public class NotificationBattery {
     private NotificationManager mNotificationManager;
     private NotificationCompat.Builder mBuilder;
 
-    private final RemoteViews mRemoteViews;
+    private RemoteViews mRemoteViews;
 
     /**
      * Instantiates a new Notification panel.
@@ -62,8 +62,12 @@ public class NotificationBattery {
     public NotificationBattery(Context context) {
         this.mCtx = context;
 
-        mBuilder = new NotificationCompat.Builder(context, CHANNEL_ID)
-                .setContentTitle(context.getString(R.string.notification_title_battery))
+        initBuilder();
+    }
+
+    private void initBuilder() {
+        mBuilder = new NotificationCompat.Builder(mCtx, CHANNEL_ID)
+                .setContentTitle(mCtx.getString(R.string.notification_title_battery))
                 .setSmallIcon(R.drawable.ic_launcher)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 .setChannelId(CHANNEL_ID)
@@ -74,18 +78,19 @@ public class NotificationBattery {
                 .setGroup(GROUP)
                 .setOngoing(true);
 
-        mRemoteViews = new RemoteViews(context.getPackageName(), R.layout.notification_view_battery);
+        mRemoteViews = new RemoteViews(mCtx.getPackageName(), R.layout.notification_view_battery);
 
         initBatteryNotificationIntent();
 
-        mBuilder.setCustomContentView(mRemoteViews);
+        mBuilder.setCustomContentView(mRemoteViews)
+                .setStyle(new NotificationCompat.DecoratedCustomViewStyle());
 
-        mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        mNotificationManager = (NotificationManager) mCtx.getSystemService(Context.NOTIFICATION_SERVICE);
 
         if (AesPrefs.getBooleanRes(R.string.SHOW_BATTERY_NOTIFICATION, true)) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                NotificationChannel channel = new NotificationChannel(CHANNEL_ID, context.getString(R.string.notification_title_battery),
-                        NotificationManager.IMPORTANCE_DEFAULT);
+                NotificationChannel channel = new NotificationChannel(CHANNEL_ID,
+                        mCtx.getString(R.string.notification_title_battery), NotificationManager.IMPORTANCE_DEFAULT);
                 channel.setShowBadge(false);
                 channel.setSound(null, null);
                 mNotificationManager.createNotificationChannel(channel);
@@ -113,7 +118,8 @@ public class NotificationBattery {
         launch.putExtra("start_fragment", EXTRA_START_BATTERY);
 
         // Important: set PendingIntent.FLAG_UPDATE_CURRENT
-        PendingIntent btnLaunch = PendingIntent.getActivity(mCtx, Const.NOTIFICATION_BATTERY, launch, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent btnLaunch = PendingIntent.getActivity(mCtx, Const.NOTIFICATION_BATTERY,
+                launch, PendingIntent.FLAG_UPDATE_CURRENT);
         mRemoteViews.setOnClickPendingIntent(R.id.iv_notification_circle_left, btnLaunch);
     }
 
@@ -125,34 +131,47 @@ public class NotificationBattery {
      * @param isCharging the is charging
      */
     public void update(int level, double temp, boolean isCharging) {
+        try {
+            int imageResourceId;
+            String uri = "@drawable/";
+            if (level == 0 || level == -1) {
+                imageResourceId = mCtx.getResources().getIdentifier(
+                        uri + "_0", null, mCtx.getPackageName());
+            } else {
+                imageResourceId = mCtx.getResources().getIdentifier(
+                        uri + "_" + String.valueOf(level), null, mCtx.getPackageName());
+            }
 
-        int imageResourceId;
-        String uri = "@drawable/";
-        if (level == -1) {
-            imageResourceId = mCtx.getResources().getIdentifier(uri + "_0", null, mCtx.getPackageName());
-        } else {
-            imageResourceId = mCtx.getResources().getIdentifier(uri + "_" + String.valueOf(level), null, mCtx.getPackageName());
-        }
+            mBuilder.setSmallIcon(imageResourceId);
 
-        mBuilder.setSmallIcon(imageResourceId);
+            mRemoteViews.setTextViewText(R.id.tv_notification_circle_value,
+                    StringFactory.makeLevelInfo(mCtx, level));
+            mRemoteViews.setTextViewText(R.id.tv_m_notification_center_top,
+                    StringFactory.makeRemainingInfo(mCtx, level, isCharging));
+            mRemoteViews.setTextViewText(R.id.tv_s_notification_center_bottom,
+                    StringFactory.makePercentagePerHourInfo(mCtx, isCharging));
+            mRemoteViews.setTextViewText(R.id.tv_s_notification_right_top,
+                    StringFactory.makeTemperatureInfo(mCtx, temp));
+            mRemoteViews.setTextViewText(R.id.tv_s_notification_right_bottom,
+                    StringFactory.makeRelative_mAhInfo(mCtx, BatteryUtils.getCharge()));
 
-        mRemoteViews.setTextViewText(R.id.tv_notification_circle_value, StringFactory.makeLevelInfo(mCtx, level));
-        mRemoteViews.setTextViewText(R.id.tv_m_notification_center_top, StringFactory.makeRemainingInfo(mCtx, level, isCharging));
-        mRemoteViews.setTextViewText(R.id.tv_s_notification_center_bottom, StringFactory.makePercentagePerHourInfo(mCtx, isCharging));
-        mRemoteViews.setTextViewText(R.id.tv_s_notification_right_top, StringFactory.makeTemperatureInfo(mCtx, temp));
-        mRemoteViews.setTextViewText(R.id.tv_s_notification_right_bottom, StringFactory.makeRelative_mAhInfo(mCtx, BatteryUtils.getCharge()));
+            if (AesPrefs.getBooleanRes(R.string.SHOW_BATTERY_NOTIFICATION, true)) {
+                Log.i(TAG, "---UPDATE---");
+                mNotificationManager.notify(Const.NOTIFICATION_BATTERY, mBuilder.build());
+            } else {
+                mNotificationManager.cancel(Const.NOTIFICATION_BATTERY);
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "update: ", e);
 
-        if (AesPrefs.getBooleanRes(R.string.SHOW_BATTERY_NOTIFICATION, true)) {
-            Log.i(TAG, "---UPDATE---");
-            mNotificationManager.notify(Const.NOTIFICATION_BATTERY, mBuilder.build());
-        } else {
-            mNotificationManager.cancel(Const.NOTIFICATION_BATTERY);
+            initBuilder();
         }
     }
 
     public void removeIfCanceled() {
         if (mNotificationManager == null) {
-            mNotificationManager = (NotificationManager) AndBasx.getContext().getSystemService(Context.NOTIFICATION_SERVICE);
+            mNotificationManager = (NotificationManager) AndBasx.getContext()
+                    .getSystemService(Context.NOTIFICATION_SERVICE);
         }
         if (AesPrefs.getBooleanRes(R.string.SHOW_BATTERY_NOTIFICATION, true)) {
             mNotificationManager.notify(Const.NOTIFICATION_BATTERY, mBuilder.build());
@@ -164,4 +183,5 @@ public class NotificationBattery {
     public Notification getNotification() {
         return mBuilder.build();
     }
+
 }

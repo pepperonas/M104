@@ -38,10 +38,11 @@
             android:background="@color/colorPrimary"
             android:orientation="horizontal">
 
+            <!--TODO: set layout_width to match_parent if messed up-->
             <TextView
                 android:id="@+id/tv_header"
                 style="@style/Base.TextAppearance.AppCompat.Large"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@color/colorPrimary"
@@ -57,7 +58,8 @@
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_gravity="center"
-                    android:background="@color/colorPrimary" />
+                    android:background="@color/colorPrimary"
+                    android:contentDescription="@string/empty" />
             </FrameLayout>
 
         </LinearLayout>
@@ -78,7 +80,8 @@
             android:layout_alignParentEnd="false"
             android:layout_alignParentRight="false"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="92dp" />
+            android:layout_marginBottom="92dp"
+            android:contentDescription="@string/empty" />
 
     </RelativeLayout>
 

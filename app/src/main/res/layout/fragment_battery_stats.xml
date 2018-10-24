@@ -13,9 +13,9 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-<ScrollView android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -28,20 +28,21 @@
             android:id="@+id/tv_head"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/unset_text_view"
-            android:gravity="center"
-            android:layout_weight="1"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
             android:layout_marginTop="@dimen/card_container_margin_top"
-            android:paddingLeft="16dp" />
+            android:layout_weight="1"
+            android:gravity="center"
+            android:paddingLeft="16dp"
+            android:paddingStart="16dp"
+            android:text="@string/unset_text_view"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
 
         <LinearLayout
             android:id="@+id/card_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/card_container_margin_bottom"
-            android:orientation="vertical"
-            android:layout_marginTop="@dimen/card_container_margin_top_smaller">
+            android:layout_marginTop="@dimen/card_container_margin_top_smaller"
+            android:orientation="vertical">
 
             <android.support.v7.widget.CardView
                 android:id="@+id/cv_01"
@@ -54,63 +55,71 @@
                     android:paddingBottom="8dp">
 
                     <TextView
+                        android:id="@+id/tv_title_card_01"
                         style="@style/title_text_card_battery"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceMedium"
                         android:text="@string/title_battery_card_01"
-                        android:id="@+id/tv_title_card_01"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
                         android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/tv_status"
                         style="@style/text_card_screen_time"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/unset_text_view"
+                        android:layout_below="@+id/tv_title_card_01"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="8dp"
                         android:layout_weight="1"
                         android:gravity="center"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginLeft="16dp"
-                        android:id="@+id/tv_status"
-                        android:layout_below="@+id/tv_title_card_01" />
+                        android:text="@string/unset_text_view" />
 
                     <TextView
+                        android:id="@+id/tv_current_mah"
                         style="@style/text_card_screen_time"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/unset_text_view"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:layout_marginTop="16dp"
                         android:layout_below="@+id/tv_status"
                         android:layout_marginLeft="16dp"
-                        android:id="@+id/tv_current_mah" />
-
-                    <TextView
-                        style="@style/text_card_screen_time"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/unset_text_view"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
                         android:layout_weight="1"
                         android:gravity="center"
-                        android:layout_alignParentRight="true"
-                        android:layout_marginRight="16dp"
+                        android:text="@string/unset_text_view" />
+
+                    <TextView
                         android:id="@+id/tv_percent"
-                        android:layout_alignTop="@+id/tv_status" />
-
-                    <TextView
                         style="@style/text_card_screen_time"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/unset_text_view"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignTop="@+id/tv_status"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginRight="16dp"
                         android:layout_weight="1"
                         android:gravity="center"
-                        android:layout_alignParentRight="true"
-                        android:layout_marginRight="16dp"
+                        android:text="@string/unset_text_view" />
+
+                    <TextView
                         android:id="@+id/tv_temperature"
+                        style="@style/text_card_screen_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
                         android:layout_below="@+id/tv_percent"
-                        android:layout_marginTop="16dp" />
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginRight="16dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="@string/unset_text_view" />
+
                 </RelativeLayout>
+
             </android.support.v7.widget.CardView>
 
             <android.support.v7.widget.CardView
@@ -124,62 +133,70 @@
                     android:paddingBottom="8dp">
 
                     <TextView
+                        android:id="@+id/tv_title_card_02"
                         style="@style/title_text_card_battery"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceMedium"
                         android:text="@string/title_battery_card_02"
-                        android:id="@+id/tv_title_card_02"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
                         android:textStyle="bold" />
 
                     <TextView
-                        style="@style/text_card_screen_time"
                         android:id="@+id/tv_percent_per_hour"
+                        style="@style/text_card_screen_time"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/unset_text_view"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:layout_marginTop="8dp"
                         android:layout_below="@+id/tv_title_card_02"
-                        android:layout_marginLeft="16dp" />
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="@string/unset_text_view" />
 
                     <TextView
-                        style="@style/text_card_screen_time"
                         android:id="@+id/tv_volt"
+                        style="@style/text_card_screen_time"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/unset_text_view"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:layout_marginTop="16dp"
                         android:layout_below="@+id/tv_percent_per_hour"
-                        android:layout_marginLeft="16dp" />
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="@string/unset_text_view" />
 
                     <TextView
-                        style="@style/text_card_screen_time"
                         android:id="@+id/tv_abs_mah"
+                        style="@style/text_card_screen_time"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/unset_text_view"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignTop="@+id/tv_percent_per_hour"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginRight="16dp"
                         android:layout_weight="1"
                         android:gravity="center"
-                        android:layout_alignTop="@+id/tv_percent_per_hour"
-                        android:layout_alignParentRight="true"
-                        android:layout_marginRight="16dp" />
+                        android:text="@string/unset_text_view" />
 
                     <TextView
-                        style="@style/text_card_screen_time"
                         android:id="@+id/tv_health"
+                        style="@style/text_card_screen_time"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/unset_text_view"
-                        android:layout_weight="1"
-                        android:gravity="center"
+                        android:layout_alignParentEnd="true"
                         android:layout_alignParentRight="true"
                         android:layout_alignTop="@+id/tv_volt"
-                        android:layout_marginRight="16dp" />
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginRight="16dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="@string/unset_text_view" />
+
                 </RelativeLayout>
+
             </android.support.v7.widget.CardView>
 
 
@@ -189,197 +206,219 @@
                 app:cardCornerRadius="@dimen/card_corner_radius_battery">
 
                 <LinearLayout
-                    android:orientation="vertical"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/tv_title_card_03"
                         style="@style/title_text_card_battery"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceMedium"
                         android:text="@string/title_battery_card_03"
-                        android:id="@+id/tv_title_card_03"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
                         android:textStyle="bold" />
 
                     <RelativeLayout
-                        android:orientation="horizontal"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="8dp">
+                        android:layout_marginTop="8dp"
+                        android:orientation="horizontal">
 
                         <ImageView
+                            android:id="@+id/iv_screen_on"
                             android:layout_width="24dp"
                             android:layout_height="24dp"
-                            android:id="@+id/iv_screen_on"
+                            android:layout_alignParentLeft="true"
                             android:layout_alignParentStart="false"
                             android:layout_alignParentTop="true"
-                            android:layout_alignParentLeft="true"
                             android:layout_marginLeft="16dp"
+                            android:layout_marginStart="16dp"
                             android:src="@drawable/ic_brightness_7_grey600_18dp" />
 
                         <TextView
                             android:id="@+id/tv_screen_on_boot_desc"
+                            style="@style/text_card_screen_time"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/since_boot"
-                            android:layout_weight="1"
                             android:layout_alignLeft="@+id/iv_screen_on"
-                            android:gravity="center"
-                            android:layout_marginTop="16dp"
+                            android:layout_alignStart="@+id/iv_screen_on"
                             android:layout_below="@+id/iv_screen_on"
-                            style="@style/text_card_screen_time" />
+                            android:layout_marginTop="16dp"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="@string/since_boot" />
 
                         <TextView
                             android:id="@+id/tv_screen_on_boot_value"
+                            style="@style/text_card_screen_time"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/unset_text_view"
-                            android:layout_gravity="right"
-                            android:layout_weight="1"
                             android:layout_alignParentEnd="true"
                             android:layout_alignParentRight="true"
+                            android:layout_alignTop="@+id/tv_screen_on_boot_desc"
+                            android:layout_gravity="right"
+                            android:layout_marginEnd="16dp"
+                            android:layout_marginRight="16dp"
+                            android:layout_weight="1"
                             android:lines="1"
                             android:maxLines="1"
                             android:minWidth="160dp"
-                            android:layout_marginRight="16dp"
-                            android:textAlignment="textEnd"
-                            android:layout_alignTop="@+id/tv_screen_on_boot_desc"
-                            style="@style/text_card_screen_time" />
+                            android:text="@string/unset_text_view"
+                            android:textAlignment="textEnd" />
 
                         <TextView
                             android:id="@+id/tv_screen_on_global_desc"
+                            style="@style/text_card_screen_time"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/since_installation"
-                            android:gravity="center"
-                            android:layout_weight="1"
+                            android:layout_alignLeft="@+id/tv_screen_on_boot_desc"
+                            android:layout_alignStart="@+id/tv_screen_on_boot_desc"
                             android:layout_below="@+id/tv_screen_on_boot_desc"
                             android:layout_marginTop="8dp"
-                            android:layout_alignLeft="@+id/tv_screen_on_boot_desc"
-                            style="@style/text_card_screen_time" />
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="@string/since_installation" />
 
                         <TextView
                             android:id="@+id/tv_screen_on_global_value"
+                            style="@style/text_card_screen_time"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/unset_text_view"
-                            android:layout_weight="1"
-                            android:layout_below="@+id/tv_screen_on_boot_desc"
-                            android:layout_toRightOf="@+id/tv_screen_on_boot_desc"
-                            android:layout_marginTop="8dp"
                             android:layout_alignLeft="@+id/tv_screen_on_boot_value"
-                            android:textAlignment="textEnd"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_alignStart="@+id/tv_screen_on_boot_value"
+                            android:layout_below="@+id/tv_screen_on_boot_desc"
+                            android:layout_marginEnd="16dp"
+                            android:layout_marginRight="16dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_toEndOf="@+id/tv_screen_on_boot_desc"
+                            android:layout_toRightOf="@+id/tv_screen_on_boot_desc"
+                            android:layout_weight="1"
                             android:lines="1"
                             android:maxLines="1"
                             android:minWidth="160dp"
-                            android:layout_alignParentRight="true"
-                            android:layout_marginRight="16dp"
-                            style="@style/text_card_screen_time" />
+                            android:text="@string/unset_text_view"
+                            android:textAlignment="textEnd" />
 
                         <TextView
+                            android:id="@+id/textView3"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/screen_on"
-                            android:id="@+id/textView3"
-                            android:layout_alignParentTop="true"
-                            android:layout_toRightOf="@+id/iv_screen_on"
-                            android:layout_alignTop="@+id/iv_screen_on"
                             android:layout_alignBottom="@+id/iv_screen_on"
+                            android:layout_alignParentTop="true"
+                            android:layout_alignTop="@+id/iv_screen_on"
                             android:layout_marginLeft="8dp"
-                            android:gravity="center_vertical" />
+                            android:layout_marginStart="8dp"
+                            android:layout_toEndOf="@+id/iv_screen_on"
+                            android:layout_toRightOf="@+id/iv_screen_on"
+                            android:gravity="center_vertical"
+                            android:text="@string/screen_on" />
 
                     </RelativeLayout>
 
                     <RelativeLayout
-                        android:orientation="horizontal"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
+                        android:layout_marginBottom="8dp"
                         android:layout_marginTop="24dp"
-                        android:layout_marginBottom="8dp">
+                        android:orientation="horizontal">
 
                         <ImageView
+                            android:id="@+id/iv_screen_off"
                             android:layout_width="24dp"
                             android:layout_height="24dp"
-                            android:id="@+id/iv_screen_off"
+                            android:layout_alignParentLeft="true"
                             android:layout_alignParentStart="false"
                             android:layout_alignParentTop="true"
-                            android:layout_alignParentLeft="true"
                             android:layout_marginLeft="16dp"
+                            android:layout_marginStart="16dp"
+                            android:contentDescription="@string/empty"
                             android:src="@drawable/ic_brightness_5_grey600_18dp" />
 
                         <TextView
                             android:id="@+id/tv_screen_off_boot_desc"
+                            style="@style/text_card_screen_time"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/since_boot"
-                            android:gravity="center"
-                            android:layout_weight="1"
                             android:layout_alignLeft="@+id/iv_screen_off"
+                            android:layout_alignStart="@+id/iv_screen_off"
                             android:layout_below="@+id/iv_screen_off"
                             android:layout_marginTop="16dp"
-                            style="@style/text_card_screen_time" />
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="@string/since_boot" />
 
                         <TextView
                             android:id="@+id/tv_screen_off_boot_value"
+                            style="@style/text_card_screen_time"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/unset_text_view"
-                            android:layout_gravity="right"
-                            android:layout_weight="1"
-                            android:layout_alignTop="@+id/tv_screen_off_boot_desc"
                             android:layout_alignParentEnd="true"
                             android:layout_alignParentRight="true"
+                            android:layout_alignTop="@+id/tv_screen_off_boot_desc"
+                            android:layout_gravity="right"
+                            android:layout_marginEnd="16dp"
+                            android:layout_marginRight="16dp"
+                            android:layout_weight="1"
                             android:lines="1"
                             android:maxLines="1"
                             android:minWidth="160dp"
-                            android:layout_marginRight="16dp"
-                            android:textAlignment="textEnd"
-                            style="@style/text_card_screen_time" />
+                            android:text="@string/unset_text_view"
+                            android:textAlignment="textEnd" />
 
                         <TextView
                             android:id="@+id/tv_screen_off_global_desc"
+                            style="@style/text_card_screen_time"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/since_installation"
-                            android:gravity="center"
-                            android:layout_weight="1"
-                            android:layout_below="@+id/tv_screen_off_boot_desc"
                             android:layout_alignLeft="@+id/tv_screen_off_boot_desc"
+                            android:layout_alignStart="@+id/tv_screen_off_boot_desc"
+                            android:layout_below="@+id/tv_screen_off_boot_desc"
                             android:layout_marginTop="8dp"
-                            style="@style/text_card_screen_time" />
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="@string/since_installation" />
 
                         <TextView
                             android:id="@+id/tv_screen_off_global_value"
+                            style="@style/text_card_screen_time"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/unset_text_view"
-                            android:layout_weight="1"
-                            android:layout_below="@+id/tv_screen_off_boot_desc"
-                            android:layout_toRightOf="@+id/tv_screen_off_boot_desc"
-                            android:layout_marginTop="8dp"
                             android:layout_alignLeft="@+id/tv_screen_off_boot_value"
-                            android:textAlignment="textEnd"
+                            android:layout_alignParentEnd="true"
                             android:layout_alignParentRight="true"
+                            android:layout_alignStart="@+id/tv_screen_off_boot_value"
+                            android:layout_below="@+id/tv_screen_off_boot_desc"
+                            android:layout_marginEnd="16dp"
+                            android:layout_marginRight="16dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_toEndOf="@+id/tv_screen_off_boot_desc"
+                            android:layout_toRightOf="@+id/tv_screen_off_boot_desc"
+                            android:layout_weight="1"
                             android:lines="1"
                             android:maxLines="1"
                             android:minWidth="160dp"
-                            android:layout_marginRight="16dp"
-                            style="@style/text_card_screen_time" />
+                            android:text="@string/unset_text_view"
+                            android:textAlignment="textEnd" />
 
                         <TextView
+                            android:id="@+id/textView4"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/screen_off"
-                            android:id="@+id/textView4"
-                            android:layout_alignParentTop="true"
-                            android:layout_toRightOf="@+id/iv_screen_off"
-                            android:layout_alignTop="@+id/iv_screen_off"
                             android:layout_alignBottom="@+id/iv_screen_off"
+                            android:layout_alignParentTop="true"
+                            android:layout_alignTop="@+id/iv_screen_off"
                             android:layout_marginLeft="8dp"
-                            android:gravity="center_vertical" />
+                            android:layout_marginStart="8dp"
+                            android:layout_toEndOf="@+id/iv_screen_off"
+                            android:layout_toRightOf="@+id/iv_screen_off"
+                            android:gravity="center_vertical"
+                            android:text="@string/screen_off" />
+
                     </RelativeLayout>
 
                 </LinearLayout>

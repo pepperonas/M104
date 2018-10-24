@@ -65,8 +65,8 @@ public class NotificationClipboard {
     public NotificationClipboard(Context context, int clipDataCount) {
         this.mCtx = context;
 
-        mBuilder = new NotificationCompat.Builder(context, CHANNEL_ID)
-                .setContentTitle(context.getString(R.string.notification_title_battery))
+        mBuilder = new NotificationCompat.Builder(mCtx, CHANNEL_ID)
+                .setContentTitle(mCtx.getString(R.string.notification_title_clipboard))
                 .setSmallIcon(R.drawable.ic_attachment_white_24dp)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 .setChannelId(CHANNEL_ID)
@@ -77,7 +77,7 @@ public class NotificationClipboard {
                 .setGroup(GROUP)
                 .setOngoing(true);
 
-        mRemoteViews = new RemoteViews(context.getPackageName(), R.layout.notification_view_clipboard);
+        mRemoteViews = new RemoteViews(mCtx.getPackageName(), R.layout.notification_view_clipboard);
 
         Drawable d = Loader.getDrawable(R.drawable.ic_attachment_white_24dp);
         Bitmap bm = DrawableUtils.toBitmap(d);
@@ -86,14 +86,15 @@ public class NotificationClipboard {
         mRemoteViews.setTextViewText(R.id.tv_s_notification_center_bottom, makeClipDataCountInfo(clipDataCount));
         initClipboardNotificationIntent();
 
-        mBuilder.setCustomContentView(mRemoteViews);
+        mBuilder.setCustomContentView(mRemoteViews)
+                .setStyle(new NotificationCompat.DecoratedCustomViewStyle());
 
-        mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        mNotificationManager = (NotificationManager) mCtx.getSystemService(Context.NOTIFICATION_SERVICE);
 
         if (AesPrefs.getBoolean(mCtx.getString(R.string.SHOW_CLIPBOARD_NOTIFICATION), true)) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                NotificationChannel channel = new NotificationChannel(CHANNEL_ID, context.getString(R.string.notification_title_battery),
-                        NotificationManager.IMPORTANCE_DEFAULT);
+                NotificationChannel channel = new NotificationChannel(CHANNEL_ID,
+                        mCtx.getString(R.string.notification_title_battery), NotificationManager.IMPORTANCE_DEFAULT);
                 channel.setShowBadge(false);
                 channel.setSound(null, null);
                 mNotificationManager.createNotificationChannel(channel);
@@ -139,7 +140,8 @@ public class NotificationClipboard {
         launch.putExtra("start_fragment", EXTRA_START_CLIPBOARD);
 
         // Important: set PendingIntent.FLAG_UPDATE_CURRENT
-        PendingIntent btnLaunch = PendingIntent.getActivity(mCtx, Const.NOTIFICATION_CLIPBOARD, launch, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent btnLaunch = PendingIntent.getActivity(
+                mCtx, Const.NOTIFICATION_CLIPBOARD, launch, PendingIntent.FLAG_UPDATE_CURRENT);
         mRemoteViews.setOnClickPendingIntent(R.id.iv_notification_circle_left, btnLaunch);
     }
 
@@ -162,7 +164,8 @@ public class NotificationClipboard {
 
     public void removeIfCanceled() {
         if (mNotificationManager == null) {
-            mNotificationManager = (NotificationManager) AndBasx.getContext().getSystemService(Context.NOTIFICATION_SERVICE);
+            mNotificationManager = (NotificationManager) AndBasx.getContext()
+                    .getSystemService(Context.NOTIFICATION_SERVICE);
         }
         if (AesPrefs.getBooleanRes(R.string.SHOW_CLIPBOARD_NOTIFICATION, true)) {
             mNotificationManager.notify(Const.NOTIFICATION_CLIPBOARD, mBuilder.build());

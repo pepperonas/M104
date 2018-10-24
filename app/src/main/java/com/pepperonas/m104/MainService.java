@@ -16,7 +16,6 @@
 
 package com.pepperonas.m104;
 
-import android.app.NotificationManager;
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.ClipData;
@@ -373,8 +372,8 @@ public class MainService extends Service {
     };
 
     private final Runnable mRunnableNetworkCheck = new Runnable() {
-        private long mLastClearedNetworkNotification = System.currentTimeMillis();
-        private static final long RENEW_NETWORK_NOTIFICATION = 1000 * 60 * 10;
+        //        private long mLastClearedNetworkNotification = System.currentTimeMillis();
+        //        private static final long RENEW_NETWORK_NOTIFICATION = 1000 * 60 * 10;
 
         @Override
         public void run() {
@@ -409,17 +408,17 @@ public class MainService extends Service {
 
                 mDb.addNetworkStat(System.currentTimeMillis(), rx_ivl, tx_ivl, rxm_ivl, txm_ivl, "x");
 
-                if ((mLastClearedNetworkNotification + RENEW_NETWORK_NOTIFICATION) <= System.currentTimeMillis()) {
-                    Log.i(TAG, "Renew network notification...");
-
-                    mLastClearedNetworkNotification = System.currentTimeMillis();
-                    NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-                    if (notificationManager != null) {
-                        notificationManager.cancel(Const.NOTIFICATION_NETWORK);
-                        stopForeground(true);
-                        startForeground(Const.NOTIFICATION_NETWORK, mNotificationNetwork.getNotification());
-                    }
-                }
+                //                if ((mLastClearedNetworkNotification + RENEW_NETWORK_NOTIFICATION) <= System.currentTimeMillis()) {
+                //                    Log.i(TAG, "Renew network notification...");
+                //
+                //                    mLastClearedNetworkNotification = System.currentTimeMillis();
+                //                    NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                //                    if (notificationManager != null) {
+                //                        notificationManager.cancel(Const.NOTIFICATION_NETWORK);
+                //                        stopForeground(true);
+                //                        startForeground(Const.NOTIFICATION_NETWORK, mNotificationNetwork.getNotification());
+                //                    }
+                //                }
             } catch (Exception e) {
                 Log.e(TAG, "Writing in database failed.");
             } finally {

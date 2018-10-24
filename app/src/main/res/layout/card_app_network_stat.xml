@@ -33,21 +33,27 @@
             android:layout_height="40dp"
             android:layout_alignParentBottom="false"
             android:layout_alignParentEnd="false"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="false"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="false"
             android:layout_alignWithParentIfMissing="false"
             android:layout_centerVertical="true"
             android:layout_marginBottom="16dp"
+            android:layout_marginLeft="16dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
+            android:contentDescription="@string/empty"
             android:src="@drawable/ic_launcher" />
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:layout_marginLeft="16dp"
             android:layout_marginStart="16dp"
-            android:layout_toEndOf="@+id/iv_network_card_app_icon">
+            android:layout_toEndOf="@+id/iv_network_card_app_icon"
+            android:layout_toRightOf="@+id/iv_network_card_app_icon">
 
             <TextView
                 android:id="@+id/tv_card_network_app_name"
@@ -74,6 +80,7 @@
                         android:id="@+id/iv_rx"
                         android:layout_width="16dp"
                         android:layout_height="16dp"
+                        android:contentDescription="@string/empty"
                         android:src="@drawable/ic_launcher" />
 
                     <TextView
@@ -81,10 +88,12 @@
                         style="@style/text_card_network_traffic"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
                         android:layout_marginRight="8dp"
                         android:gravity="end"
-                        android:text="2.87 GB"
+                        android:text="@string/_2_87_gb"
                         android:textAlignment="viewEnd" />
+
                 </LinearLayout>
 
                 <LinearLayout
@@ -97,6 +106,7 @@
                         android:id="@+id/iv_tx"
                         android:layout_width="16dp"
                         android:layout_height="16dp"
+                        android:contentDescription="@string/empty"
                         android:src="@drawable/ic_launcher" />
 
                     <TextView
@@ -104,9 +114,10 @@
                         style="@style/text_card_network_traffic"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
                         android:layout_marginRight="8dp"
                         android:gravity="end"
-                        android:text="4.763 kB"
+                        android:text="@string/_4_763_kb"
                         android:textAlignment="viewEnd" />
                 </LinearLayout>
 
@@ -120,6 +131,7 @@
                         android:id="@+id/iv_total"
                         android:layout_width="16dp"
                         android:layout_height="16dp"
+                        android:contentDescription="@string/empty"
                         android:src="@drawable/ic_launcher" />
 
                     <TextView
@@ -127,11 +139,13 @@
                         style="@style/text_card_network_traffic"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
                         android:layout_marginRight="8dp"
                         android:gravity="end"
-                        android:text="2.81 GB"
+                        android:text="@string/_2_81_gb"
                         android:textAlignment="viewEnd"
                         android:textStyle="italic" />
+
                 </LinearLayout>
 
             </LinearLayout>

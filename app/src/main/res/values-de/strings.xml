@@ -15,7 +15,10 @@
   -->
 
 <resources>
+
     <string name="notification_title_battery">Akkustand</string>
+    <string name="notification_title_clipboard">Zwischenablage</string>
+
     <string name="ns">k.A.</string>
 
     <!--Charging-States-->

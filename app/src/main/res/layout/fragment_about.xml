@@ -15,25 +15,26 @@
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:padding="@dimen/default_padding">
 
     <TextView
+        android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/menu_battery_stats"
-        android:id="@+id/textView"
         android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="@dimen/default_padding" />
+        android:layout_marginBottom="@dimen/default_padding"
+        android:text="@string/menu_battery_stats"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <TextView
+        android:id="@+id/textView2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_gravity="center_horizontal"
         android:text="@string/empty"
-        android:id="@+id/textView2"
-        android:layout_gravity="center_horizontal" />
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
 </LinearLayout>
