@@ -16,6 +16,8 @@
 
 package com.pepperonas.m104;
 
+import static com.pepperonas.andbasx.AndBasx.getContext;
+
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.AlarmManager;
@@ -75,8 +77,6 @@ import com.pepperonas.m104.notification.NotificationNetwork;
 import com.pepperonas.m104.receiver.AlarmReceiver;
 import com.pepperonas.m104.utils.Log;
 import com.pepperonas.m104.utils.StringFactory;
-
-import static com.pepperonas.andbasx.AndBasx.getContext;
 
 /**
  * @author Martin Pfeffer (celox.io)
@@ -263,7 +263,11 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        registerReceiver(mMainServiceReceiver, new IntentFilter(MainService.BROADCAST_BATTERY_INFO));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            registerReceiver(mMainServiceReceiver, new IntentFilter(MainService.BROADCAST_BATTERY_INFO), RECEIVER_EXPORTED);
+        } else {
+            registerReceiver(mMainServiceReceiver, new IntentFilter(MainService.BROADCAST_BATTERY_INFO));
+        }
 
         ensureResumeNetworkFragment();
     }

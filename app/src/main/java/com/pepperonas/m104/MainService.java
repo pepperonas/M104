@@ -16,6 +16,8 @@
 
 package com.pepperonas.m104;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.ClipData;
@@ -25,6 +27,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.TrafficStats;
 import android.os.BatteryManager;
+import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
@@ -508,9 +511,18 @@ public class MainService extends Service {
         registerReceiver(mScreenOnReceiver, new IntentFilter(Intent.ACTION_SCREEN_ON));
         registerReceiver(mScreenOffReceiver, new IntentFilter(Intent.ACTION_SCREEN_OFF));
 
-        registerReceiver(mActivityStartedReceiver, new IntentFilter(BROADCAST_MAIN_STARTED));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            registerReceiver(mActivityStartedReceiver, new IntentFilter(BROADCAST_MAIN_STARTED), RECEIVER_EXPORTED);
+        } else {
+            registerReceiver(mActivityStartedReceiver, new IntentFilter(BROADCAST_MAIN_STARTED));
 
-        registerReceiver(mClipDeletedReceiver, new IntentFilter(BROADCAST_CLIP_DELETED));
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            registerReceiver(mClipDeletedReceiver, new IntentFilter(BROADCAST_CLIP_DELETED), RECEIVER_EXPORTED);
+        } else {
+            registerReceiver(mClipDeletedReceiver, new IntentFilter(BROADCAST_CLIP_DELETED));
+        }
     }
 
     /**

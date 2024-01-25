@@ -129,7 +129,12 @@ public class NotificationClipboard {
 
         clipboardIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
-        PendingIntent pendingIntent = PendingIntent.getActivity(mCtx, 0, clipboardIntent, 0);
+        PendingIntent pendingIntent;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            pendingIntent = PendingIntent.getActivity(mCtx, 0, clipboardIntent, PendingIntent.FLAG_IMMUTABLE);
+        } else {
+            pendingIntent = PendingIntent.getActivity(mCtx, 0, clipboardIntent, 0);
+        }
 
         mRemoteViews.setOnClickPendingIntent(R.id.notification_container, pendingIntent);
 
@@ -140,8 +145,14 @@ public class NotificationClipboard {
         launch.putExtra("start_fragment", EXTRA_START_CLIPBOARD);
 
         // Important: set PendingIntent.FLAG_UPDATE_CURRENT
-        PendingIntent btnLaunch = PendingIntent.getActivity(
+        PendingIntent btnLaunch;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+        btnLaunch = PendingIntent.getActivity(
+                mCtx, Const.NOTIFICATION_CLIPBOARD, launch, PendingIntent.FLAG_IMMUTABLE);
+        } else {
+        btnLaunch = PendingIntent.getActivity(
                 mCtx, Const.NOTIFICATION_CLIPBOARD, launch, PendingIntent.FLAG_UPDATE_CURRENT);
+        }
         mRemoteViews.setOnClickPendingIntent(R.id.iv_notification_circle_left, btnLaunch);
     }
 

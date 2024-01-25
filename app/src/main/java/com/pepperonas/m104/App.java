@@ -17,11 +17,15 @@
 package com.pepperonas.m104;
 
 import android.app.Application;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Context;
+import android.os.Build;
 import android.support.multidex.MultiDex;
 
 import com.pepperonas.aespreferences.AesPrefs;
 import com.pepperonas.andbasx.AndBasx;
+import com.pepperonas.m104.config.Const;
 import com.pepperonas.m104.utils.AesConst;
 import com.pepperonas.m104.utils.BatteryUtils;
 import com.pepperonas.m104.utils.Log;
@@ -54,6 +58,21 @@ public class App extends Application {
 
         if (BuildConfig.is_dev) {
             Log.init(getApplicationContext());
+        }
+
+        NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+        if (AesPrefs.getBooleanRes(R.string.SHOW_NETWORK_NOTIFICATION, true)) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                NotificationChannel channel = new NotificationChannel(Const.CHANNEL_ID,
+                        getString(R.string.notification_title_network),
+                        NotificationManager.IMPORTANCE_DEFAULT);
+                channel.setShowBadge(false);
+                channel.setSound(null, null);
+                mNotificationManager.createNotificationChannel(channel);
+            }
+        } else {
+            mNotificationManager.cancel(Const.NOTIFICATION_NETWORK);
         }
     }
 

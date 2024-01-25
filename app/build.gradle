@@ -24,7 +24,7 @@ buildscript {
         }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.5.0-alpha10'
+        classpath 'com.android.tools.build:gradle:7.4.2'
     }
 }
 
@@ -50,14 +50,13 @@ android {
         release
     }
     useLibrary 'org.apache.http.legacy'
-    compileSdkVersion 28
-    buildToolsVersion '28.0.3'
+    compileSdkVersion 33
 
     defaultConfig {
         multiDexEnabled true
         applicationId "com.pepperonas.m104"
         minSdkVersion 16
-        targetSdkVersion 28
+        targetSdkVersion 33
         versionCode 43
         versionName "0.4.3"
         setProperty("archivesBaseName", "m104-$versionName")

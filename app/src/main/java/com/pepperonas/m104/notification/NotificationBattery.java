@@ -44,7 +44,7 @@ public class NotificationBattery {
     private static final String TAG = "NotificationBattery";
 
     public static final String EXTRA_START_BATTERY = "bty";
-    private static final String CHANNEL_ID = "com.pepperonas.m104.notification";
+
     private static final String GROUP = "g";
 
     private Context mCtx;
@@ -66,11 +66,11 @@ public class NotificationBattery {
     }
 
     private void initBuilder() {
-        mBuilder = new NotificationCompat.Builder(mCtx, CHANNEL_ID)
+        mBuilder = new NotificationCompat.Builder(mCtx, Const.CHANNEL_ID)
                 .setContentTitle(mCtx.getString(R.string.notification_title_battery))
                 .setSmallIcon(R.drawable.ic_launcher)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-                .setChannelId(CHANNEL_ID)
+                .setChannelId(Const.CHANNEL_ID)
                 .setOnlyAlertOnce(true)
                 .setPriority(NotificationCompat.PRIORITY_MAX)
                 .setWhen(System.currentTimeMillis() + 500)
@@ -89,7 +89,7 @@ public class NotificationBattery {
 
         if (AesPrefs.getBooleanRes(R.string.SHOW_BATTERY_NOTIFICATION, true)) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                NotificationChannel channel = new NotificationChannel(CHANNEL_ID,
+                NotificationChannel channel = new NotificationChannel(Const.CHANNEL_ID,
                         mCtx.getString(R.string.notification_title_battery), NotificationManager.IMPORTANCE_DEFAULT);
                 channel.setShowBadge(false);
                 channel.setSound(null, null);
@@ -105,9 +105,14 @@ public class NotificationBattery {
      */
     private void initBatteryNotificationIntent() {
         Intent chartIntent = new Intent(mCtx, BatteryDialogActivity.class);
-
         chartIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        PendingIntent pendingIntent = PendingIntent.getActivity(mCtx, 0, chartIntent, 0);
+
+        PendingIntent pendingIntent;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            pendingIntent = PendingIntent.getActivity(mCtx, 0, chartIntent, PendingIntent.FLAG_IMMUTABLE);
+        } else {
+            pendingIntent = PendingIntent.getActivity(mCtx, 0, chartIntent, 0);
+        }
 
         mRemoteViews.setOnClickPendingIntent(R.id.notification_container, pendingIntent);
 
@@ -118,8 +123,14 @@ public class NotificationBattery {
         launch.putExtra("start_fragment", EXTRA_START_BATTERY);
 
         // Important: set PendingIntent.FLAG_UPDATE_CURRENT
-        PendingIntent btnLaunch = PendingIntent.getActivity(mCtx, Const.NOTIFICATION_BATTERY,
-                launch, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent btnLaunch;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            btnLaunch = PendingIntent.getActivity(mCtx, Const.NOTIFICATION_BATTERY,
+                    launch, PendingIntent.FLAG_MUTABLE);
+        } else {
+            btnLaunch = PendingIntent.getActivity(mCtx, Const.NOTIFICATION_BATTERY,
+                    launch, PendingIntent.FLAG_UPDATE_CURRENT);
+        }
         mRemoteViews.setOnClickPendingIntent(R.id.iv_notification_circle_left, btnLaunch);
     }
 

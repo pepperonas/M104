@@ -22,6 +22,8 @@ package com.pepperonas.m104.config;
  */
 public class Const {
 
+    public static final String CHANNEL_ID = "com.pepperonas.m104.notification";
+
     public static final float DIALOG_DIM_AMOUNT = 0.67f;
     public static final float RELATIVE_DIALOG_WIDTH = 0.8f;
 

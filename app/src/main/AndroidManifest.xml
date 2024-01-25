@@ -29,6 +29,7 @@
         android:name="android.permission.PACKAGE_USAGE_STATS"
         tools:ignore="ProtectedPermissions" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_LOCATION" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
@@ -44,7 +45,8 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".MainActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize">
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -85,6 +87,7 @@
 
         <service
             android:name=".MainService"
+            android:enabled="true"
             android:exported="false"
             android:label="@string/empty"
             android:stopWithTask="false">
@@ -95,6 +98,7 @@
 
         <receiver
             android:name=".receiver.BootReceiver"
+            android:exported="true"
             android:label="@string/empty">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
